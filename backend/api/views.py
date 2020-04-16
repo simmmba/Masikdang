@@ -31,13 +31,20 @@ class StoreViewSet(viewsets.ModelViewSet):
 
 #Store
 class StoreList(APIView):
-    # Store List 를 다루는 클래스
     # Store list 생성
+
     def post(self, request, format=None):
+        '''
+        # Store List 생성
+        '''
         serializer = StoreSerializer(data=request.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
     # Store list 조회
     def get(self, request, format=None):
+        '''
+        # Store List 조회
+        '''
         queryset = Store.objects.all()
         serializer = StoreSerializer(queryset, many=True)
         return Response(serializer.data)
@@ -46,8 +53,26 @@ class StoreDetail(APIView):
     # 특정 User 를 다루는 클래스
     # Store 생성
     def post(self, request, format=None):
-        # print(request.data)
-        # print(request.data['user_id'])
+        '''
+        # Store 생성
+        ## parameter
+            body{
+                store_name : String(50),
+                branch : String(50),
+                area : String(50),
+                tel : String(50),
+                address : String(200),
+                latitude : Float(10),
+                longitude : Float(10),
+                category : String(200)
+            }
+        ---
+        ## Response
+            성공
+            status : 201,
+            실패
+            status : 400,
+        '''
         serializer = StoreSerializer(data=request.data)
         if serializer.is_valid() :
             serializer.save()
@@ -55,6 +80,7 @@ class StoreDetail(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     # Store 조회
     def get(self, request, format=None):
+        
         store_id = request.query_params.get("store_id", "")
         store = Store.objects.get(id=store_id)
         serializer = StoreSerializer(store)
@@ -84,6 +110,13 @@ class StoreSearch(APIView):
 class UserList(APIView):
     # User List 를 다루는 클래스
     # list 생성
+    """
+    user list 생성
+    parameter : 
+    body {
+
+    }
+    """
     def post(self, request, format=None):
         serializer = UserSerializer(data=request.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
