@@ -9,9 +9,10 @@ import AuthTemplate from "../auth/AuthTemplate";
 import "./Auth.scss";
 import { SurveyContext } from "../../contexts/survey";
 
-// key 바꾸기
 class Signup extends React.Component {
+  
   static contextType = SurveyContext;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -23,7 +24,14 @@ class Signup extends React.Component {
 
   componentDidMount() {
     const { history } = this.props;
-    if (this.context.state.answer.length !== 9) {
+
+    // 만약 로그인을 했으면
+    if (window.sessionStorage.getItem("user")) {
+      alert("로그아웃 후 진행해주세요");
+      history.push("/home");
+    }
+
+    else if (this.context.state.answer.length !== 9) {
       alert("설문을 먼저 진행해주세요");
       history.push("/");
     }
@@ -37,7 +45,7 @@ class Signup extends React.Component {
     axios({
       method: "get",
       // url: "http://192.168.99.1:8000/api/join_check",
-      url: "http://15.165.19.70:8080/api/join_check",
+      url: "http://15.165.19.70:8080/api/user/join_check",
       params: {
         api_id: this.state.id,
         provider: this.state.provider,
@@ -45,6 +53,7 @@ class Signup extends React.Component {
     })
       // 회원 가입 안되있는 거면
       .then((res) => {
+        console.log(res)
         // 회원가입이 되어 있으면
         if (res.data === "YES") alert("이미 가입된 유저입니다");
         // 회원가입이 안되있으면

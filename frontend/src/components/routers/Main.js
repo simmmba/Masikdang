@@ -12,6 +12,9 @@ const Main = ({ reset }) => {
       <NavLink to={`/home`} className="box">
         마식당 페이지
       </NavLink>
+      <NavLink to={`/whatToEat`} className="box">
+        오늘 뭐 먹지?
+      </NavLink>
     </div>
   );
 };

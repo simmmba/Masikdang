@@ -1,11 +1,11 @@
-.SurveyBox {
+.WhatToEatBox {
   @media screen and (min-width: 992px) {
     padding-left: 35%;
     padding-right: 35%;
   }
 }
 
-.SurveyComponent {
+.WhatToEatComponent {
   height: 100vh;
   // background: #f9bbc7;
   color: black;
@@ -76,7 +76,7 @@
       // border: 2px solid #98d7db;
       // border-radius: 10px;
       // color: #98d7db;
-      box-shadow: 1px 1px 1px 1px #98d7db inset;
+      box-shadow: 1px 1px 1px 1px #f9bbc7 inset;
     }
   }
 
@@ -90,7 +90,7 @@
 
   .option {
     color: black;
-    background: #98d7db;
+    background: #f9bbc7;
     border: none;
     border-radius: 15px;
     transition: 0.3s;
@@ -108,9 +108,9 @@
     &:hover {
       // background: #8ca4cf;
       background: #ffffff;
-      border: 2px solid #98d7db;
+      border: 2px solid #f9bbc7;
       // border-radius: 10px;
-      color: #98d7db;
+      color: #f9bbc7;
     }
   }
 }

@@ -11,9 +11,7 @@ import KakaoLogin from "react-kakao-login";
 
 import { SurveyContext } from "../../contexts/survey";
 
-// key 바꾸기
 class Login extends React.Component {
-
   static contextType = SurveyContext;
 
   constructor(props) {
@@ -24,6 +22,14 @@ class Login extends React.Component {
     };
   }
 
+  componentDidMount() {
+    // 만약 로그인을 했으면
+    if (window.sessionStorage.getItem("user")) {
+      alert("이미 로그인되어있습니다");
+      this.props.history.push("/home");
+    }
+  }
+
   // 회원 가입 되어있는 건지 확인
   checkId = () => {
     const { history } = this.props;
@@ -31,8 +37,7 @@ class Login extends React.Component {
     //axios 호출
     axios({
       method: "get",
-      // url: "http://192.168.99.1:8000/api/join_check",
-      url: "http://15.165.19.70:8080/api/join_check",
+      url: "http://15.165.19.70:8080/api/user/join_check",
       params: {
         api_id: this.state.id,
         provider: this.state.provider,
@@ -40,14 +45,11 @@ class Login extends React.Component {
     })
       // 회원 가입 안되있는 거면
       .then((res) => {
-        console.log(res);
-
         // 회원가입이 되어 있으면
         if (res.data === "YES") {
           axios({
             method: "get",
-            url: "http://15.165.19.70:8080/api/join_check",
-            // url: "http://192.168.99.1:8000/api/user",
+            url: "http://15.165.19.70:8080/api/user/detail",
             params: {
               api_id: this.state.id,
               provider: this.state.provider,
@@ -55,24 +57,24 @@ class Login extends React.Component {
           })
             // 로그인 성공하면 메인으로 보내기
             .then((res) => {
+              console.log(res);
               this.context.actions.reset();
-              history.push("/");
+              window.sessionStorage.setItem("user", res.data);
+              history.push("/home");
             })
             .catch((error) => {
               console.log(error);
             });
         }
         // 회원가입이 안되있으면
-        else{
-          alert("회원가입이 안된 유저입니다")
+        else {
+          alert("회원가입이 안된 유저입니다");
           history.push("/signup");
         }
       })
       .catch((error) => {
         console.log(error);
       });
-
-   
   };
 
   // Google Login
