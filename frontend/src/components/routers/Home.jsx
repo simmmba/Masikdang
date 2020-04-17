@@ -1,21 +1,42 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
-import { useSurvey } from "../../contexts/survey";
-import "./Main.scss";
+import "./Home.scss";
 
-const Main = ({ reset }) => {
-  return (
-    <div className="Main">
-      <NavLink to="/login" onClick={reset}>
-        로그인
-      </NavLink>
-      <NavLink to="/signup">회원가입</NavLink>
-      <br />
-      <NavLink to="/survey">마식는 테스트 하러가기</NavLink>
-    </div>
-  );
-};
+import AppBar from "../common/AppBar";
+import Header from "../common/Header";
+import HeaderSearch from "../common/HeaderSearch";
 
-export default useSurvey(({ actions }) => ({
-  reset: actions.reset,
-}))(Main);
+class Home extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      login: false,
+    };
+  }
+
+  componentDidMount() {
+    if (window.sessionStorage.getItem("user")) {
+      this.setState({
+        login: true,
+      });
+    }
+  }
+
+  render() {
+    return (
+      <div className="Box">
+        <Header></Header>
+        <HeaderSearch></HeaderSearch>
+        <div className="Home">
+          <br />
+          <br />
+          안냐헤여
+          <br />
+          마식당 홈페이지 입니댜
+        </div>
+        <AppBar></AppBar>
+      </div>
+    );
+  }
+}
+
+export default Home;

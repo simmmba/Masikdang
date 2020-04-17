@@ -3,7 +3,6 @@ import axios from "axios";
 
 import "./SignupDetail.scss";
 import "./Auth.scss";
-import { Confirm } from "semantic-ui-react";
 
 import AgeSlider from "../common/AgeSlider";
 import AuthTemplate from "../auth/AuthTemplate";
@@ -22,8 +21,9 @@ class SignupDetail extends React.Component {
       nickname: "",
       isnicknameVaild: true,
       open: false,
-      provider:"",
-      api_id:""
+      provider: "",
+      api_id: "",
+      answer: []
     };
   }
 
@@ -33,11 +33,11 @@ class SignupDetail extends React.Component {
     if (location.state === undefined) {
       alert("인증된 회원 정보가 없습니다.");
       history.push({ pathname: "/" });
-    }
-    else {
+    } else {
       this.setState({
         provider: location.state.provider,
-        api_id:location.state.api_id
+        api_id: location.state.api_id,
+        answer: location.state.answer
       });
     }
   }
@@ -78,8 +78,7 @@ class SignupDetail extends React.Component {
     //axios 호출
     axios({
       method: "get",
-      // url: "http://192.168.99.1:8000/api/dup_check",
-      url: "http://15.165.19.70:8080/api/dup_check",
+      url: "http://15.165.19.70:8080/api/user/dup_check",
       params: {
         nickname: res,
       },
@@ -104,7 +103,6 @@ class SignupDetail extends React.Component {
   };
 
   clickSignup = () => {
-    
     const { history } = this.props;
 
     // 3자 이상 입력됐을 때만
@@ -119,14 +117,14 @@ class SignupDetail extends React.Component {
       // axios 호출로 보내주기
       axios({
         method: "post",
-        // url: "http://192.168.99.1:8000/api/user",
-        url: "http://15.165.19.70:8080/api/user",
+        url: "http://15.165.19.70:8080/api/user/detail",
         data: {
           provider: this.state.provider,
           nickname: this.state.nickname,
           age: this.state.age,
           gender: this.state.gender,
           api_id: this.state.api_id,
+          answer: this.state.answer,
         },
       })
         .then((res) => {
@@ -140,14 +138,12 @@ class SignupDetail extends React.Component {
     }
   };
 
-  show = () => this.setState({ open: true });
-
-  handleConfirm = () => {
-    const { history } = this.props;
-    history.push("/");
+  // 회원 가입 취소 버튼
+  confirm = () => {
+    if (window.confirm("회원가입을 종료하시겠습니까?")) {
+      this.props.history.push("/");
+    }
   };
-
-  handleCancel = () => this.setState({ open: false });
 
   render() {
     const { isnicknameVaild } = this.state;
@@ -195,16 +191,9 @@ class SignupDetail extends React.Component {
               완료
             </div>
             <div className="link_gab"></div>
-            <div className="link_btn" onClick={this.show}>
+            <div className="link_btn" onClick={this.confirm}>
               취소
             </div>
-            <Confirm
-              open={this.state.open}
-              header="취소하시겠습니까?"
-              content="취소하시면 설문과 입력한 사항은 초기화됩니다?"
-              onCancel={this.handleCancel}
-              onConfirm={this.handleConfirm}
-            />
           </div>
         </AuthTemplate>
       </div>

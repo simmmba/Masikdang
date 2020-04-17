@@ -11,7 +11,7 @@
         display: none;
     }
 
-    .main_letter{
+    .main_letter {
         font-size: 30px;
     }
 
@@ -21,7 +21,7 @@
         border-radius: 3px;
         padding-left: 10px;
         padding-right: 10px;
-        border: 2px solid #3E2723;
+        border: 2px solid #3e2723;
     }
 
     .input_nickname_duplicate {
@@ -30,14 +30,14 @@
         border-radius: 3px;
         padding-left: 10px;
         padding-right: 10px;
-        border: 2px solid #E65100;
+        border: 2px solid #e65100;
     }
 
     .nickname_check {
         margin-top: 10px;
         font-size: 15px;
         font-family: "NanumSquareRound";
-        color: #E65100;
+        color: #e65100;
         font-weight: bold;
     }
 
@@ -47,12 +47,12 @@
         font-family: "S-CoreDream-8Heavy";
     }
 
-    .MuiSlider-root{
-        color: #4E342E;
+    .MuiSlider-root {
+        color: #4e342e;
     }
 
-    .MuiFormControlLabel-root{
-        span{
+    .MuiFormControlLabel-root {
+        span {
             font-family: "S-CoreDream-8Heavy";
         }
     }
@@ -69,14 +69,20 @@
             cursor: pointer;
             color: white;
         }
-        .link_gab{
+        .link_gab {
             display: inline-block;
             width: 10px;
         }
     }
 
+    .confirm {
+        height: 200px;
+        left: auto;
+        top: auto;
+    }
+
     @media screen and (min-width: 768px) {
-        .main_letter{
+        .main_letter {
             font-size: 36px;
         }
         .input_nickname,

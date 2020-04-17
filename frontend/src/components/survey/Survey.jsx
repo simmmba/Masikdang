@@ -5,22 +5,20 @@ import "./Survey.scss";
 
 const Survey = ({ reset, index, question, options, answer, increment, add, edit }) => {
   const answering = (idx) => {
-
     answer.length === index ? add(idx) : edit(idx); // 첫 응답 : 응답 수정
-
-    console.log(answer);
+    // console.log(answer);
     increment();
   };
 
   const done = (idx) => {
     add(idx);
-    console.log(answer);
+    // console.log(answer);
     // alert(answer);
   };
 
   const optionList = options[index].map((option, idx) => (
     <>
-      {answer.length === 9 ? reset() : ""}
+      {answer.length === question.length ? reset() : ""}
       {index !== question.length - 1 ? (
         <NavLink
           to={`/survey`}
@@ -35,7 +33,7 @@ const Survey = ({ reset, index, question, options, answer, increment, add, edit 
         </NavLink>
       ) : (
         <NavLink
-          to={`/result`}
+          to={`/surveyResult`}
           onClick={function () {
             // 마지막 문항 완료
             done(idx);
