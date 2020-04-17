@@ -105,12 +105,14 @@
     align-items: center;
     font-size: 1.3rem;
 
-    &:hover {
-      // background: #8ca4cf;
-      background: #ffffff;
-      border: 2px solid #f9bbc7;
-      // border-radius: 10px;
-      color: #f9bbc7;
+    @media screen and (min-width: 992px) {
+      &:hover {
+        // background: #8ca4cf;
+        background: #ffffff;
+        border: 2px solid #f9bbc7;
+        // border-radius: 10px;
+        color: #f9bbc7;
+      }
     }
   }
 }

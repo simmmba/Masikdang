@@ -1,6 +1,5 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { useSurvey } from "../../contexts/survey";
 import "./WhatToEat.scss";
 import { useWhatToEat } from "../../contexts/whatToEat";
 
