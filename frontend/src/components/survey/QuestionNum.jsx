@@ -4,6 +4,12 @@ import { useSurvey } from "../../contexts/survey";
 import "./Survey.scss";
 
 const Counter = ({ index, reset }) => {
+  const Emoji = (props) => (
+    <span className="emoji" role="img" aria-label={props.label ? props.label : ""} aria-hidden={props.label ? "false" : "true"}>
+      {props.symbol}
+    </span>
+  );
+
   let history = useHistory();
 
   const confirm = (val) => {
@@ -22,7 +28,8 @@ const Counter = ({ index, reset }) => {
           confirm("main");
         }}
       >
-        🏠메인
+        <Emoji label="home" symbol="🏠" />
+        메인
       </button>
       {/* </button> */}
       <span>
@@ -34,7 +41,8 @@ const Counter = ({ index, reset }) => {
           confirm("home");
         }}
       >
-        🍝마식당
+        <Emoji label="restaurant" symbol="🍝" />
+        마식당
       </button>
     </div>
   );

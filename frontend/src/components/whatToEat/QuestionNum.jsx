@@ -4,6 +4,12 @@ import "./WhatToEat.scss";
 import { useWhatToEat } from "../../contexts/whatToEat";
 
 const Counter = ({ windex, wreset }) => {
+  const Emoji = (props) => (
+    <span className="emoji" role="img" aria-label={props.label ? props.label : ""} aria-hidden={props.label ? "false" : "true"}>
+      {props.symbol}
+    </span>
+  );
+
   let history = useHistory();
 
   const confirm = (val) => {
@@ -22,7 +28,8 @@ const Counter = ({ windex, wreset }) => {
           confirm("main");
         }}
       >
-        🏠메인
+        <Emoji label="home" symbol="🏠" />
+        메인
       </button>
       {/* </button> */}
       <span>
@@ -34,7 +41,8 @@ const Counter = ({ windex, wreset }) => {
           confirm("home");
         }}
       >
-        🍝마식당
+        <Emoji label="restaurant" symbol="🍝" />
+        마식당
       </button>
     </div>
   );

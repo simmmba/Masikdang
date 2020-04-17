@@ -3,6 +3,12 @@ import { NavLink } from "react-router-dom";
 import { useWhatToEat } from "../../contexts/whatToEat";
 
 const WhatToEatResult = ({ wreset, wanswer }) => {
+  const Emoji = (props) => (
+    <span className="emoji" role="img" aria-label={props.label ? props.label : ""} aria-hidden={props.label ? "false" : "true"}>
+      {props.symbol}
+    </span>
+  );
+
   return (
     <div className="WhatToEatBox">
       <div className="ResultComponent">
@@ -18,10 +24,10 @@ const WhatToEatResult = ({ wreset, wanswer }) => {
           다시 해보기
         </NavLink>
         <NavLink className="pageBtn" to={`/`}>
-          🏠 메인 페이지
+          <Emoji label="home" symbol="🏠" /> 메인 페이지
         </NavLink>
         <NavLink className="pageBtn" to={`/home`}>
-          🍝 마식당 페이지
+          <Emoji label="restaurant" symbol="🍝" /> 마식당 페이지
         </NavLink>
         <div className="memberBox">
           <NavLink className="memberBtn" to="/login">
