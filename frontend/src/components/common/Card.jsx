@@ -10,21 +10,18 @@ class Card extends React.Component {
     };
   }
 
-  godetail = () => {
-    const {history} = this.props; 
-    history.push("/search/" + this.state.store.id);
-  }
-
-  evaluate = () => {
-    const {history} = this.props; 
-    history.push("/");
-  }
+  clickItem = (res) => {
+    const { history } = this.props;
+    if (res.target.id === "evaluation") history.push("/home");
+    else if (res.target.id === "liked") history.push("/home");
+    else history.push("/search/" + this.state.store.id);
+  };
 
   //<Link to={{ pathname: `/search/${store.id}` }}>
 
   render() {
     return (
-      <div className="Card" onClick={this.godetail}>
+      <div className="Card" onClick={this.clickItem}>
         <div className="thumbnail">
           <div className="centered">
             <img
@@ -37,7 +34,9 @@ class Card extends React.Component {
           <div className="title">{this.state.store.store_name}</div>
           <div className="liked">★</div>
           <div className="category">{this.state.store.address}</div>
-          <div id="evaluation" className="evaluation">평가하기</div>
+          <div id="evaluation" className="evaluation">
+            평가하기
+          </div>
         </div>
       </div>
     );
