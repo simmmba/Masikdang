@@ -9,7 +9,6 @@ import HeaderSearch from "../common/HeaderSearch";
 import Loading from "../common/Loading";
 
 import { SearchContext } from "../../contexts/search";
-import { Link } from "react-router-dom";
 
 const Emoji = (props) => (
   <span

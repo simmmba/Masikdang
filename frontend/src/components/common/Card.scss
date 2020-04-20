@@ -13,7 +13,6 @@
     // 4:3 : padding-top: 75%
     // 16:9 : padding-top: 56.25%
     .thumbnail {
-
         position: relative;
         padding-top: 75%;
         overflow: hidden;
@@ -24,6 +23,8 @@
             left: 0;
             right: 0;
             bottom: 0;
+
+            // 가운데 맞춤
             -webkit-transform: translate(50%, 50%);
             -ms-transform: translate(50%, 50%);
             transform: translate(50%, 50%);
@@ -37,7 +38,6 @@
                 width: calc(100% - 2px);
                 height: 100%;
 
-                
                 -webkit-transform: translate(-50%, -50%);
                 -ms-transform: translate(-50%, -50%);
                 transform: translate(-50%, -50%);
@@ -47,7 +47,7 @@
 
     .text {
         padding: 10px;
-        
+
         .title,
         .liked {
             font-size: 18px;
@@ -72,8 +72,8 @@
             color: #fff3e0;
         }
         .category {
-            // margin-top: 0px;
             width: 100%;
+            margin-bottom: 3%;
 
             //글자 잘린 부분 ...으로 표시
             display: inline-block;
@@ -82,22 +82,22 @@
             text-overflow: ellipsis;
         }
 
-        .evaluation{
+        .evaluation {
             z-index: 100;
             width: 100%;
             box-shadow: 0 0 0 1px rgb(180, 180, 180) inset;
             text-align: center;
             padding: 5px;
         }
-        .evaluation:hover{
-            background-color: #fff3e0;
+        .evaluation:hover {
+            background-color: #ffe9c5;
         }
     }
 
     @media screen and (min-width: 768px) {
         .category {
             margin-top: 3px;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
         }
     }
 }

@@ -5,6 +5,7 @@ import axios from "axios";
 import AppBar from "../common/AppBar";
 import Header from "../common/Header";
 import HeaderSearch from "../common/HeaderSearch";
+import ImageList from "../common/ImageList";
 
 class Detail extends React.Component {
   constructor(props) {
@@ -50,17 +51,26 @@ class Detail extends React.Component {
       <div className="Box">
         <Header></Header>
         <HeaderSearch></HeaderSearch>
-        <div className="Detail container-fluid">
-          <div className="row">
-            <div className="store_image col-12 col-md-8"></div>
-            <div className="store_info col-12 col-md-4">
-              <div className="store_name">{this.state.store.store_name}</div>
-              <div className="address">{this.state.store.address}</div>
-              <div className="tel">{this.state.store.tel}</div>
-              <div className="category">{this.state.store.category}</div>
+        <div className="Detail">
+          <div className="container-fluid">
+            <div className="row">
+              <div className="store_image col-12 col-md-7">
+                <ImageList></ImageList>
+              </div>
+              <div className="col-12 col-md-5">
+                <div className="store_info">
+                  <div className="store_name">
+                    {this.state.store.store_name}
+                  </div>
+                  <br/>
+                  <div className="address">{this.state.store.address}</div>
+                  <div className="tel">{this.state.store.tel}</div>
+                  <div className="category">{this.state.store.category}</div>
+                </div>
+              </div>
+              <div className="store_map"></div>
+              <div className="store_reviews"></div>
             </div>
-            <div className="store_map"></div>
-            <div className="store_reviews"></div>
           </div>
         </div>
         <AppBar></AppBar>

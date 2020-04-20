@@ -1,19 +1,30 @@
 .Detail {
-    padding: 5px;
-
-    .row {
-        margin: 0px;
+    .container-fluid {
         padding: 5px;
 
-        .col-12, .col-md-8, .col-md-8 {
+        .row {
+            margin: 0px;
             padding: 0px;
-        }
-    }
 
-    .store_info {
-        .store_name {
-            font-size: 20px;
-            font-weight: bolder;
+            .col-12,
+            .col-md-7,
+            .col-md-5 {
+                padding: 0px;
+            }
+        }
+
+        .store_info {
+            margin-left: 10px;
+            width: calc(100% - 10px);
+
+            .store_name {
+                font-size: 30px;
+                font-weight: bolder;
+            }
+
+            .tel {
+                margin-top: 10px;
+            }
         }
     }
 }
