@@ -1,5 +1,6 @@
 import React from "react";
 import "./Card.scss";
+import { withRouter } from "react-router-dom";
 
 class Card extends React.Component {
   constructor(props) {
@@ -9,9 +10,21 @@ class Card extends React.Component {
     };
   }
 
+  godetail = () => {
+    const {history} = this.props; 
+    history.push("/search/" + this.state.store.id);
+  }
+
+  evaluate = () => {
+    const {history} = this.props; 
+    history.push("/");
+  }
+
+  //<Link to={{ pathname: `/search/${store.id}` }}>
+
   render() {
     return (
-      <div className="Card">
+      <div className="Card" onClick={this.godetail}>
         <div className="thumbnail">
           <div className="centered">
             <img
@@ -22,12 +35,13 @@ class Card extends React.Component {
         </div>
         <div className="text">
           <div className="title">{this.state.store.store_name}</div>
-          <div className="zzim">♥</div>
+          <div className="liked">★</div>
           <div className="category">{this.state.store.address}</div>
+          <div id="evaluation" className="evaluation">평가하기</div>
         </div>
       </div>
     );
   }
 }
 
-export default Card;
+export default withRouter(Card);

@@ -83,7 +83,8 @@
 
 @font-face {
   font-family: "국립박물관문화재단클래식B";
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.0/국립박물관문화재단클래식B.woff") format("woff");
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.0/국립박물관문화재단클래식B.woff")
+    format("woff");
   font-weight: normal;
   font-style: normal;
 }
@@ -92,5 +93,9 @@
   @media screen and (min-width: 992px) {
     padding-left: 15%;
     padding-right: 15%;
+  }
+
+  .container-fluid {
+    margin: 0px;
   }
 }

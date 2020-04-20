@@ -1,12 +1,19 @@
-.Search{
+.Search {
+    span, .store_len {
+        font-family: "NanumSquareRound";
+    }
 
-    span{font-family: "NanumSquareRound";}
-    
-    .store_len{
-        margin-top: 10px;
-        margin-bottom: 10px;
-        padding-left: 5px;
-        font-size: 15px;
+    a {
+        text-decoration: none;
+        color: black;
+    }
+
+    .store_len {
+
+        padding: 5px;
+        margin-left: 5px;;
+
+        
     }
     .card_item {
         display: inline-block;

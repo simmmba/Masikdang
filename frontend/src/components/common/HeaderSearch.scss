@@ -1,5 +1,4 @@
 .HeaderSearch {
-    
     cursor: pointer;
 
     width: 100%;
@@ -17,7 +16,7 @@
     .col-10 {
         padding: 0;
 
-        *{
+        * {
             height: calc(100% - 2px);
             margin-top: 1px;
             padding-left: 10px;
@@ -28,8 +27,21 @@
         }
     }
 
-    .input_subject{
+    .input_subject {
         width: 100px;
+    }
+
+    // select 모양 바꾸기
+    select {
+        cursor: pointer;
+        background:url(../../img/select.png) no-repeat center center ;
+        background-size: 100px;
+        border: 1px white;
+        border-radius: 0px;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        -o-appearance:none;
+        appearance: none; 
     }
 
     .search_input {
@@ -62,10 +74,10 @@
             font-size: 20px;
         }
 
-        .input_subject{
+        .input_subject {
             width: 120px;
         }
-    
+
         .search_input {
             width: calc(100% - 120px);
         }
