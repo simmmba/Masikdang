@@ -1,9 +1,10 @@
-from .models import User
-from .serializers import UserSerializer
+from .models import User,Store
+from .serializers import UserSerializer,StoreSerializer
 from django.http import Http404
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from django.db.models import Q
 
 from api import models, serializers
 from rest_framework import viewsets
@@ -28,11 +29,94 @@ class StoreViewSet(viewsets.ModelViewSet):
         )
         return queryset
 
+#Store
+class StoreList(APIView):
+    # Store list 생성
 
+    def post(self, request, format=None):
+        '''
+        # Store List 생성
+        '''
+        serializer = StoreSerializer(data=request.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+    # Store list 조회
+    def get(self, request, format=None):
+        '''
+        # Store List 조회
+        '''
+        queryset = Store.objects.all()
+        serializer = StoreSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+class StoreDetail(APIView):
+    # 특정 User 를 다루는 클래스
+    # Store 생성
+    def post(self, request, format=None):
+        '''
+        # Store 생성
+        ## parameter
+            body{
+                store_name : String(50),
+                branch : String(50),
+                area : String(50),
+                tel : String(50),
+                address : String(200),
+                latitude : Float(10),
+                longitude : Float(10),
+                category : String(200)
+            }
+        ---
+        ## Response
+            성공
+            status : 201,
+            실패
+            status : 400,
+        '''
+        serializer = StoreSerializer(data=request.data)
+        if serializer.is_valid() :
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    # Store 조회
+    def get(self, request, format=None):
+        
+        store_id = request.query_params.get("store_id", "")
+        store = Store.objects.get(id=store_id)
+        serializer = StoreSerializer(store)
+        return Response(serializer.data)
+    # Store 삭제
+    def delete(self, request, format=None):
+        store_id = request.query_params.get("store_id", "")
+        store = Store.objects.get(id = store_id)
+        store.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+class StoreSearch(APIView):
+    #Store 검색을 위한 클래스
+    def get(self, request, format=None):
+        subject = request.query_params.get("subject","")
+        word = request.query_params.get("word","")
+        if subject=="name":
+            queryset = Store.objects.filter(store_name__contains=word)
+        elif subject=="area":
+            queryset = Store.objects.filter(Q(area__contains=word)|Q(address__contains=word) )
+        elif subject=="category":
+            queryset = Store.objects.filter(category__contains=word)
+    
+        serializer = StoreSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+#User
 class UserList(APIView):
     # User List 를 다루는 클래스
-
     # list 생성
+    """
+    user list 생성
+    parameter : 
+    body {
+
+    }
+    """
     def post(self, request, format=None):
         serializer = UserSerializer(data=request.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -71,11 +155,11 @@ class UserDetail(APIView):
         user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-    @action(detail=True, methods=['get'], url_path='dup_check')
-    def duplicate_check(self, request, format=None):
-        user = User.objects.get(pk=id)
-        serializer = UserSerializer(user)
-        return Response(serializer.data)
+    # @action(detail=True, methods=['get'], url_path='dup_check')
+    # def duplicate_check(self, request, format=None):
+    #     user = User.objects.get(pk=id)
+    #     serializer = UserSerializer(user)
+    #     return Response(serializer.data)
 
 class UserJoinCheck(APIView):
     # User 회원가입 여부를 확인하는 클래스
