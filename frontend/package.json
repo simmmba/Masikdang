@@ -11,6 +11,8 @@
     "axios": "^0.19.2",
     "bootstrap": "^4.4.1",
     "dotenv": "^8.2.0",
+    "igniteui-react-charts": "^16.11.8",
+    "igniteui-react-core": "^16.11.8",
     "kakaojs": "^1.2.0",
     "node-sass": "^4.13.1",
     "react": "^16.13.1",

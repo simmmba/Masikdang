@@ -29,7 +29,7 @@ class Home extends React.Component {
         <div className="Home">
           <br />
           <br />
-          안냐헤여
+          여기 추천 리스트
           <br />
           마식당 홈페이지 입니댜
         </div>

@@ -28,10 +28,11 @@ class HeaderSearch extends React.Component {
   componentDidMount() {
     // home 이나 다른 곳으로 오면 검색 reset
     const url = window.location.href.split("/");
-    const now_url = url[url.length - 1];
-    if (now_url === "home" || now_url === "map" || now_url === "mypage") {
+    if (url[url.length - 1] !== "search" && url[url.length - 2] !== "search") {
       this.context.actions.reset();
-    } else if (
+    }
+    // 빈거가 아니면 값 매핑
+    else if (
       this.context.state.word !== "" &&
       this.context.state.word !== null
     ) {
@@ -63,17 +64,23 @@ class HeaderSearch extends React.Component {
 
     history.push({
       pathname: "/search",
-      state: { word: this.state.word, subject: this.state.subject },
+      // state: { word: this.state.word, subject: this.state.subject },
     });
   };
 
   whatToEat = () => {
-
     const { history } = this.props;
     history.push({
       pathname: "/whatToEat",
     });
-  }
+  };
+
+  // enter 누르는 거 인식
+  handleKeyPress = (e) => {
+    if (e.charCode === 13) {
+      this.clicksearch();
+    }
+  };
 
   render() {
     return (
@@ -100,6 +107,7 @@ class HeaderSearch extends React.Component {
                   placeholder="검색어를 입력해주세요."
                   onChange={this.changeInput}
                   value={this.state.word}
+                  onKeyPress={this.handleKeyPress}
                 />
               </div>
               <div className="btn search_btn col-1" onClick={this.clicksearch}>

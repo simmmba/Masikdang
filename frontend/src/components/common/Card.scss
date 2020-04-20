@@ -1,6 +1,6 @@
 .Card {
     width: 100%;
-    border-radius: 3px;
+    // border-radius: 3px;
     font-family: "NanumSquareRound";
     cursor: pointer;
 
@@ -49,7 +49,7 @@
         padding: 10px;
         
         .title,
-        .zzim {
+        .liked {
             font-size: 18px;
             display: inline-block;
 
@@ -62,16 +62,17 @@
 
         .title {
             width: calc(100% - 20px);
+            font-weight: bolder;
         }
-        .zzim {
+        .liked {
             float: right;
-            z-index: 2;
+            z-index: 100;
             width: 18px;
             margin-top: 1px;
-            color: #f9bbc7;
+            color: #fff3e0;
         }
         .category {
-            margin-top: 10px;
+            // margin-top: 0px;
             width: 100%;
 
             //글자 잘린 부분 ...으로 표시
@@ -80,8 +81,23 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
+
+        .evaluation{
+            z-index: 100;
+            width: 100%;
+            box-shadow: 0 0 0 1px rgb(180, 180, 180) inset;
+            text-align: center;
+            padding: 5px;
+        }
+        .evaluation:hover{
+            background-color: #fff3e0;
+        }
+    }
+
+    @media screen and (min-width: 768px) {
         .category {
-            margin-top: 10px;
+            margin-top: 3px;
+            margin-bottom: 5px;
         }
     }
 }

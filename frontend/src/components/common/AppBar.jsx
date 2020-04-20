@@ -10,21 +10,22 @@ class AppBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      tab: "",
+      tab1: "",
+      tab2: "",
     };
   }
 
   componentDidMount() {
     const url = window.location.href.split("/");
-    const now_url = url[url.length - 1];
     this.setState({
-      tab: now_url,
+      tab1: url[url.length - 1],
+      tab2: url[url.length - 2],
     });
   }
 
   clicktab = (res) => {
     const { history } = this.props;
-    history.push(res.target.id);
+    history.push("/" + res.target.id);
   };
 
   id_list = [
@@ -44,7 +45,7 @@ class AppBar extends React.Component {
                 <div
                   key={id[0]}
                   id={id[0]}
-                  className={this.state.tab === id[0] ? "col-3 focus" : "col-3"}
+                  className={this.state.tab1 === id[0] || this.state.tab2 === id[0] ? "col-3 focus" : "col-3"}
                   onClick={this.clicktab}
                 >
                   <div id={id[0]} className="tab">

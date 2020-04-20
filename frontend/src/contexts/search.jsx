@@ -35,5 +35,3 @@ const {Consumer: SearchConsumer} = SearchContext;
 const useSearch = createUseConsumer(SearchConsumer);
 
 export { SearchProvider, SearchConsumer, useSearch, SearchContext };
-
-// ㅠㅜㅠㅠㅜ 왜 안되는 걸까?
