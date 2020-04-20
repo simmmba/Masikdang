@@ -15,4 +15,6 @@ urlpatterns = [
     url(r"store/list", views.StoreList.as_view(), name="stores"),
     url(r"store/detail", views.StoreDetail.as_view(), name="store"),
     url(r"store/search", views.StoreSearch.as_view(), name="search"),
+    url(r"survey/search", views.SurveySearch, name="surevey_search"),
+    url(r"survey/type", views.SurveyType, name="surevey_type"),
 ]

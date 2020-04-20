@@ -185,8 +185,22 @@ class NickDuplicateCheck(APIView):
             return Response('YES')
 
 from rest_framework.decorators import api_view
+# 음식 뭐먹을지 서베이 끝났을 때
 @api_view(['GET', 'POST'])
-def SearchPoll(request):
+def SurveySearch(request):
+    print("searchpoll 시작")
+    if request.method == 'GET':
+        print("get 시작")
+        surveyArr = request.data
+        if(surveyArr[0]=="혼자"):
+            print("혼자옴")
+            
+        queryset = Store.objects.all()[:10]
+        serializer = StoreSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+@api_view(['GET', 'POST'])
+def SurveyType(request):
     print("searchpoll 시작")
     if request.method == 'GET':
         print("get 시작")
