@@ -1,4 +1,6 @@
 .Detail {
+    font-family: "NanumSquareRound";
+
     .container-fluid {
         padding: 5px;
 
@@ -7,23 +9,97 @@
             padding: 0px;
 
             .col-12,
-            .col-md-7,
-            .col-md-5 {
+            .col-md-8,
+            .col-md-4 {
                 padding: 0px;
             }
         }
 
         .store_info {
-            margin-left: 10px;
-            width: calc(100% - 10px);
+            padding: 10px;
+            width: calc(100%);
 
             .store_name {
-                font-size: 30px;
+                font-size: 35px;
                 font-weight: bolder;
+                font-family: "S-CoreDream-8Heavy";
+                margin-bottom: 20px;
             }
 
+            .score_text {
+                margin-bottom: 20px;
+            }
+
+            .tags{
+                font-size: 18px;
+                margin-bottom: 5px;
+            }
             .tel {
                 margin-top: 10px;
+            }
+
+            .button {
+                font-family: "BMHANNAPro";
+                display: inline-block;
+                width: calc(50% - 5px);
+                border: 2px solid black;
+                border-radius: 25px;
+                height: 50px;
+                text-align: center;
+                margin-bottom: 15px;
+                font-size: 18px;
+                cursor: pointer;
+
+                span{
+                    width: 18px;
+                    font-family: none;
+                }
+            }
+
+            .liked_item {
+                padding: 9px;
+            }
+
+            .evaluation {
+                padding: 12px;
+                margin-left: 10px;
+            }
+        }
+
+        .store_detail_info {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-left: 10px;
+            background: rgba(211, 211, 211, 0.6);
+        }
+    }
+
+    @media screen and (min-width: 992px) {
+        .container-fluid {
+            .store_info {
+                margin-top: 10px;
+                padding-left: 10%;
+
+                .score_text{
+                    margin-top: 2vw;
+                }
+                .button {
+                    width: calc(90%);
+                }
+
+                .liked_item{
+                    margin-top: 3vw;
+                }
+
+                .evaluation {
+                    margin-left: 0px;
+                }
+            }
+
+            .store_detail_info {
+                width: calc(100%);
+                padding: 10px;
+                margin-left: 0px;
             }
         }
     }

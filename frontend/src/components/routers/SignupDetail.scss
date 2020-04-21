@@ -63,11 +63,14 @@
             border-radius: 3px;
             padding-top: 10px;
             padding-bottom: 10px;
-            background: #ff922b;
+            background: #f9bbc7;
             margin-top: 30px;
             width: calc(50% - 5px);
             cursor: pointer;
             color: white;
+        }
+        .link_btn:hover{
+            background: #f9bbc79c;
         }
         .link_gab {
             display: inline-block;
@@ -81,7 +84,7 @@
         top: auto;
     }
 
-    @media screen and (min-width: 768px) {
+    @media screen and (min-width: 992px) {
         .main_letter {
             font-size: 36px;
         }
