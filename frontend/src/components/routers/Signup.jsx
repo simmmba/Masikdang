@@ -10,7 +10,6 @@ import "./Auth.scss";
 import { SurveyContext } from "../../contexts/survey";
 
 class Signup extends React.Component {
-  
   static contextType = SurveyContext;
 
   constructor(props) {
@@ -29,11 +28,9 @@ class Signup extends React.Component {
     if (window.sessionStorage.getItem("user")) {
       alert("로그아웃 후 진행해주세요");
       history.push("/home");
-    }
-
-    else if (this.context.state.answer.length !== 9) {
+    } else if (this.context.state.answer.length !== 9) {
       alert("설문을 먼저 진행해주세요");
-      history.push("/");
+      history.push("/survey");
     }
   }
 
@@ -53,7 +50,7 @@ class Signup extends React.Component {
     })
       // 회원 가입 안되있는 거면
       .then((res) => {
-        console.log(res)
+        console.log(res);
         // 회원가입이 되어 있으면
         if (res.data === "YES") alert("이미 가입된 유저입니다");
         // 회원가입이 안되있으면
@@ -128,15 +125,7 @@ class Signup extends React.Component {
             cookiePolicy={"single_host_origin"}
           />
 
-          <KakaoLogin
-            id="kakao"
-            className="easy_login"
-            jsKey={process.env.REACT_APP_KAKAO}
-            buttonText="Kakao"
-            onSuccess={this.responseKakao}
-            onFailure={this.responseFail}
-            getProfile="true"
-          />
+          <KakaoLogin id="kakao" className="easy_login" jsKey={process.env.REACT_APP_KAKAO} buttonText="Kakao" onSuccess={this.responseKakao} onFailure={this.responseFail} getProfile="true" />
 
           <div className="link_btn">
             <Link to="/login">로그인</Link>
