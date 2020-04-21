@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { useSurvey } from "../../contexts/survey";
 import "./Main.scss";
-import "../../assets/css/main.css";
+import "../../assets/css/main.scss";
 import "../../assets/css/noscript.css";
 
 const Main = ({ reset }) => {
