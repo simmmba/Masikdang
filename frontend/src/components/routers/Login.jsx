@@ -57,9 +57,9 @@ class Login extends React.Component {
           })
             // 로그인 성공하면 메인으로 보내기
             .then((res) => {
-              console.log(res);
+              console.log(res.data);
               this.context.actions.reset();
-              window.sessionStorage.setItem("user", res.data);
+              window.sessionStorage.setItem("user", JSON.stringify(res.data));
               history.push("/home");
             })
             .catch((error) => {
@@ -130,15 +130,7 @@ class Login extends React.Component {
             cookiePolicy={"single_host_origin"}
           />
 
-          <KakaoLogin
-            id="kakao"
-            className="easy_login"
-            jsKey={process.env.REACT_APP_KAKAO}
-            buttonText="Kakao"
-            onSuccess={this.responseKakao}
-            onFailure={this.responseFail}
-            getProfile="true"
-          />
+          <KakaoLogin id="kakao" className="easy_login" jsKey={process.env.REACT_APP_KAKAO} buttonText="Kakao" onSuccess={this.responseKakao} onFailure={this.responseFail} getProfile="true" />
 
           <div className="link_btn">
             <Link to="/signup">회원가입</Link>

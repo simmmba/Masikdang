@@ -29,7 +29,7 @@ class Signup extends React.Component {
       alert("로그아웃 후 진행해주세요");
       history.push("/home");
     } else if (this.context.state.answer.length !== 9) {
-      alert("설문을 먼저 진행해주세요");
+      alert("마식당 테스트를 먼저 진행해주세요");
       history.push("/survey");
     }
   }
@@ -41,7 +41,6 @@ class Signup extends React.Component {
     //axios 호출
     axios({
       method: "get",
-      // url: "http://192.168.99.1:8000/api/join_check",
       url: "http://15.165.19.70:8080/api/user/join_check",
       params: {
         api_id: this.state.id,
