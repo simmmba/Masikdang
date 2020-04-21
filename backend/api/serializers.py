@@ -1,4 +1,4 @@
-from .models import Store,User
+from .models import Store,User,Review,Bhour, Menu
 from rest_framework import serializers
 
 
@@ -23,4 +23,17 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = '__all__'
 
+class ReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = '__all__'
 
+class BHourSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Bhour
+        fields = '__all__'
+
+class MenuSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Menu
+        fields = '__all__'

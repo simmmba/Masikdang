@@ -1,5 +1,5 @@
-from .models import User,Store
-from .serializers import UserSerializer,StoreSerializer
+from .models import User,Store,Review,Bhour,Menu
+from .serializers import UserSerializer,StoreSerializer, ReviewSerializer,BHourSerializer, MenuSerializer
 from django.http import Http404
 from rest_framework import status
 from rest_framework.views import APIView
@@ -185,6 +185,9 @@ class NickDuplicateCheck(APIView):
             return Response('YES')
 
 from rest_framework.decorators import api_view
+from django.db.models import Subquery
+from django.db.models import functions
+
 # 음식 뭐먹을지 서베이 끝났을 때
 @api_view(['GET', 'POST'])
 def SurveySearch(request):
@@ -193,11 +196,27 @@ def SurveySearch(request):
         print("get 시작")
         surveyArr = request.data
         if(surveyArr[0]=="혼자"):
-            print("혼자옴")
-            
-        queryset = Store.objects.all()[:10]
+            survey01 = Review.objects.filter(content__contains="혼밥").only('store').all()
+        else:
+            survey01 = Review.objects.filter(Q(content__contains="단체")|Q(content__contains="회식")).only('store').all()
+
+        if(surveyArr[1]=="여자"):
+            survey02 = Review.objects.filter(id__in = survey01, tag__contains="여자").only('store').all()
+        else:
+            survey02 = survey01
+
+        if(surveyArr[3]=="간식"):
+            survey03 = Store.objects.filter(id__in=survey02, category__contains="카페").only('store').all()
+        else:
+            survey03 = survey02
+
+        survey05 = Store.objects.filter(address__contains=surveyArr[5], id__in=survey03).only('store').all()
+
+        queryset = Store.objects.filter(id__in = survey05)
         serializer = StoreSerializer(queryset, many=True)
         return Response(serializer.data)
+
+
 
 @api_view(['GET', 'POST'])
 def SurveyType(request):
