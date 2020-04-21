@@ -16,7 +16,7 @@
       width: 47%;
     }
 
-    @media screen and (min-width: 992px) {
+    @media screen and (min-width: 768px) {
       width: 17%;
 
       &:hover {
@@ -37,7 +37,7 @@
       border-radius: 10px;
       width: fit-content;
 
-      @media screen and (min-width: 992px) {
+      @media screen and (min-width: 768px) {
         background-color: #eaeaea88;
       }
     }

@@ -1,5 +1,5 @@
 .SurveyBox {
-  @media screen and (min-width: 992px) {
+  @media screen and (min-width: 768px) {
     padding-left: 35%;
     padding-right: 35%;
   }
@@ -105,7 +105,7 @@
     align-items: center;
     font-size: 1.3rem;
 
-    @media screen and (min-width: 992px) {
+    @media screen and (min-width: 768px) {
       &:hover {
         // background: #8ca4cf;
         background: #ffffff;
