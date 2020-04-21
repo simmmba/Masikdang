@@ -1,13 +1,14 @@
 .Card {
-    width: 100%;
     // border-radius: 3px;
     font-family: "NanumSquareRound";
     cursor: pointer;
 
-    // inner border
-    box-shadow: 0 0 0 1px rgb(197, 197, 197) inset;
-    display: inline-block;
-
+    #square {
+        // inner border
+        width: 100%;
+        border: 1px solid rgb(180, 180, 180);
+        display: inline-block;
+    }
     // 2:1 : padding-top: 50%
     // 1:2 : padding-top: 200%
     // 4:3 : padding-top: 75%
@@ -29,14 +30,15 @@
             -ms-transform: translate(50%, 50%);
             transform: translate(50%, 50%);
 
-            img {
+            .img {
                 position: absolute;
                 top: 0;
                 left: 0;
                 right: 0;
                 bottom: 0;
-                width: calc(100% - 2px);
+                width: 100%;
                 height: 100%;
+                border-bottom: 1px solid rgb(180, 180, 180);
 
                 -webkit-transform: translate(-50%, -50%);
                 -ms-transform: translate(-50%, -50%);
@@ -50,7 +52,7 @@
 
         .title,
         .liked {
-            font-size: 18px;
+            font-size: 20px;
             display: inline-block;
 
             //글자 잘린 부분 ...으로 표시
@@ -60,17 +62,17 @@
             text-overflow: ellipsis;
         }
 
+
+
         .title {
             width: calc(100% - 20px);
             font-weight: bolder;
         }
-        .liked {
+        .liked_item {
             float: right;
-            z-index: 100;
-            width: 18px;
             margin-top: 1px;
-            color: #fff3e0;
         }
+
         .category {
             width: 100%;
             margin-bottom: 3%;
@@ -90,15 +92,205 @@
             padding: 5px;
         }
         .evaluation:hover {
-            background-color: #ffe9c5;
+            background-color: #f9bbc79c;
         }
     }
 
-    @media screen and (min-width: 768px) {
+    @media screen and (min-width: 992px) {
         .category {
             margin-top: 3px;
             margin-bottom: 10px;
         }
+    }
+
+    /*base code*/
+    .animated {
+        -webkit-animation-duration: 1s;
+        animation-duration: 1s;
+        -webkit-animation-fill-mode: both;
+        animation-fill-mode: both;
+    }
+    .animated.infinite {
+        -webkit-animation-iteration-count: infinite;
+        animation-iteration-count: infinite;
+    }
+    .animated.hinge {
+        -webkit-animation-duration: 2s;
+        animation-duration: 2s;
+    }
+    /*the animation definition*/
+    @-webkit-keyframes bounceIn {
+        0%,
+        100%,
+        20%,
+        40%,
+        60%,
+        80% {
+            -webkit-transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+            transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+        }
+        0% {
+            opacity: 0;
+            -webkit-transform: scale3d(0.3, 0.3, 0.3);
+            transform: scale3d(0.3, 0.3, 0.3);
+        }
+        20% {
+            -webkit-transform: scale3d(1.1, 1.1, 1.1);
+            transform: scale3d(1.1, 1.1, 1.1);
+        }
+        40% {
+            -webkit-transform: scale3d(0.9, 0.9, 0.9);
+            transform: scale3d(0.9, 0.9, 0.9);
+        }
+        60% {
+            opacity: 1;
+            -webkit-transform: scale3d(1.03, 1.03, 1.03);
+            transform: scale3d(1.03, 1.03, 1.03);
+        }
+        80% {
+            -webkit-transform: scale3d(0.97, 0.97, 0.97);
+            transform: scale3d(0.97, 0.97, 0.97);
+        }
+        100% {
+            opacity: 1;
+            -webkit-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1);
+        }
+    }
+    @keyframes bounceIn {
+        0%,
+        100%,
+        20%,
+        40%,
+        60%,
+        80% {
+            -webkit-transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+            transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+        }
+        0% {
+            opacity: 0;
+            -webkit-transform: scale3d(0.3, 0.3, 0.3);
+            -ms-transform: scale3d(0.3, 0.3, 0.3);
+            transform: scale3d(0.3, 0.3, 0.3);
+        }
+        20% {
+            -webkit-transform: scale3d(1.1, 1.1, 1.1);
+            -ms-transform: scale3d(1.1, 1.1, 1.1);
+            transform: scale3d(1.1, 1.1, 1.1);
+        }
+        40% {
+            -webkit-transform: scale3d(0.9, 0.9, 0.9);
+            -ms-transform: scale3d(0.9, 0.9, 0.9);
+            transform: scale3d(0.9, 0.9, 0.9);
+        }
+        60% {
+            opacity: 1;
+            -webkit-transform: scale3d(1.03, 1.03, 1.03);
+            -ms-transform: scale3d(1.03, 1.03, 1.03);
+            transform: scale3d(1.03, 1.03, 1.03);
+        }
+        80% {
+            -webkit-transform: scale3d(0.97, 0.97, 0.97);
+            -ms-transform: scale3d(0.97, 0.97, 0.97);
+            transform: scale3d(0.97, 0.97, 0.97);
+        }
+        100% {
+            opacity: 1;
+            -webkit-transform: scale3d(1, 1, 1);
+            -ms-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1);
+        }
+    }
+    .bounceIn {
+        -webkit-animation-name: bounceIn;
+        animation-name: bounceIn;
+    }
+}
+
+.Card:hover {
+    /*base code*/
+    .animated {
+        -webkit-animation-duration: 1s;
+        animation-duration: 1s;
+        -webkit-animation-fill-mode: both;
+        animation-fill-mode: both;
+    }
+    .animated.infinite {
+        -webkit-animation-iteration-count: infinite;
+        animation-iteration-count: infinite;
+    }
+    .animated.hinge {
+        -webkit-animation-duration: 2s;
+        animation-duration: 2s;
+    }
+    /*the animation definition*/
+    @-webkit-keyframes flipInY {
+        0% {
+            -webkit-transform: perspective(400px) rotate3d(0, 1, 0, 90deg);
+            transform: perspective(400px) rotate3d(0, 1, 0, 90deg);
+            -webkit-transition-timing-function: ease-in;
+            transition-timing-function: ease-in;
+            opacity: 0;
+        }
+        40% {
+            -webkit-transform: perspective(400px) rotate3d(0, 1, 0, -20deg);
+            transform: perspective(400px) rotate3d(0, 1, 0, -20deg);
+            -webkit-transition-timing-function: ease-in;
+            transition-timing-function: ease-in;
+        }
+        60% {
+            -webkit-transform: perspective(400px) rotate3d(0, 1, 0, 10deg);
+            transform: perspective(400px) rotate3d(0, 1, 0, 10deg);
+            opacity: 1;
+        }
+        80% {
+            -webkit-transform: perspective(400px) rotate3d(0, 1, 0, -5deg);
+            transform: perspective(400px) rotate3d(0, 1, 0, -5deg);
+        }
+        100% {
+            -webkit-transform: perspective(400px);
+            transform: perspective(400px);
+        }
+    }
+    @keyframes flipInY {
+        0% {
+            -webkit-transform: perspective(400px) rotate3d(0, 1, 0, 90deg);
+            -ms-transform: perspective(400px) rotate3d(0, 1, 0, 90deg);
+            transform: perspective(400px) rotate3d(0, 1, 0, 90deg);
+            -webkit-transition-timing-function: ease-in;
+            transition-timing-function: ease-in;
+            opacity: 0;
+        }
+        40% {
+            -webkit-transform: perspective(400px) rotate3d(0, 1, 0, -20deg);
+            -ms-transform: perspective(400px) rotate3d(0, 1, 0, -20deg);
+            transform: perspective(400px) rotate3d(0, 1, 0, -20deg);
+            -webkit-transition-timing-function: ease-in;
+            transition-timing-function: ease-in;
+        }
+        60% {
+            -webkit-transform: perspective(400px) rotate3d(0, 1, 0, 10deg);
+            -ms-transform: perspective(400px) rotate3d(0, 1, 0, 10deg);
+            transform: perspective(400px) rotate3d(0, 1, 0, 10deg);
+            opacity: 1;
+        }
+        80% {
+            -webkit-transform: perspective(400px) rotate3d(0, 1, 0, -5deg);
+            -ms-transform: perspective(400px) rotate3d(0, 1, 0, -5deg);
+            transform: perspective(400px) rotate3d(0, 1, 0, -5deg);
+        }
+        100% {
+            -webkit-transform: perspective(400px);
+            -ms-transform: perspective(400px);
+            transform: perspective(400px);
+        }
+    }
+    .flipInY {
+        -webkit-backface-visibility: visible !important;
+        -ms-backface-visibility: visible !important;
+        backface-visibility: visible !important;
+        -webkit-animation-name: flipInY;
+        animation-name: flipInY;
     }
 }
 

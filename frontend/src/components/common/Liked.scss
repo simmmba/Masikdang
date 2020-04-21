@@ -1,0 +1,15 @@
+.Liked{
+    display: inline-block;
+    .liked{
+        z-index: 100;
+        width: 18px;
+        color: #ffaac0;
+        display: inline-block;
+    }
+    .liked:hover {
+        // 스무스하게 커지는 효과
+        transition: 0.7s;
+        transition-timing-function: ease-in-out;
+        transform: scale(1.4);
+    }
+}
