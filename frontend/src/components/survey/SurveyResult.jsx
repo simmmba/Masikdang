@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import axios from "axios";
 import { NavLink } from "react-router-dom";
 import { useSurvey } from "../../contexts/survey";
+import "./Survey.scss";
 
 const SurveyResult = ({ reset, answer, survey_result, surveyResult }) => {
   const Emoji = (props) => (
@@ -30,7 +31,7 @@ const SurveyResult = ({ reset, answer, survey_result, surveyResult }) => {
   }, [data, surveyResult]);
 
   return (
-    <div className="WhatToEatBox">
+    <div className="SurveyBox">
       <div className="ResultComponent">
         <div className="top">결과 페이지</div>
         {console.log(survey_result)}

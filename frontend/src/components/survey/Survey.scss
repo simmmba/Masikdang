@@ -1,13 +1,5 @@
-.SurveyBox {
-  @media screen and (min-width: 768px) {
-    padding-left: 35%;
-    padding-right: 35%;
-  }
-}
-
 .SurveyComponent {
   height: 100vh;
-  // background: #f9bbc7;
   color: black;
   padding: 1rem;
 
@@ -16,23 +8,14 @@
   }
 
   .top {
-    // margin: 2rem 0 2rem 0;
     margin-bottom: 1.5rem;
     color: black;
     font-size: 2.2rem;
     text-align: center;
     padding: 1rem 0 0 0;
     display: flex;
-    // flex-direction: column;
-    // flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
-  }
-
-  .content {
-    background: white;
-    color: black;
-    text-align: center;
   }
 
   .bottom {
@@ -80,146 +63,161 @@
   }
 
   .option {
-    color: black;
     background: #98d7db;
     border: none;
     border-radius: 15px;
     transition: 0.3s;
     cursor: pointer;
     margin: 3px;
-    padding: 10px 20px 10px 20px;
-    text-decoration: none;
-    width: 100%;
+    width: 95%;
     height: 4.5rem;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 1.3rem;
+    border: 2px solid #98d7db;
 
     @media screen and (min-width: 768px) {
       &:hover {
         background: #ffffff;
-        border: 2px solid #98d7db;
         color: #98d7db;
       }
     }
   }
+
+  .optionLink {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    color: black;
+    text-decoration: none;
+    width: 100%;
+    height: 100%;
+  }
 }
 
-.ResultComponent {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  * {
-    font-family: "BMHANNAPro";
+.SurveyBox {
+  @media screen and (min-width: 768px) {
+    padding-left: 35%;
+    padding-right: 35%;
   }
-
-  .top {
-    margin: 2rem 0 2rem 0;
-    color: black;
-    font-size: 2.2rem;
-    text-align: center;
-    padding: 1rem 0 0 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .pageBtn {
-    padding: 1rem;
-    margin: 3px;
-    cursor: pointer;
-    color: black;
-    background: #f9bbc7;
-    border: none;
-    border-radius: 4px;
-    transition: 0.3s;
-    width: 69%;
-    text-decoration: none;
-    height: 3rem;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.3rem;
-
-    &:hover {
-      border: 2px solid #f9bbc7;
-      background: white;
-    }
-  }
-
-  .memberBox {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.3rem;
-    width: 70%;
-  }
-
-  .memberBtn {
-    padding: 1rem;
-    margin: 3px;
-    cursor: pointer;
-    color: black;
-    background: #98d7db;
-    border: none;
-    border-radius: 4px;
-    transition: 0.3s;
-    width: 50%;
-    text-decoration: none;
-    height: 3rem;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.3rem;
-
-    &:hover {
-      border: 2px solid #98d7db;
-      background: white;
-    }
-  }
-
-  .retryBtn {
-    padding: 1rem;
-    margin: 3px;
-    cursor: pointer;
-    color: black;
-    // background: #98d7db;
-    border: none;
-    border-radius: 4px;
-    transition: 0.3s;
-    width: 50%;
-    text-decoration: none;
-    height: 3rem;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.3rem;
-
-    &:hover {
-      font-size: larger;
-    }
-  }
-
-  .mention {
-    font-size: 1.5rem;
-    padding-top: 1rem;
-  }
-
-  .select {
-    font-size: 1.5rem;
-    background-color: #f5f5f5;
-    width: 50%;
-    border-radius: 5px;
-    padding: 10px;
+  .ResultComponent {
+    height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+
+    * {
+      font-family: "BMHANNAPro";
+    }
+
+    .top {
+      margin: 2rem 0 2rem 0;
+      color: black;
+      font-size: 2.2rem;
+      text-align: center;
+      padding: 1rem 0 0 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .pageBtn {
+      padding: 1rem;
+      margin: 3px;
+      cursor: pointer;
+      color: black;
+      background: #f9bbc7;
+      border: none;
+      border-radius: 4px;
+      transition: 0.3s;
+      width: 69%;
+      text-decoration: none;
+      height: 3rem;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.3rem;
+
+      &:hover {
+        border: 2px solid #f9bbc7;
+        background: white;
+      }
+    }
+
+    .memberBox {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.3rem;
+      width: 70%;
+    }
+
+    .memberBtn {
+      padding: 1rem;
+      margin: 3px;
+      cursor: pointer;
+      color: black;
+      background: #98d7db;
+      border: none;
+      border-radius: 4px;
+      transition: 0.3s;
+      width: 50%;
+      text-decoration: none;
+      height: 3rem;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.3rem;
+
+      &:hover {
+        border: 2px solid #98d7db;
+        background: white;
+      }
+    }
+
+    .retryBtn {
+      padding: 1rem;
+      margin: 3px;
+      cursor: pointer;
+      color: black;
+      // background: #98d7db;
+      border: none;
+      border-radius: 4px;
+      transition: 0.3s;
+      width: 50%;
+      text-decoration: none;
+      height: 3rem;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.3rem;
+
+      &:hover {
+        font-size: larger;
+      }
+    }
+
+    .mention {
+      font-size: 1.5rem;
+      padding-top: 1rem;
+    }
+
+    .select {
+      font-size: 1.5rem;
+      background-color: #f5f5f5;
+      width: initial;
+      border-radius: 5px;
+      padding: 30px 20px 30px 20px;
+      margin: 0px 55px 0px 55px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
   }
 }

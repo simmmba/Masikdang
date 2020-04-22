@@ -6,18 +6,15 @@ import "./Survey.scss";
 const Survey = ({ reset, index, question, options, answer, increment, add, edit }) => {
   const answering = (idx) => {
     answer.length === index ? add(idx) : edit(idx); // 첫 응답 : 응답 수정
-    // console.log(answer);
     increment();
   };
 
   const done = (idx) => {
     add(idx);
-    // console.log(answer);
-    // alert(answer);
   };
 
   const optionList = options[index].map((option, idx) => (
-    <>
+    <span key={idx} className="option">
       {answer.length === question.length ? reset() : ""}
       {index !== question.length - 1 ? (
         <NavLink
@@ -26,8 +23,7 @@ const Survey = ({ reset, index, question, options, answer, increment, add, edit 
             // 응답 진행중
             answering(idx);
           }}
-          key={idx}
-          className="option"
+          className="optionLink"
         >
           {option}
         </NavLink>
@@ -38,21 +34,20 @@ const Survey = ({ reset, index, question, options, answer, increment, add, edit 
             // 마지막 문항 완료
             done(idx);
           }}
-          key={idx}
-          className="option"
+          className="optionLink"
         >
           {" "}
           {option}{" "}
         </NavLink>
       )}
-    </>
+    </span>
   ));
 
   return (
-    <div className="content">
+    <>
       <h3 className="question">{question[index]}</h3>
       <div className="answer">{optionList}</div>
-    </div>
+    </>
   );
 };
 
