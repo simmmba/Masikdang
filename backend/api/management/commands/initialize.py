@@ -117,7 +117,7 @@ class Command(BaseCommand):
         # ]
         # models.Review_img.objects.bulk_create(review_imgs_bulk)
 
-        # review_img db 초기화
+        # bhours db 초기화
         # print("[*] Initializing tag...")
         # models.Bhour.objects.all().delete()
         # bhours = dataframes["bhour"]
@@ -162,6 +162,23 @@ class Command(BaseCommand):
         #     for bhour in bhours.itertuples()
         # ]
         # models.Bhour.objects.bulk_create(bhours_bulk)
+        
+
+        # bhours db 초기화
+        print("[*] Initializing menu...")
+        models.Menu.objects.all().delete()
+        menues = dataframes["menu"]
+        menues = menues.fillna(0)
+        print(menues)
+        menues_bulk = [
+            models.Menu(
+                store_id=menu.store_id,
+                menu=menu.menu,
+                price = menu.price
+            )
+            for menu in menues.itertuples()
+        ]
+        models.Menu.objects.bulk_create(menues_bulk)
 
         print("[+] Done")
 
