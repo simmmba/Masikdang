@@ -61,10 +61,10 @@ class HeaderSearch extends React.Component {
     const { history } = this.props;
     this.context.actions.changeword(this.state.word);
     this.context.actions.changesubject(this.state.subject);
+    this.context.actions.resetstore();
 
     history.push({
       pathname: "/search",
-      // state: { word: this.state.word, subject: this.state.subject },
     });
   };
 

@@ -11,9 +11,9 @@ import Home from "./components/routers/Home";
 import Login from "./components/routers/Login";
 import Signup from "./components/routers/Signup";
 import SignupDetail from "./components/routers/SignupDetail";
-import Mypage from "./components/routers/Mypage"
-import Search from "./components/routers/Search"
-import Map from "./components/routers/Map"
+import Mypage from "./components/routers/Mypage";
+import Search from "./components/routers/Search";
+import Map from "./components/routers/Map";
 import Surveypage from "./components/routers/Surveypage";
 import WhatToEatpage from "./components/routers/WhatToEatpage";
 import SurveyResult from "./components/survey/SurveyResult";

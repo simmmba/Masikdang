@@ -78,10 +78,7 @@ class SignupDetail extends React.Component {
     //axios 호출
     axios({
       method: "get",
-      url: "http://15.165.19.70:8080/api/user/dup_check",
-      params: {
-        nickname: res,
-      },
+      url: "http://15.165.19.70:8080/api/user/dup_check/"+res,
     })
       .then((res) => {
         // 닉네임 없는 거면
@@ -110,21 +107,24 @@ class SignupDetail extends React.Component {
       alert("닉네임은 3자 이상 입력해주세요");
     }
 
-    // 로그인 못하는 상황일 때 알림
+    // 중복된 닉네임이 아닐때만
     else if (!this.state.isnicknameVaild) {
       alert("중복된 닉네임입니다");
-    } else {
+    }
+    // 회원가입 axios 호출
+    else {
       // axios 호출로 보내주기
       axios({
         method: "post",
-        url: "http://15.165.19.70:8080/api/user/detail",
+        url: "http://15.165.19.70:8080/api/user",
         data: {
           provider: this.state.provider,
           nickname: this.state.nickname,
           age: this.state.age,
           gender: this.state.gender,
           api_id: this.state.api_id,
-          answer: this.state.answer,
+          survey_array : this.state.answer.join(''),
+          survey_result : ""
         },
       })
         .then((res) => {

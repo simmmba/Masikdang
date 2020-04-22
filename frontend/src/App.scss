@@ -90,6 +90,11 @@
 }
 
 .Box {
+  // DB에서 값 받아왔을 때 enter 적용 되게
+  // 박스 밖으로 넘어가면 자동 줄 바꿈
+  word-wrap: break-word;
+  white-space: pre-line;
+
   @media screen and (min-width: 768px) {
     padding-left: 15%;
     padding-right: 15%;
@@ -99,3 +104,9 @@
     margin: 0px;
   }
 }
+
+
+/*
+  #f9bbc7;
+  #98d7db;
+*/
