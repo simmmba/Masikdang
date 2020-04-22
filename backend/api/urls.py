@@ -27,5 +27,5 @@ urlpatterns = [
     path("review/<store_id>", views.ReviewList.as_view(), name="review_store"),
     path("review/<review_id>/", views.ReviewDetail.as_view(), name="review_detail"),
     path("review/user/<user_id>", views.ReviewByUser.as_view(), name="review_user"),
-    path("review/img/<store_id>", views.ReviewImgList.as_view(), name="review_user"),
+    path("review/img/<review_id>", views.ReviewImgList.as_view(), name="review_user"),
 ]

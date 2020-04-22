@@ -1,17 +1,19 @@
 from rest_framework.decorators import api_view
-from .models import User, Store, Review
-from .serializers import UserSerializer, StoreSerializer, ReviewSerializer
+from .models import User, Store, Review, Review_img, Tag, Menu, Bhour
+from .serializers import UserSerializer, StoreSerializer, ReviewSerializer, ReviewImgSerializer, TagSerializer, MenuSerializer, BhourSerializer
 from django.http import Http404
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.db.models import Q
+from django.db.models import Avg
 
 from api import models, serializers
 from rest_framework import viewsets
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.decorators import action
 
+import json
 
 class SmallPagination(PageNumberPagination):
     page_size = 10
@@ -31,8 +33,6 @@ class StoreViewSet(viewsets.ModelViewSet):
         return queryset
 
 # Store
-
-
 class StoreList(APIView):
     # Store list 생성
     def post(self, request, format=None):
@@ -81,9 +81,26 @@ class StoreDetail(APIView):
         store_id = request.query_params.get("store_id", "")
         store = Store.objects.get(id=store_id)
         serializer = StoreSerializer(store)
-        return Response(serializer.data)
-    # Store 삭제
 
+        # 메뉴, 태그, 업무시간, 평점, 사진
+        result = serializer.data
+        menu = MenuSerializer(Menu.objects.filter(store_id=store_id), many=True).data
+        result['menu'] = menu
+        
+        average = Review.objects.filter(store_id = store_id).aggregate(Avg('total_score'))['total_score__avg']
+        result['avg_score'] = average
+        
+        tags = Tag.objects.filter(store_id = store_id).values_list('tag',flat=True)
+        result['tags'] = tags
+
+        bhour = BhourSerializer(Bhour.objects.filter(store_id=store_id), many=True).data
+        result['bhour'] = bhour
+        
+        review_imgs = Review_img.objects.filter(review_id__store_id=store_id).values_list('img',flat=True)[:10]
+        result['review_img'] = review_imgs
+        return Response(result)
+    
+    # Store 삭제
     def delete(self, request, format=None):
         store_id = request.query_params.get("store_id", "")
         store = Store.objects.get(id=store_id)
@@ -105,11 +122,10 @@ class StoreSearch(APIView):
             queryset = Store.objects.filter(category__contains=word)
 
         serializer = StoreSerializer(queryset, many=True)
+
         return Response(serializer.data)
 
 # User
-
-
 class UserList(APIView):
     # User List 를 다루는 클래스
     # list 생성
@@ -117,10 +133,8 @@ class UserList(APIView):
     user list 생성
     parameter :
     body {
-
     }
     """
-
     def post(self, request, format=None):
         serializer = UserSerializer(data=request.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -249,22 +263,27 @@ class ReviewPost(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # Review 가게별 조회
-
-
 class ReviewList(APIView):
     '''
     # 가게별 리뷰 조회
     '''
-
     def get(self, request, store_id, format=None):
         reivews_by_store = Review.objects.filter(store_id=store_id)
         serializer = ReviewSerializer(reivews_by_store, many=True)
+        result = serializer.data
+        # 리뷰 별 사진
+        for r in result:
+            # review_img = ReviewImgSerializer(
+            #     Review_img.objects.filter(review_id=r['id']), many=True).data
+            review_imgs = Review_img.objects.filter(review_id=r['id']).values_list('img', flat=True)
+            
+            # print(review_img, '\n')
+            r['imgs'] = review_imgs
         return Response(serializer.data)
 
-
+# 특정 Review 를 다루는 클래스
 class ReviewDetail(APIView):
     # Review 삭제
-    # 특정 Review 를 다루는 클래스
     def delete(self, request, review_id, format=None):
         '''
         # 리뷰 삭제
@@ -275,7 +294,7 @@ class ReviewDetail(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     # Review 수정
-    def put(self, request,review_id, format=None):
+    def put(self, request, review_id, format=None):
         '''
         # 리뷰 수정
         '''
@@ -292,7 +311,8 @@ class ReviewByUser(APIView):
     # 유저 리뷰 조회
     '''
     # Store 검색을 위한 클래스
-    def get(self, request,user_id, format=None):
+
+    def get(self, request, user_id, format=None):
         reviews_by_user = Review.objects.filter(user_id=user_id)
         serializer = ReviewSerializer(reviews_by_user, many=True)
         return Response(serializer.data)
@@ -302,7 +322,7 @@ class ReviewImgList(APIView):
     '''
     # 가게 리뷰 사진 조회
     '''
-    def get(self, request, store_id, format=None):
-        reivew_imgs_by_store = Review_img.objects.filter(store_id=store_id)
-        serializer = ReviewSerializer(reivew_imgs_by_store, many=True)
+    def get(self, request, review_id, format=None):
+        reivew_imgs_by_store = Review_img.objects.filter(review_id=review_id)
+        serializer = ReviewImgSerializer(reivew_imgs_by_store, many=True)
         return Response(serializer.data)

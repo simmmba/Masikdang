@@ -36,7 +36,7 @@ class Like(models.Model):
 # 메뉴
 class Menu(models.Model):
     store = models.ForeignKey('Store', on_delete=models.CASCADE)
-    menu = models.CharField(max_length=45, blank=True, null=True)
+    menu = models.CharField(max_length=500, blank=True, null=True)
     price = models.IntegerField(blank=True, null=True)
 
 # 리뷰
