@@ -9,7 +9,7 @@ const AuthTemplate = ({ children }) => {
       <div id="square" className="fadeInUp animated">
         <div className="WhiteBox">
           <div className="logo-area">
-            <Link to="/">
+            <Link to="/home">
               <img className="logo" src={logo} alt="logo" />
             </Link>
           </div>

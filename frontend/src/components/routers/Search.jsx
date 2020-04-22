@@ -8,6 +8,7 @@ import Header from "../common/Header";
 import HeaderSearch from "../common/HeaderSearch";
 import Loading from "../common/Loading";
 
+
 import { SearchContext } from "../../contexts/search";
 
 const Emoji = (props) => (
@@ -37,7 +38,17 @@ class Search extends React.Component {
   // 처음에 입력값 기준으로 값 받아오기
   componentDidMount() {
     this.setState({ store_len: -1 });
-    this.getStores();
+
+    // 뒤로 가기면 안부르기
+    var store = this.context.state.store;
+    if (store.length === 0) {
+      this.getStores();
+    } else {
+      this.setState({
+        stores: store,
+        store_len: store.length,
+      });
+    }
   }
 
   // 값 바겼을 때 체크
@@ -55,6 +66,7 @@ class Search extends React.Component {
     }
   }
 
+  // 새로운 식당 정보 받아오기
   getStores = () => {
     var word = this.context.state.word;
     var subject = this.context.state.subject;
@@ -74,14 +86,11 @@ class Search extends React.Component {
     //axios 호출
     axios({
       method: "get",
-      url: "http://15.165.19.70:8080/api/store/search",
-      params: {
-        word: word,
-        subject: subject,
-      },
+      url: "http://15.165.19.70:8080/api/store/search/" + subject + "/" + word,
     })
-      // 회원 가입 안되있는 거면
+      // 받아온 store 정보
       .then((res) => {
+        this.context.actions.getstore(res.data);
         this.setState({
           stores: res.data,
           store_len: res.data.length,

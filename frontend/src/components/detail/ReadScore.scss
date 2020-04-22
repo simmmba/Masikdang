@@ -1,9 +1,9 @@
 .ReadScore {
     margin-top: 10px;
+    display: inline-block;
+
     .total_score {
-        vertical-align: -5px;
-        display: inline-block;
         width: 100px;
-        height: 10px;
+        height: 15px;
     }
 }

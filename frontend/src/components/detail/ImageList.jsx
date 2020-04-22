@@ -1,17 +1,27 @@
 import React from "react";
 import "./ImageList.scss";
 
-import prevButton from "../../img/prevButton.png"
-import nextButton from "../../img/nextButton.png"
+import prevButton from "../../img/prevButton.png";
+import nextButton from "../../img/nextButton.png";
 
 class ImageList extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props)
+
     this.state = {
-      img_list: this.props.img_list,
+      check: false,
+      img_list: [],
       index: 0,
     };
+  }
+
+  componentDidUpdate() {
+    if (!this.state.check && this.props.img_list) {
+      this.setState({
+        check: true,
+        img_list: this.state.img_list.concat([this.props.img_list]),
+      });
+    }
   }
 
   // 클릭으로 확인
@@ -51,36 +61,42 @@ class ImageList extends React.Component {
   render() {
     return (
       <div className="ImageList">
-        <div className="thumbnail">
-          <div id="square" className="centered">
-            <img
-              alt="food"
-              className="img"
-              src={this.state.img_list[this.state.index]}
-              onClick={() => {
-                window.open(this.state.img_list[this.state.index]);
-              }}
-            />
-          </div>
-        </div>
-        <div className="index prev_index" onClick={this.prevIndex}>
-          <img alt="prevButton" src={prevButton}></img>
-        </div>
-        <div className="index next_index" onClick={this.nextIndex}>
-          <img alt="nextButton" src={nextButton}></img>
-        </div>
-        <div className="preview">
-          {this.state.img_list.map((img, index) => (
-            <img
-              key={index}
-              id={index}
-              className="preview_img"
-              alt="food"
-              src={img}
-              onClick={this.changeIndex}
-            />
-          ))}
-        </div>
+        {this.state.img_list !== undefined ? (
+          <>
+            <div className="thumbnail">
+              <div id="square" className="centered">
+                <img
+                  alt="food"
+                  className="img"
+                  src={this.state.img_list[this.state.index]}
+                  onClick={() => {
+                    window.open(this.state.img_list[this.state.index]);
+                  }}
+                />
+              </div>
+            </div>
+            <div className="index prev_index" onClick={this.prevIndex}>
+              <img alt="prevButton" src={prevButton}></img>
+            </div>
+            <div className="index next_index" onClick={this.nextIndex}>
+              <img alt="nextButton" src={nextButton}></img>
+            </div>
+            <div className="preview">
+              {this.state.img_list.map((img, index) => (
+                <img
+                  key={index}
+                  id={index}
+                  className="preview_img"
+                  alt="food"
+                  src={img}
+                  onClick={this.changeIndex}
+                />
+              ))}
+            </div>
+          </>
+        ) : (
+          "바보"
+        )}
       </div>
     );
   }

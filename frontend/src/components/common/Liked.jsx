@@ -4,24 +4,34 @@ import "./Liked.scss";
 class Liked extends React.Component {
   constructor(props) {
     super(props);
+    // console.log(this.props)
     this.state = {
-      store: this.props.store,
+      check: false,
     };
   }
 
   clickItem = (res) => {
-    const { history } = this.props;
-    if (res.target.id === "evaluation") history.push("/home");
-    else if (res.target.id === "liked") history.push("/home");
-    else history.push("/search/" + this.state.store.id);
+    if (res.target.id === "liked") {
+      this.setState({
+        check: !this.state.check
+      });
+    }
   };
 
   //<Link to={{ pathname: `/search/${store.id}` }}>
 
   render() {
     return (
-      <div className="Liked">
-        <div id="liked" className="liked">♡</div>
+      <div id="liked" className="Liked" onClick={this.clickItem}>
+        {this.state.check ? (
+          <div id="liked" className="liked">
+            ♥
+          </div>
+        ) : (
+          <div id="liked" className="liked">
+            ♡
+          </div>
+        )}
       </div>
     );
   }

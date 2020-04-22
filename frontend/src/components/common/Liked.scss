@@ -1,15 +1,21 @@
-.Liked{
+.Liked {
     display: inline-block;
-    .liked{
+    width: 100%;
+
+    // 특정 폰트에서 특수문자가 안 표시되는 경우가 있음
+    font-family: none;
+
+    .liked {
         z-index: 100;
-        width: 18px;
+        width: 100%;
         color: #ffaac0;
         display: inline-block;
     }
-    .liked:hover {
-        // 스무스하게 커지는 효과
-        transition: 0.7s;
-        transition-timing-function: ease-in-out;
-        transform: scale(1.4);
-    }
+
+    // 드래그 안되게 막는 코드
+    -ms-user-select: none;
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
 }

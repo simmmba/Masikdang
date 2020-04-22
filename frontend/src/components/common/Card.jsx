@@ -13,6 +13,9 @@ class Card extends React.Component {
   }
 
   clickItem = (res) => {
+
+    console.log(res.target.id)
+
     const { history } = this.props;
     if (res.target.id === "evaluation") history.push("/home");
     else if (res.target.id !== "liked") history.push("/search/" + this.state.store.id);
@@ -22,8 +25,8 @@ class Card extends React.Component {
 
   render() {
     return (
-      <div className="Card" onClick={this.clickItem}>
-        <div id="square" className="bounceIn flipInY animated">
+      <div className="Card">
+        <div id="square" className="bounceIn flipInY animated" onClick={this.clickItem}>
           <div className="thumbnail">
             <div className="centered">
               <img
@@ -35,7 +38,7 @@ class Card extends React.Component {
           </div>
           <div className="text">
             <div className="title">{this.state.store.store_name}</div>
-            <div className="liked_item"><Liked></Liked></div>
+            <div id="liked" className="liked_item"><Liked></Liked></div>
             <div className="category">{this.state.store.address}</div>
             <div id="evaluation" className="evaluation">
               평가하기

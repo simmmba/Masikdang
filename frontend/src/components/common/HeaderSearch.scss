@@ -34,14 +34,14 @@
     // select 모양 바꾸기
     select {
         cursor: pointer;
-        background:url(../../img/select.png) no-repeat center center ;
+        background: url(../../img/select.png) no-repeat center center;
         background-size: 100px;
         border: 1px white;
         border-radius: 0px;
         -webkit-appearance: none;
         -moz-appearance: none;
-        -o-appearance:none;
-        appearance: none; 
+        -o-appearance: none;
+        appearance: none;
     }
 
     .search_input {

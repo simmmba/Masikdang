@@ -2,7 +2,6 @@
     width: 100%;
     // border-radius: 3px;
     font-family: "NanumSquareRound";
-    cursor: pointer;
 
     // 2:1 : padding-top: 50%
     // 1:2 : padding-top: 200%
@@ -16,6 +15,7 @@
         padding-top: 75%;
         overflow: hidden;
         display: block;
+        cursor: pointer;
 
         .centered {
             position: absolute;
@@ -61,6 +61,7 @@
 
     .index {
         position: absolute;
+        cursor: pointer;
         top: 38%;
         img {
             width: 30px;
@@ -81,6 +82,7 @@
         margin-bottom: 10px;
 
         .preview_img {
+            cursor: pointer;
             padding: 2px;
             width: calc(10vw - 3px);
             height: 10vw;

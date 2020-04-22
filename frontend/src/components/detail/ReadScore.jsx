@@ -17,13 +17,11 @@ class ReadScore extends React.Component {
   render() {
     return (
       <div className="ReadScore" onClick={this.clickItem}>
-          3.7점 &nbsp;
         <div className="total_score">
           <Box mb={3} borderColor="transparent">
             <Rating name="read-only" precision={0.1} value={3.7} readOnly />
           </Box>
         </div>
-        &nbsp; (7)
       </div>
     );
   }
