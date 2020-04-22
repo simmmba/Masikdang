@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useWhatToEat } from "../../contexts/whatToEat";
 
@@ -8,6 +8,14 @@ const WhatToEatResult = ({ wreset, wanswer }) => {
       {props.symbol}
     </span>
   );
+
+  const [login, setLogin] = useState(false);
+
+  useEffect(() => {
+    if (window.sessionStorage.getItem("user")) {
+      setLogin(true);
+    }
+  }, []);
 
   return (
     <div className="WhatToEatBox">
@@ -23,20 +31,25 @@ const WhatToEatResult = ({ wreset, wanswer }) => {
         <NavLink className="retryBtn" to={`/whatToEat`} onClick={wreset}>
           다시 해보기
         </NavLink>
-        <NavLink className="pageBtn" to={`/`}>
-          <Emoji label="home" symbol="🏠" /> 메인 페이지
-        </NavLink>
+        {!login && (
+          <NavLink className="pageBtn" to={`/`}>
+            <Emoji label="home" symbol="🏠" />
+            메인 페이지
+          </NavLink>
+        )}
         <NavLink className="pageBtn" to={`/home`}>
           <Emoji label="restaurant" symbol="🍝" /> 마식당 페이지
         </NavLink>
-        <div className="memberBox">
-          <NavLink className="memberBtn" to="/login">
-            로그인
-          </NavLink>
-          <NavLink className="memberBtn" to="/signup">
-            회원가입
-          </NavLink>
-        </div>
+        {!login && (
+          <div className="memberBox">
+            <NavLink className="memberBtn" to="/login">
+              로그인
+            </NavLink>
+            <NavLink className="memberBtn" to="/signup">
+              회원가입
+            </NavLink>
+          </div>
+        )}
       </div>
     </div>
   );

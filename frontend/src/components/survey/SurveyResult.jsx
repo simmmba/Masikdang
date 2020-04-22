@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { NavLink } from "react-router-dom";
 import { useSurvey } from "../../contexts/survey";
@@ -12,6 +12,7 @@ const SurveyResult = ({ reset, answer, survey_result, surveyResult }) => {
   );
 
   let data = answer.join("");
+  const [login, setLogin] = useState(false);
 
   useEffect(() => {
     axios({
@@ -28,6 +29,10 @@ const SurveyResult = ({ reset, answer, survey_result, surveyResult }) => {
       .catch((error) => {
         console.log(error);
       });
+
+    if (window.sessionStorage.getItem("user")) {
+      setLogin(true);
+    }
   }, [data, surveyResult]);
 
   return (
@@ -44,22 +49,27 @@ const SurveyResult = ({ reset, answer, survey_result, surveyResult }) => {
         <NavLink className="retryBtn" to={`/survey`} onClick={reset}>
           다시 해보기
         </NavLink>
-        <NavLink className="pageBtn" to={`/`}>
-          <Emoji label="home" symbol="🏠" />
-          메인 페이지
-        </NavLink>
+        {!login && (
+          <NavLink className="pageBtn" to={`/`}>
+            <Emoji label="home" symbol="🏠" />
+            메인 페이지
+          </NavLink>
+        )}
         <NavLink className="pageBtn" to={`/home`}>
           <Emoji label="restaurant" symbol="🍝" />
           마식당 페이지
         </NavLink>
-        <div className="memberBox">
-          <NavLink className="memberBtn" to="/login">
-            로그인
-          </NavLink>
-          <NavLink className="memberBtn" to="/signup">
-            회원가입
-          </NavLink>
-        </div>
+        {/* 로그인 하지 않았으면 */}
+        {!login && (
+          <div className="memberBox">
+            <NavLink className="memberBtn" to="/login">
+              로그인
+            </NavLink>
+            <NavLink className="memberBtn" to="/signup">
+              회원가입
+            </NavLink>
+          </div>
+        )}
       </div>
     </div>
   );
