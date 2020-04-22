@@ -1,12 +1,19 @@
-from rest_framework.decorators import api_view
 from .models import User, Store, Review, Review_img, Tag, Menu, Bhour
 from .serializers import UserSerializer, StoreSerializer, ReviewSerializer, ReviewImgSerializer, TagSerializer, MenuSerializer, BhourSerializer
 from django.http import Http404
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.decorators import api_view
+
 from django.db.models import Q
 from django.db.models import Avg
+from django.db.models import Subquery
+from django.db.models import functions
+
+
+from rest_framework.decorators import api_view
+
 
 from api import models, serializers
 from rest_framework import viewsets
@@ -233,26 +240,62 @@ def SurveySearch(request):
     if request.method == 'GET':
         print("get 시작")
         surveyArr = request.data
-        if(surveyArr[0] == "혼자"):
-            print("혼자옴")
+        if(surveyArr[0]=="혼자"):
+            survey01 = Review.objects.filter(content__contains="혼밥").only('store').all()
+        else:
+            survey01 = Review.objects.filter(Q(content__contains="단체")|Q(content__contains="회식")).only('store').all()
 
-        queryset = Store.objects.all()[:10]
+        if(surveyArr[1]=="여자"):
+            survey02 = Review.objects.filter(id__in = survey01, tag__contains="여자").only('store').all()
+        else:
+            survey02 = survey01
+
+        if(surveyArr[3]=="간식"):
+            survey03 = Store.objects.filter(id__in=survey02, category__contains="카페").only('store').all()
+        else:
+            survey03 = survey02
+
+        survey05 = Store.objects.filter(address__contains=surveyArr[5], id__in=survey03).only('store').all()
+
+        queryset = Store.objects.filter(id__in = survey05)
         serializer = StoreSerializer(queryset, many=True)
         return Response(serializer.data)
 
 
 @api_view(['GET', 'POST'])
 def SurveyType(request):
-    print("searchpoll 시작")
     if request.method == 'GET':
         print("get 시작")
-        surveyArr = request.data
-        if(surveyArr[0] == "혼자"):
-            print("혼자옴")
+        surveyArr = request.query_params.get("data", "")
+        print(surveyArr)
+        food_table = [["불고기", "홍어삼합", "닭볶음탕", "비빔밥", "잡채"],
+                      ["탕수육", "유산슬", "깐풍기", "토마토달걀볶음밥", "잡탕밥"],
+                      ["스테이크", "감바스", "로스티드 터키", "어니언 스프", "햄버거"],
+                      ["규카츠", "초밥", "오야꼬동", "야채고로케", "라멘"],
+                      ["순대", "어묵", "닭꼬치", "야채튀김", "김밥"],
+                      ["분짜", "푸팟뽕커리", "탄두리치킨", "월남쌈", "반미"]
+                      ]
+        adjective_table = ["레시피보고 만든", "엄마가 만들어 준", "둘이 먹다 셋이 죽는", "또 먹고 싶은",
+                           "지옥에서 온", "눈물 젖은", "심혈을 기울여 만든", "죽기전에 마지막으로 먹고 싶은",
+                           "먹다 남긴", "줘도 안먹는", "실수로 소금을 쏟은", "까맣게 타버린",
+                           "어쩌다 이렇게 된", "수줍게 선보인 나의", "혀 끝을 휘감는", "장인이 만든"]
+        taste_table = ["쓴", "싱거운", "기름진", "촉촉한",
+                       "짠", "달달한", "매콤한", "떫은",
+                       "고소한", "새콤한", "칼칼한", "묘한",
+                       "맛없는", "맛있는", "눅눅한", "바삭바삭한"]
 
-        queryset = Store.objects.all()[:10]
-        serializer = StoreSerializer(queryset, many=True)
-        return Response(serializer.data)
+        food = food_table[int(surveyArr[0])][int(surveyArr[1])]
+        adjective = adjective_table[int(surveyArr[2:6], 2)]
+
+        index = ""
+        for i in range(6, 9):
+            index = index + str(format(int(surveyArr[i]), 'b'))
+        index = int(index, 2)
+        taste = taste_table[index]
+
+        ret = adjective + " " + taste + " " + food
+        print(ret)
+        return Response(ret)
 
 
 # Review
