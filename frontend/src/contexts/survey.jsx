@@ -31,6 +31,7 @@ class SurveyProvider extends Component {
       ["웨이팅 함", "기다리는거 싫음"],
     ],
     answer: [],
+    survey_result: "",
   };
 
   actions = {
@@ -47,7 +48,10 @@ class SurveyProvider extends Component {
       this.setState(({ answer }) => ({ answer: answer.concat(select) }));
     },
     edit: (select) => {
-      this.setState(({ answer, index }) => ({ answer: answer.map((item, idx) =>(idx === index ? select : item)) }));
+      this.setState(({ answer, index }) => ({ answer: answer.map((item, idx) => (idx === index ? select : item)) }));
+    },
+    surveyResult: (result) => {
+      this.setState(({ survey_result }) => ({ survey_result: result }));
     },
   };
 
@@ -59,7 +63,7 @@ class SurveyProvider extends Component {
   }
 }
 
-const {Consumer: SurveyConsumer} = SurveyContext;
+const { Consumer: SurveyConsumer } = SurveyContext;
 const useSurvey = createUseConsumer(SurveyConsumer);
 
 export { SurveyProvider, SurveyConsumer, useSurvey, SurveyContext };

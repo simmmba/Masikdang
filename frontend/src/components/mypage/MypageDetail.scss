@@ -1,0 +1,44 @@
+.MypageDetail {
+  font-family: "S-CoreDream-8Heavy";
+  height: 70vh;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .profile_img {
+    margin: 30px;
+
+    img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50px;
+      object-fit: cover;
+    }
+  }
+
+  .profileBox {
+    display: flex;
+
+    .column {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      // margin: 10px 10px 10px 10px;
+      margin-right: 10px;
+      color: #85c9ce;
+    }
+
+    .value {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      // margin: 10px 10px 10px 10px;
+    }
+
+    .box {
+      padding: 3px 5px 3px 5px;
+    }
+  }
+}

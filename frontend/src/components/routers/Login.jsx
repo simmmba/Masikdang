@@ -122,15 +122,7 @@ class Login extends React.Component {
             cookiePolicy={"single_host_origin"}
           />
 
-          <KakaoLogin
-            id="kakao"
-            className="easy_login"
-            jsKey={process.env.REACT_APP_KAKAO}
-            buttonText="Kakao"
-            onSuccess={this.responseKakao}
-            onFailure={this.responseFail}
-            getProfile="true"
-          />
+          <KakaoLogin id="kakao" className="easy_login" jsKey={process.env.REACT_APP_KAKAO} buttonText="Kakao" onSuccess={this.responseKakao} onFailure={this.responseFail} getProfile="true" />
 
           <div className="link_btn">
             <Link to="/signup">회원가입</Link>
