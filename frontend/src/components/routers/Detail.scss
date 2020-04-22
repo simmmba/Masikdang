@@ -30,9 +30,17 @@
             .tags,
             .tel,
             .store_score {
-                margin-bottom: 5%;
+                margin-bottom: 6%;
             }
 
+            .menu_list,
+            .time {
+                margin-top: 10%;
+                margin-bottom: 10%;
+                .menu {
+                    margin-bottom: 2px;
+                }
+            }
             .store_score {
                 .score_text {
                     display: inline-block;
@@ -65,9 +73,9 @@
             }
         }
 
-        .review_no_info{
+        .review_no_info {
             font-size: 20px;
-            span{
+            span {
                 font-size: 36px;
                 font-family: "BMHANNAPro";
                 margin-right: 3px;
@@ -77,10 +85,10 @@
         //   #f9bbc7;
         //   #98d7db;
 
-        // 리뷰 모음 
-        .store_review_bundle{
+        // 리뷰 모음
+        .store_review_bundle {
             margin-bottom: 20px;
-            .reade_maore{
+            .reade_maore {
                 width: 100%;
                 text-align: center;
                 height: 40px;
@@ -89,8 +97,8 @@
                 background: #98d7db6e;
                 cursor: pointer;
             }
-            .reade_maore:hover{
-                color: white
+            .reade_maore:hover {
+                color: white;
             }
         }
         .address {
@@ -100,7 +108,6 @@
         }
 
         // 모바일에서 너무 붙어있어서 잘보이게 띄우기
-        .store_detail_info,
         .store_map,
         .store_review_bundle {
             width: calc(100% - 20px);
@@ -123,7 +130,6 @@
                 }
             }
 
-            .store_detail_info,
             .store_map,
             .store_review_bundle {
                 width: calc(100%);

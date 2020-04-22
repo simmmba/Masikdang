@@ -11,7 +11,7 @@ import Liked from "../common/Liked";
 import Map from "../detail/Map";
 import Review from "../detail/Review";
 import store_img from "../../img/store.png";
-import ScrollToTop from "../common/ScrollToTop"
+import ScrollToTop from "../common/ScrollToTop";
 
 const Emoji = (props) => (
   <span
@@ -32,6 +32,8 @@ class Detail extends React.Component {
       store: [],
       category: [],
       img_list: [store_img],
+      review_img_len: 0,
+      review: [],
     };
   }
 
@@ -45,16 +47,37 @@ class Detail extends React.Component {
 
     // url 확인, axois 호출
     const url = window.location.href.split("/");
-    // url.length - 1
+
+    // 가게 정보 받아오는 axios
     axios({
       method: "get",
-      url: "http://15.165.19.70:8080/api/store/"+ url[url.length - 1],
+      url: "http://15.165.19.70:8080/api/store/" + url[url.length - 1],
+    })
+      .then((res) => {
+        console.log(res.data);
+        let category_list = [];
+        if (res.data.category !== null)
+          category_list = res.data.category.split("|");
+        this.setState({
+          store: res.data,
+          category: category_list,
+          review_img_len: res.data.review_img.length,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        // alert("현재 정보를 받아오지 못하고 있습니다")
+      });
+
+    // 리뷰 받아오는 axios
+    axios({
+      method: "get",
+      url: "http://15.165.19.70:8080/api/review/" + url[url.length - 1],
     })
       .then((res) => {
         console.log(res.data);
         this.setState({
-          store: res.data,
-          category: res.data.category.split("|"),
+          review: res.data,
         });
       })
       .catch((error) => {
@@ -74,30 +97,112 @@ class Detail extends React.Component {
             <div className="row">
               <div className="store_image col-12 col-md-8">
                 {/* 이미지 넣어주는 부분 */}
-                {this.state.store.img !== null ? (
-                  <ImageList img_list={this.state.store.img}></ImageList>
+                {this.state.review_img_len !== 0 ? (
+                  <ImageList img_list={this.state.store.review_img}></ImageList>
                 ) : (
-                  <ImageList img_list={this.state.img_list}></ImageList>
+                  <>
+                    {this.state.store.img !== null ? (
+                      <ImageList img_list={[this.state.store.img]}></ImageList>
+                    ) : (
+                      <ImageList img_list={this.state.img_list}></ImageList>
+                    )}
+                  </>
                 )}
               </div>
               <div className="col-12 col-md-4">
+                {/* 가게 정보 표시 */}
                 <div className="store_info">
                   <div className="store_name">
                     {this.state.store.store_name}
                   </div>
-                  {/* 지역, 카테고리 class 이름 바꾸기 */}
                   <div className="tags">
-                    {this.state.store.area}
-                    {this.state.category.map((item) => (
-                      <span key={item}>, {item}</span>
+                    {this.state.store.area} &nbsp;
+                    {this.state.category.map((item, index) => (
+                      <span key={index}>
+                        {item}
+                        {index !== this.state.category.length - 1 && ", "}
+                      </span>
                     ))}
                   </div>
-                  {/* 위치, 크기 조정하기 */}
-                  <div className="tel">{this.state.store.tel}</div>
-                  <div className="store_score">
-                    <div className="score_text">3.7</div>
-                    <ReadScore></ReadScore>
+                                    {/* 평균 점수 */}
+                                    <div className="store_score">
+                    {this.state.store.avg_score !== null ? (
+                      <>
+                        <div className="score_text">
+                          {/* ERROR */}
+                          {String(
+                            Math.round(this.state.store.avg_score * 10) / 10
+                          )}
+                          {/* ERROR */}
+                        </div>
+                        <ReadScore
+                          score={this.state.store.avg_score}
+                        ></ReadScore>
+                      </>
+                    ) : (
+                      <>
+                        <div className="score_text">{0}</div>
+                        <ReadScore score={0}></ReadScore>
+                      </>
+                    )}
                   </div>
+                  {/* 메뉴 리스트 */}
+                  <div className="menu_list">
+                    {this.state.store.menu &&
+                      this.state.store.menu.length !== 0 &&
+                      this.state.store.menu.map((menu, index) => (
+                        <div key={index} className="menu">
+                          <Emoji label="menu" symbol="🍳" /> {menu.menu} :{" "}
+                          {menu.price}
+                        </div>
+                      ))}
+                  </div>
+                  {/* 영업시간 */}
+                  <div className="time">
+                    <div className="start_end_time">
+                      {this.state.store.bhour &&
+                        this.state.store.bhour.map((bhour, index) => (
+                          <div key={index}>
+                            <Emoji label="calendar" symbol="📆"/>&nbsp;
+                            {bhour.mon === 1 && "월 "}
+                            {bhour.tue === 1 && "화 "}
+                            {bhour.wed === 1 && "수 "}
+                            {bhour.thu === 1 && "목 "}
+                            {bhour.fri === 1 && "금 "}
+                            {bhour.sat === 1 && "토 "}
+                            {bhour.sun === 1 && "일 "}
+                            {bhour.start_time} {"~"} {bhour.end_time}
+                            <div className="time_etc">{bhour.etc}</div>
+                          </div>
+                        ))}
+                    </div>
+                  </div>
+                  {/* 전화 */}
+                  <div className="tel">
+                    {this.state.store.tel && (
+                      <>
+                        <Emoji label="tel" symbol="📞" /> {this.state.store.tel}
+                      </>
+                    )}
+                  </div>
+                  {/* tag 모음 */}
+                  <div className="tags">
+                    {this.state.store.tags &&
+                      this.state.store.tags.length !== 0 && (
+                        <>
+                          <Emoji label="map" symbol="📢" />{" "}
+                          {this.state.store.tags.map((tag, index) => (
+                            <span key={index}>
+                              {tag}
+                              {index !== this.state.store.tags.length - 1
+                                ? ", "
+                                : ""}
+                            </span>
+                          ))}
+                        </>
+                      )}
+                  </div>
+                  {/* 즐겨찾기 */}
                   <div className="liked_item button">
                     <Liked></Liked>
                   </div>
@@ -108,13 +213,15 @@ class Detail extends React.Component {
             {/* 리뷰 리스트 */}
             <div className="store_review_bundle">
               <div className="review_no_info">
-                <span>2</span>건의 방문자 평가
+                {this.state.review && <span>{this.state.review.length}</span>}
+                건의 방문자 평가
               </div>
-              <Review></Review>
-              <Review></Review>
+              {this.state.review.map((review, index) => (
+                <Review key={index} review={review}></Review>
+              ))}
               <div className="reade_maore">더보기</div>
             </div>
-            <div className="store_detail_info"></div>
+            {/* 주소 + 지도 표시 */}
             <div className="store_map">
               <div className="address">
                 <Emoji label="map" symbol="🚩" /> {this.state.store.address}
