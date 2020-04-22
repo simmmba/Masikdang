@@ -52,8 +52,7 @@ class StoreList(APIView):
         return Response(serializer.data)
 
 
-class StoreDetail(APIView):
-    # 특정 User 를 다루는 클래스
+class StorePost(APIView):
     # Store 생성
     def post(self, request, format=None):
         '''
@@ -75,10 +74,15 @@ class StoreDetail(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    # Store 조회
-    def get(self, request, format=None):
 
-        store_id = request.query_params.get("store_id", "")
+class StoreDetail(APIView):
+    # 특정 User 를 다루는 클래스
+
+    # Store 조회
+    def get(self, request,store_id, format=None):
+        '''
+        # Store 조회
+        '''
         store = Store.objects.get(id=store_id)
         serializer = StoreSerializer(store)
 
@@ -101,8 +105,10 @@ class StoreDetail(APIView):
         return Response(result)
     
     # Store 삭제
-    def delete(self, request, format=None):
-        store_id = request.query_params.get("store_id", "")
+    def delete(self, request,store_id, format=None):
+        '''
+        # Store 삭제
+        '''
         store = Store.objects.get(id=store_id)
         store.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
@@ -110,9 +116,10 @@ class StoreDetail(APIView):
 
 class StoreSearch(APIView):
     # Store 검색을 위한 클래스
-    def get(self, request, format=None):
-        subject = request.query_params.get("subject", "")
-        word = request.query_params.get("word", "")
+    '''
+    # Store 검색
+    '''
+    def get(self, request,subject, word, format=None):
         if subject == "name":
             queryset = Store.objects.filter(store_name__contains=word)
         elif subject == "area":
@@ -122,23 +129,11 @@ class StoreSearch(APIView):
             queryset = Store.objects.filter(category__contains=word)
 
         serializer = StoreSerializer(queryset, many=True)
-
         return Response(serializer.data)
 
 # User
 class UserList(APIView):
     # User List 를 다루는 클래스
-    # list 생성
-    """
-    user list 생성
-    parameter :
-    body {
-    }
-    """
-    def post(self, request, format=None):
-        serializer = UserSerializer(data=request.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-
     # list 조회
     def get(self, request, format=None):
         queryset = User.objects.all()
@@ -146,48 +141,71 @@ class UserList(APIView):
         return Response(serializer.data)
 
 
-class UserDetail(APIView):
-    # 특정 User 를 다루는 클래스
-
+class UserPost(APIView):
     # User 생성
+    '''
+    # User 생성
+    # parameter
+        body{
+            provider : String(20),
+            api_id : String(30),
+            nickname : String(20),
+            age : int(11),
+            gender : String(5),
+            survey_array : String(30),
+            survey_result : String(30),
+        }
+    '''
     def post(self, request, format=None):
-        # print(request.data)
-        # print(request.data['user_id'])
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+class UserDetail(APIView):
+    # 특정 User 를 다루는 클래스
     # User 조회
-    def get(self, request, format=None):
-        api_id = request.query_params.get("api_id", "")
+    def get(self, request,api_id, format=None):
+        '''
+        # 유저 조회
+        '''
         user = User.objects.get(api_id=api_id)
         serializer = UserSerializer(user)
         return Response(serializer.data)
+
     # User 삭제
-
-    def delete(self, request, format=None):
-        api_id = request.query_params.get("api_id", "")
-        user = User.objects.get(api_id=api_id)
-        user.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
-    # @action(detail=True, methods=['get'], url_path='dup_check')
-    # def duplicate_check(self, request, format=None):
-    #     user = User.objects.get(pk=id)
-    #     serializer = UserSerializer(user)
-    #     return Response(serializer.data)
-
+    def delete(self, request,api_id, format=None):
+        '''
+        # 유저 삭제
+        '''
+        user_del = User.objects.get(api_id=api_id)
+        user_del.delete()
+        return Response("delete",status=status.HTTP_204_NO_CONTENT)
+    
+    # User 수정
+    def put(self, request,api_id, format=None):
+        '''
+        # 유저 수정
+        '''
+        user_modify = User.objects.get(api_id=api_id)
+        serializer = UserSerializer(user_modify, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
 
 class UserJoinCheck(APIView):
     # User 회원가입 여부를 확인하는 클래스
-    # User 조회
-    def get(self, request, format=None):
-        api_id = request.query_params.get("api_id", "")
-        provider = request.query_params.get("provider", "")
-        is_exist = User.objects.filter(
-            api_id=api_id, provider=provider).count()
+    '''
+    # 가입 여부 확인
+    '''
+    def get(self, request, provider, api_id, format=None):
+        # api_id = request.query_params.get("api_id", "")
+        # provider = request.query_params.get("provider", "")
+        is_exist = User.objects.filter(api_id=api_id, provider=provider).count()
 
         if is_exist == 0:
             return Response('NO')
@@ -197,10 +215,11 @@ class UserJoinCheck(APIView):
 
 class NickDuplicateCheck(APIView):
     # User nickname 중복 여부를 확인하는 클래스
-    def get(self, request, format=None):
-        nickname = request.query_params.get("nickname", "")
+    '''
+    # 닉네임 중복 확인
+    '''
+    def get(self, request,nickname, format=None):
         is_exist = User.objects.filter(nickname=nickname).count()
-
         if is_exist == 0:
             return Response('NO')
         else:

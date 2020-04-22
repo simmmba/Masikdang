@@ -172,3 +172,7 @@ CORS_ALLOW_HEADERS = (
     'x-csrftoken',
     'x-requested-with',
 )
+
+# 저장되는 파일 경로 설정
+MEDIA_URL= '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR,'upload')

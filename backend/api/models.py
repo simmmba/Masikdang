@@ -77,7 +77,8 @@ class User(models.Model):
     nickname = models.CharField(unique=True, max_length=20)
     age = models.IntegerField(blank=True, null=True)
     gender = models.CharField(max_length=5, blank=True, null=True)
-    survey_result = models.CharField(max_length=30, blank=True, null=True)
+    survey_array = models.CharField(max_length=40, blank=True, null=True)
+    survey_result = models.CharField(max_length=40, blank=True, null=True)
 
 # 편의시설
 class Amenity(models.Model):
@@ -85,7 +86,11 @@ class Amenity(models.Model):
     amenity = models.CharField(max_length=100, blank=True, null=True)
 
 # 리뷰 이미지
-
 class Review_img(models.Model):
     review = models.ForeignKey('Review', on_delete=models.CASCADE)
     img = models.CharField(max_length=200, blank=True, null=True)
+
+# 파일 업로드
+class Image(models.Model):
+    name = models.CharField(max_length=10)
+    photo = models.ImageField(upload_to="")
