@@ -19,7 +19,13 @@
             margin-top: -5px;
             width: 50px;
             border-radius: 25px;
-            border: 1px solid black; // 삭제예정
+            border: 1px solid white;
+        }
+        .tscore{
+            margin-left: 10px;
+            height: 30px;
+            vertical-align: 3px;
+            color: rgb(145, 145, 145);
         }
     }
 
@@ -41,6 +47,7 @@
             margin-right: 10px;
         }
         .review_img {
+            cursor: pointer;
             display: inline-block;
             width: calc(50% - 5px);
 

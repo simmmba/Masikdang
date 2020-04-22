@@ -9,17 +9,16 @@ class ImageList extends React.Component {
     super(props);
 
     this.state = {
-      check: false,
       img_list: [],
       index: 0,
     };
   }
 
   componentDidUpdate() {
-    if (!this.state.check && this.props.img_list) {
+    if (this.props.img_list !== this.state.img_list) {
       this.setState({
         check: true,
-        img_list: this.state.img_list.concat([this.props.img_list]),
+        img_list: this.props.img_list,
       });
     }
   }
