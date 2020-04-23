@@ -2,11 +2,31 @@ import React from "react";
 import "./Review.scss";
 import ReadScore from "../detail/ReadScore";
 
+import axios from "axios";
 
 // 841번!!
 class Review extends React.Component {
-
   user = JSON.parse(window.sessionStorage.getItem("user"));
+
+  // 리뷰 취소 버튼
+  confirm = () => {
+    if (window.confirm("리뷰를 삭제하시겠습니까?")) {
+      axios({
+        method: "delete",
+        url:
+          "http://15.165.19.70:8080/api/review/" + this.props.review.id + "/",
+      })
+        .then((res) => {
+          alert("해당 리뷰가 삭제 되었습니다.");
+          if(this.props.changeReview){
+            this.props.changeReview();
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
 
   // 최대 10개까지만 이미지 보이게 하기
   render() {
@@ -44,9 +64,7 @@ class Review extends React.Component {
                     alt="store_img"
                     src={img}
                     onClick={() => {
-                      window.open(
-                        img
-                      );
+                      window.open(img);
                     }}
                   ></img>
                 </div>
@@ -58,10 +76,14 @@ class Review extends React.Component {
         {/* 작성자랑 같은지 확인 user_nickname 으로 비교 */}
         {this.user && this.user.nickname === review.user_nickname ? (
           <>
-            <div className="edit_button">삭제&nbsp;</div>
+            <div className="edit_button" onClick={this.confirm}>
+              삭제&nbsp;
+            </div>
             <div className="edit_button">수정</div>
           </>
-        ):<div>&nbsp;</div>}
+        ) : (
+          <div>&nbsp;</div>
+        )}
       </div>
     );
   }

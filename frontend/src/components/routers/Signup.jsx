@@ -56,6 +56,7 @@ class Signup extends React.Component {
               api_id: this.state.id,
               provider: this.state.provider,
               answer: this.context.state.answer,
+              survey_result : this.context.state.survey_result
             },
           });
           this.context.actions.reset();

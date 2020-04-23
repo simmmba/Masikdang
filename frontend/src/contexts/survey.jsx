@@ -69,7 +69,7 @@ class SurveyProvider extends Component {
       this.setState(({ answer, index }) => ({ answer: answer.map((item, idx) => (idx === index ? select : item)) }));
     },
     surveyResult: (result) => {
-      this.setState(({ survey_result }) => ({ survey_result: result }));
+      this.setState(() => ({ survey_result: result }));
     },
   };
 
