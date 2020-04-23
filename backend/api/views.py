@@ -139,12 +139,12 @@ class StoreSearch(APIView):
 
     def get(self, request, subject, word, format=None):
         if subject == "name":
-            queryset = Store.objects.filter(store_name__contains=word)
+            queryset = Store.objects.filter(store_name__contains=word)[:20]
         elif subject == "area":
             queryset = Store.objects.filter(
-                Q(area__contains=word) | Q(address__contains=word))
+                Q(area__contains=word) | Q(address__contains=word))[:20]
         elif subject == "category":
-            queryset = Store.objects.filter(category__contains=word)
+            queryset = Store.objects.filter(category__contains=word)[:20]
 
         serializer = StoreSerializer(queryset, many=True)
         return Response(serializer.data)
