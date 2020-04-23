@@ -34,7 +34,6 @@ urlpatterns = [
     path("filter/user", views_sy.filteringByUser, name = "filter_user"),
     path("filter/type", views_sy.filteringByType, name = "filter_type"),
 
-
     # 리뷰 URL
     path("review", views.ReviewPost.as_view(), name="review_post"),
     path("review/<store_id>", views.ReviewList.as_view(), name="review_store"),
