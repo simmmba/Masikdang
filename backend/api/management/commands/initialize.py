@@ -165,20 +165,20 @@ class Command(BaseCommand):
         
 
         # bhours db 초기화
-        print("[*] Initializing menu...")
-        models.Menu.objects.all().delete()
-        menues = dataframes["menu"]
-        menues = menues.fillna(0)
-        print(menues)
-        menues_bulk = [
-            models.Menu(
-                store_id=menu.store_id,
-                menu=menu.menu,
-                price = menu.price
-            )
-            for menu in menues.itertuples()
-        ]
-        models.Menu.objects.bulk_create(menues_bulk)
+        # print("[*] Initializing menu...")
+        # models.Menu.objects.all().delete()
+        # menues = dataframes["menu"]
+        # menues = menues.fillna(0)
+        # print(menues)
+        # menues_bulk = [
+        #     models.Menu(
+        #         store_id=menu.store_id,
+        #         menu=menu.menu,
+        #         price = menu.price
+        #     )
+        #     for menu in menues.itertuples()
+        # ]
+        # models.Menu.objects.bulk_create(menues_bulk)
 
         print("[+] Done")
 
