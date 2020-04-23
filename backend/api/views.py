@@ -1,4 +1,4 @@
-from .models import User, Store, Review, Review_img, Tag, Menu, Bhour, Image_upload
+from .models import User, Store, Review, Review_img, Tag, Menu, Bhour, Image_upload, Like_store
 from .serializers import UserSerializer, StoreSerializer, ReviewSerializer, ReviewImgSerializer, TagSerializer, MenuSerializer, BhourSerializer
 from django.http import Http404
 from rest_framework import status
@@ -136,7 +136,6 @@ class StoreSearch(APIView):
     '''
     # Store 검색
     '''
-
     def get(self, request, subject, word, format=None):
         if subject == "name":
             queryset = Store.objects.filter(store_name__contains=word)[:20]
@@ -457,3 +456,18 @@ def upload_image(request, review_id):
         else : 
             form = ImageForm()
             return Response("upload fail")
+
+# 가게 좋아요
+class Store_like(APIView):
+    def get(self, request,store_id, user_id, format=None) :
+        is_like = Like_store.objects.filter(store_id = store_id, user_id=user_id).count()
+        
+        if is_like >= 1 :
+            like_del = Like_store.objects.get(store_id=store_id,user_id=user_id)
+            like_del.delete()
+            return Response("dislike")
+        else :
+            like = Like_store(store_id = store_id, user_id = user_id)
+            like.save()
+            return Response("like")
+            
