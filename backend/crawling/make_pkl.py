@@ -7,7 +7,7 @@ from datetime import datetime
 DATA_DIR = "../data"
 DATA_FILE = os.path.join(DATA_DIR, "data.json")
 CRAWLING_FILE = os.path.join(DATA_DIR, "save.json")
-DUMP_FILE = os.path.join(DATA_DIR, "dump.pkl")
+DUMP_FILE = os.path.join(DATA_DIR, "crawling.pkl")
 
 store_columns = (
     "id",  # 음식점 id
@@ -94,9 +94,10 @@ def import_data(data_path=DATA_FILE, crawling_path=CRAWLING_FILE):
     review_id = 1
     print(crawling[len(crawling)-1]["id"])
     for d in data:
-        # print(d["id"])
+        # print(d["id"])d["id"]
         if cur < len(crawling) and d["id"] == crawling[cur]["id"]:
-            print(crawling[cur]["id"])
+            print(str(cur) + " / " + str(len(crawling)) +
+                  ": "+str(crawling[cur]["id"])+" "+str(d["id"]))
             store.append([crawling[cur]["id"], crawling[cur]["store_name"], crawling[cur]["branch"],
                           crawling[cur]["area"], crawling[cur]["tel"], crawling[cur]["address"],
                           crawling[cur]["latitude"], crawling[cur]["longitude"], crawling[cur]["category_list"],
@@ -123,7 +124,6 @@ def import_data(data_path=DATA_FILE, crawling_path=CRAWLING_FILE):
                 tag.append([crawling[cur]["id"], t])
             for a in crawling[cur]["amenity_list"]:
                 amenity.append([crawling[cur]["id"], a])
-            cur = cur+1
         else:
             categories = [c["category"] for c in d["category_list"]]
             store.append([d["id"], d["name"], d["branch"], d["area"], d["tel"],
@@ -144,6 +144,9 @@ def import_data(data_path=DATA_FILE, crawling_path=CRAWLING_FILE):
             bhour.append([d["id"], bh["type"], bh["week_type"], bh["mon"], bh["tue"], bh["wed"],
                           bh["thu"], bh["fri"], bh["sat"], bh["sun"], bh["start_time"], bh["end_time"], bh["etc"]])
 
+        while cur < len(crawling) and d["id"] >= crawling[cur]["id"]:
+            cur = cur+1
+            # print(str(cur)+": "+str(crawling[cur]["id"]))
     # print(store)
     menu_frame = pd.DataFrame(data=menu, columns=menu_columns)
     tag_frame = pd.DataFrame(data=tag, columns=tag_columns)

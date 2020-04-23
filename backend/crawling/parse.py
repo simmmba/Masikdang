@@ -18,18 +18,15 @@ store_columns = (
     "latitude",  # 음식점 위도
     "longitude",  # 음식점 경도
     "category_list",  # 음식점 카테고리
-    "store_img"  # 음식점 이미지
 )
 
 review_columns = (
     "id",  # 리뷰 고유번호
-    "user_id"  # 유저 id
-    "store_id",  # 음식점 고유번호
-    "date",  # 리뷰 등록 시간
+    "store",  # 음식점 고유번호
+    "user",  # 유저 고유번호
+    "score",  # 평점
     "content",  # 리뷰 내용
-    "taste",  # 맛평점
-    "price",  # 가격평점
-    "service",  # 서비스 평점
+    "reg_time",  # 리뷰 등록 시간
 )
 
 menu_columns = (
@@ -78,7 +75,7 @@ def import_data(data_path=DATA_FILE):
                 d["address"],
                 d["latitude"],
                 d["longitude"],
-                "|".join(categories),
+                # "|".join(categories),
                 d["category_list"]
             ]
         )
@@ -94,6 +91,13 @@ def import_data(data_path=DATA_FILE):
             # user 정보 추가
             users.append(
                 [u["id"], u["gender"], now.year+1 - int(u["born_year"])]
+            )
+
+        # menu 정보 추가
+        for m in d["menu_list"]:
+            # 고유 id가 없으므로 임의로 1씩 늘려준다
+            menus.append(
+                [len(menus)+1, d["id"], m["menu"], m["price"]]
             )
 
     store_frame = pd.DataFrame(data=stores, columns=store_columns)
