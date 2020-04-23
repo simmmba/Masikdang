@@ -16,6 +16,7 @@ import MypageDetail from "./components/mypage/MypageDetail";
 import Search from "./components/routers/Search";
 import Map from "./components/routers/Map";
 import Surveypage from "./components/routers/Surveypage";
+import SurveyStart from "./components/routers/SurveyStart";
 import WhatToEatpage from "./components/routers/WhatToEatpage";
 import SurveyResult from "./components/survey/SurveyResult";
 import WhatToEatResult from "./components/whatToEat/WhatToEatResult";
@@ -43,6 +44,7 @@ const App = () => {
           <Route path="/signup" component={Signup} exact />
           <Route path="/signup/detail" component={SignupDetail} />
           <Route path="/survey" component={Surveypage} />
+          <Route path="/start" component={SurveyStart} />
           <Route path="/mypage" component={Mypage} exact />
           <Route path="/mypage/detail" component={MypageDetail} />
           <Route path="/search" component={Search} exact />

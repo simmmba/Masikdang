@@ -44,10 +44,10 @@ const Survey = ({ reset, index, question, options, answer, increment, add, edit 
   ));
 
   return (
-    <>
-      <h3 className="question">{question[index]}</h3>
+    <div className="sbox">
+      <div className="question">{question[index]}</div>
       <div className="answer">{optionList}</div>
-    </>
+    </div>
   );
 };
 

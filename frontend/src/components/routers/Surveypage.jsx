@@ -6,15 +6,13 @@ import "../survey/Survey.scss";
 
 const Surveypage = () => {
   return (
-    <div className="SurveyBox">
-      <div className="SurveyComponent">
-        <center>
-          <QuestionNum />
-          <Survey />
-          <br />
-          <Counter />
-        </center>
-      </div>
+    <div className="SurveyComponent">
+      <center>
+        <QuestionNum />
+        <Survey />
+        <br />
+        <Counter />
+      </center>
     </div>
   );
 };

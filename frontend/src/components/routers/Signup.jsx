@@ -30,7 +30,7 @@ class Signup extends React.Component {
       history.push("/home");
     } else if (this.context.state.answer.length !== 9) {
       alert("마식당 테스트를 먼저 진행해주세요");
-      history.push("/survey");
+      history.push("/start");
     }
   }
 
@@ -41,7 +41,7 @@ class Signup extends React.Component {
     //axios 호출
     axios({
       method: "get",
-      url: "http://15.165.19.70:8080/api/user/join_check/"+this.state.provider+"/"+this.state.id,
+      url: "http://15.165.19.70:8080/api/user/join_check/" + this.state.provider + "/" + this.state.id,
     })
       // 회원 가입 안되있는 거면
       .then((res) => {
