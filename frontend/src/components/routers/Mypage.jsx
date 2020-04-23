@@ -47,7 +47,7 @@ class Mypage extends React.Component {
               </div>
               <br />
               <div>{this.state.nickname}님의 마식는 타입은</div>
-              <span className="type">{this.state.survey_result}</span>
+              <div className="type">{this.state.survey_result}</div>
               <div>입니다.</div>
               <br />
             </div>

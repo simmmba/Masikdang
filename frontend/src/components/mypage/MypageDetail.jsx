@@ -1,7 +1,4 @@
 import React from "react";
-// import axios from "axios";
-// import Http from "../../api";
-// import { NavLink } from "react-router-dom";
 import "./MypageDetail.scss";
 
 import AppBar from "../common/AppBar";
@@ -36,6 +33,10 @@ class MypageDetail extends React.Component {
     }
   }
 
+  handleClick() {
+    alert("사진변경");
+  }
+
   render() {
     return (
       <div className="Box">
@@ -43,6 +44,9 @@ class MypageDetail extends React.Component {
         <div className="MypageDetail">
           <div className="profile_img">
             <img alt="프로필" src="https://d2x5ku95bkycr3.cloudfront.net/App_Themes/Common/images/profile/0_200.png" />
+          </div>
+          <div className="imgBtn" onClick={this.handleClick}>
+            프로필 사진 변경
           </div>
           <div className="profileBox">
             <div className="column">
@@ -56,7 +60,7 @@ class MypageDetail extends React.Component {
               <div className="box">{this.state.nickname}</div>
               <div className="box">{this.state.provider}</div>
               <div className="box">{this.state.gender}</div>
-              <div className="box">{this.state.age}</div>
+              <div className="box">{this.state.age}대</div>
               <div className="box">{this.state.survey_result}</div>
             </div>
           </div>
