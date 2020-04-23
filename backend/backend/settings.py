@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "rest_framework_swagger",
     "api",
     "corsheaders",
+
 ]
 
 MIDDLEWARE = [
@@ -174,5 +175,8 @@ CORS_ALLOW_HEADERS = (
 )
 
 # 저장되는 파일 경로 설정
-MEDIA_URL= '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR,'upload')
+MEDIA_URL= '/image/'
+MEDIA_ROOT = os.path.join(BASE_DIR,'image')
+
+MEDIA_HOST = 'http://15.165.19.70:8080/image/'
+# MEDIA_HOST = 'http://localhost:8000/image/'
