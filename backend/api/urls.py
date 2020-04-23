@@ -1,10 +1,13 @@
 from django.conf.urls import url
 from django.urls import path
 from rest_framework.routers import DefaultRouter
-from api import views
+from api import views,views_tmp
+
+
 
 
 router = DefaultRouter(trailing_slash=False)
+
 # router.register(r"stores", views.StoreViewSet, basename="stores")
 # router.register(r"users", views.UserViewSet, basename="users")
 
@@ -32,7 +35,8 @@ urlpatterns = [
     path("review/<review_id>/", views.ReviewDetail.as_view(), name="review_detail"),
     path("review/user/<user_id>", views.ReviewByUser.as_view(), name="review_user"),
     path("review/img/<review_id>", views.ReviewImgList.as_view(), name="review_user"),
-    
-    # path("upload", document_root=settings.MEDIA_ROOT)
+
+    # 파일 업로드 URL
+    path("upload/<review_id>", views.upload_image, name="upload_image"),
 
 ]
