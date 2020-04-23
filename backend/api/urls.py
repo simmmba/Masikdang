@@ -28,11 +28,13 @@ urlpatterns = [
     
     # 설문 URL
     path("survey/search", views.SurveySearch, name="surevey_search"),
+    path("survey/type", views_ky.SurveyType, name="surevey_type"),
 
     # 알고리즘
     path("filter/user", views_sy.filteringByUser, name = "filter_user"),
     path("filter/type", views_sy.filteringByType, name = "filter_type"),
-
+    path("similar",views_sy.similarStore, name = "similar_store"),
+    
     # 리뷰 URL
     path("review", views.ReviewPost.as_view(), name="review_post"),
     path("review/<store_id>", views.ReviewList.as_view(), name="review_store"),

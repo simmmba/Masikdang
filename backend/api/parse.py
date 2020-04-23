@@ -6,6 +6,9 @@ from datetime import datetime
 
 DATA_DIR = "../data"
 DATA_FILE = os.path.join(DATA_DIR, "data.json")
+STORE_FILE = os.path.join(DATA_DIR, "store.json")
+REVIEW_FILE = os.path.join(DATA_DIR, "review.json")
+USER_FILE = os.path.join(DATA_DIR, "user.json")
 DUMP_FILE = os.path.join(DATA_DIR, "dump.pkl")
 now = datetime.now()
 
@@ -22,15 +25,20 @@ review_columns = (
     "score",  # 평점
 )
 
-def import_data(data_path=DATA_FILE):
+user_columns = {
+    "user_id",
+    "survey_array"
+}
+
+def import_data():
     """
     Req. 1-1-1 음식점 데이터 파일을 읽어서 Pandas DataFrame 형태로 저장합니다
     """
     try:
-        with open(data_path, encoding="utf-8") as f:
+        with open(DATA_FILE, encoding="utf-8") as f:
             data = json.loads(f.read())
     except FileNotFoundError as e:
-        print(f"`{data_path}` 가 존재하지 않습니다.")
+        print(f"`{DATA_FILE}` 가 존재하지 않습니다.")
         exit(1)
 
     stores = []  # 음식점 테이블
@@ -56,7 +64,28 @@ def import_data(data_path=DATA_FILE):
 
     store_frame = pd.DataFrame(data=stores, columns=store_columns)
     review_frame = pd.DataFrame(data=reviews, columns=review_columns)
-    return {"stores": store_frame, "reviews": review_frame}
+
+    try:
+        with open(USER_FILE, encoding="utf-8") as f:
+            data = json.loads(f.read())
+    except FileNotFoundError as e:
+        print(f"`{USER_FILE}` 가 존재하지 않습니다.")
+        exit(1)
+    
+    users = []
+
+    for d in data:
+
+        users.append(
+            [
+                d["id"],
+                d["survey_array"]
+            ]
+        )
+
+    user_frame = pd.DataFrame(data=users, columns=user_columns)
+
+    return {"stores": store_frame, "reviews": review_frame,"users": user_frame}
 
 
 def dump_dataframes(dataframes):
@@ -89,6 +118,11 @@ def main():
     print("[리뷰]")
     print(f"{separater}\n")
     print(data["reviews"].head())
+    print(f"\n{separater}\n\n")
+
+    print("[유저]")
+    print(f"{separater}\n")
+    print(data["users"].head())
     print(f"\n{separater}\n\n")
 
 if __name__ == "__main__":
