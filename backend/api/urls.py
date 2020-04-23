@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from django.urls import path
 from rest_framework.routers import DefaultRouter
-from api import views
+from api import views, views_sy
 
 
 router = DefaultRouter(trailing_slash=False)
@@ -25,6 +25,7 @@ urlpatterns = [
     # 설문 URL
     path("survey/search", views.SurveySearch, name="surevey_search"),
     path("survey/type", views.SurveyType, name="surevey_type"),
+    path("filtering", views_sy.filtering, name = "filter"),
 
     # 리뷰 URL
     path("review", views.ReviewPost.as_view(), name="review_post"),
