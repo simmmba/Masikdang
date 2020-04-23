@@ -22,6 +22,7 @@ from rest_framework.decorators import action
 
 import json
 
+
 class SmallPagination(PageNumberPagination):
     page_size = 10
     page_size_query_param = "page_size"
@@ -40,6 +41,8 @@ class StoreViewSet(viewsets.ModelViewSet):
         return queryset
 
 # Store
+
+
 class StoreList(APIView):
     # Store list 생성
     def post(self, request, format=None):
@@ -82,11 +85,12 @@ class StorePost(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 class StoreDetail(APIView):
     # 특정 User 를 다루는 클래스
 
     # Store 조회
-    def get(self, request,store_id, format=None):
+    def get(self, request, store_id, format=None):
         '''
         # Store 조회
         '''
@@ -95,24 +99,29 @@ class StoreDetail(APIView):
 
         # 메뉴, 태그, 업무시간, 평점, 사진
         result = serializer.data
-        menu = MenuSerializer(Menu.objects.filter(store_id=store_id), many=True).data
+        menu = MenuSerializer(Menu.objects.filter(
+            store_id=store_id), many=True).data
         result['menu'] = menu
-        
-        average = Review.objects.filter(store_id = store_id).aggregate(Avg('total_score'))['total_score__avg']
+
+        average = Review.objects.filter(store_id=store_id).aggregate(
+            Avg('total_score'))['total_score__avg']
         result['avg_score'] = average
-        
-        tags = Tag.objects.filter(store_id = store_id).values_list('tag',flat=True)
+
+        tags = Tag.objects.filter(
+            store_id=store_id).values_list('tag', flat=True)
         result['tags'] = tags
 
-        bhour = BhourSerializer(Bhour.objects.filter(store_id=store_id), many=True).data
+        bhour = BhourSerializer(Bhour.objects.filter(
+            store_id=store_id), many=True).data
         result['bhour'] = bhour
-        
-        review_imgs = Review_img.objects.filter(review_id__store_id=store_id).values_list('img',flat=True)[:10]
+
+        review_imgs = Review_img.objects.filter(
+            review_id__store_id=store_id).values_list('img', flat=True)[:10]
         result['review_img'] = review_imgs
         return Response(result)
-    
+
     # Store 삭제
-    def delete(self, request,store_id, format=None):
+    def delete(self, request, store_id, format=None):
         '''
         # Store 삭제
         '''
@@ -126,7 +135,8 @@ class StoreSearch(APIView):
     '''
     # Store 검색
     '''
-    def get(self, request,subject, word, format=None):
+
+    def get(self, request, subject, word, format=None):
         if subject == "name":
             queryset = Store.objects.filter(store_name__contains=word)
         elif subject == "area":
@@ -138,7 +148,21 @@ class StoreSearch(APIView):
         serializer = StoreSerializer(queryset, many=True)
         return Response(serializer.data)
 
-# User
+    # def get(self, request, subject, word, format=None):
+        # word = word.split(" ")
+        # print(word)
+        # store = Store.objects.all()
+        # tag = Tag.objects.all()
+        # for w in word:
+        #     store = store.filter((
+        #         Q(area__contains=w) | Q(address__contains=w) | Q(store_name__contains=w)))
+
+        # serializer = StoreSerializer(store, many=True)
+        # return Response(serializer.data)
+
+        # User
+
+
 class UserList(APIView):
     # User List 를 다루는 클래스
     # list 조회
@@ -163,6 +187,7 @@ class UserPost(APIView):
             survey_result : String(30),
         }
     '''
+
     def post(self, request, format=None):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
@@ -174,7 +199,7 @@ class UserPost(APIView):
 class UserDetail(APIView):
     # 특정 User 를 다루는 클래스
     # User 조회
-    def get(self, request,api_id, format=None):
+    def get(self, request, api_id, format=None):
         '''
         # 유저 조회
         '''
@@ -183,16 +208,16 @@ class UserDetail(APIView):
         return Response(serializer.data)
 
     # User 삭제
-    def delete(self, request,api_id, format=None):
+    def delete(self, request, api_id, format=None):
         '''
         # 유저 삭제
         '''
         user_del = User.objects.get(api_id=api_id)
         user_del.delete()
-        return Response("delete",status=status.HTTP_204_NO_CONTENT)
-    
+        return Response("delete", status=status.HTTP_204_NO_CONTENT)
+
     # User 수정
-    def put(self, request,api_id, format=None):
+    def put(self, request, api_id, format=None):
         '''
         # 유저 수정
         '''
@@ -202,17 +227,19 @@ class UserDetail(APIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        
+
 
 class UserJoinCheck(APIView):
     # User 회원가입 여부를 확인하는 클래스
     '''
     # 가입 여부 확인
     '''
+
     def get(self, request, provider, api_id, format=None):
         # api_id = request.query_params.get("api_id", "")
         # provider = request.query_params.get("provider", "")
-        is_exist = User.objects.filter(api_id=api_id, provider=provider).count()
+        is_exist = User.objects.filter(
+            api_id=api_id, provider=provider).count()
 
         if is_exist == 0:
             return Response('NO')
@@ -225,7 +252,8 @@ class NickDuplicateCheck(APIView):
     '''
     # 닉네임 중복 확인
     '''
-    def get(self, request,nickname, format=None):
+
+    def get(self, request, nickname, format=None):
         is_exist = User.objects.filter(nickname=nickname).count()
         if is_exist == 0:
             return Response('NO')
@@ -240,24 +268,29 @@ def SurveySearch(request):
     if request.method == 'GET':
         print("get 시작")
         surveyArr = request.data
-        if(surveyArr[0]=="혼자"):
-            survey01 = Review.objects.filter(content__contains="혼밥").only('store').all()
+        if(surveyArr[0] == "혼자"):
+            survey01 = Review.objects.filter(
+                content__contains="혼밥").only('store').all()
         else:
-            survey01 = Review.objects.filter(Q(content__contains="단체")|Q(content__contains="회식")).only('store').all()
+            survey01 = Review.objects.filter(Q(content__contains="단체") | Q(
+                content__contains="회식")).only('store').all()
 
-        if(surveyArr[1]=="여자"):
-            survey02 = Review.objects.filter(id__in = survey01, tag__contains="여자").only('store').all()
+        if(surveyArr[1] == "여자"):
+            survey02 = Review.objects.filter(
+                id__in=survey01, tag__contains="여자").only('store').all()
         else:
             survey02 = survey01
 
-        if(surveyArr[3]=="간식"):
-            survey03 = Store.objects.filter(id__in=survey02, category__contains="카페").only('store').all()
+        if(surveyArr[3] == "간식"):
+            survey03 = Store.objects.filter(
+                id__in=survey02, category__contains="카페").only('store').all()
         else:
             survey03 = survey02
 
-        survey05 = Store.objects.filter(address__contains=surveyArr[5], id__in=survey03).only('store').all()
+        survey05 = Store.objects.filter(
+            address__contains=surveyArr[5], id__in=survey03).only('store').all()
 
-        queryset = Store.objects.filter(id__in = survey05)
+        queryset = Store.objects.filter(id__in=survey05)
         serializer = StoreSerializer(queryset, many=True)
         return Response(serializer.data)
 
@@ -293,7 +326,7 @@ def SurveyType(request):
         index = int(index, 2)
         taste = taste_table[index]
 
-        ret = adjective + " " + taste + " " + food
+        ret = [adjective, taste, food]
         print(ret)
         return Response(ret)
 
@@ -325,10 +358,13 @@ class ReviewPost(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # Review 가게별 조회
+
+
 class ReviewList(APIView):
     '''
     # 가게별 리뷰 조회
     '''
+
     def get(self, request, store_id, format=None):
         reivews_by_store = Review.objects.filter(store_id=store_id)
         serializer = ReviewSerializer(reivews_by_store, many=True)
@@ -337,13 +373,16 @@ class ReviewList(APIView):
         for r in result:
             # review_img = ReviewImgSerializer(
             #     Review_img.objects.filter(review_id=r['id']), many=True).data
-            review_imgs = Review_img.objects.filter(review_id=r['id']).values_list('img', flat=True)
-            
+            review_imgs = Review_img.objects.filter(
+                review_id=r['id']).values_list('img', flat=True)
+
             # print(review_img, '\n')
             r['imgs'] = review_imgs
         return Response(serializer.data)
 
 # 특정 Review 를 다루는 클래스
+
+
 class ReviewDetail(APIView):
     # Review 삭제
     def delete(self, request, review_id, format=None):
@@ -368,6 +407,8 @@ class ReviewDetail(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # 특정 User Review 조회
+
+
 class ReviewByUser(APIView):
     '''
     # 유저 리뷰 조회
@@ -380,10 +421,13 @@ class ReviewByUser(APIView):
         return Response(serializer.data)
 
 # 가게 리뷰 사진 조회
+
+
 class ReviewImgList(APIView):
     '''
     # 가게 리뷰 사진 조회
     '''
+
     def get(self, request, review_id, format=None):
         reivew_imgs_by_store = Review_img.objects.filter(review_id=review_id)
         serializer = ReviewImgSerializer(reivew_imgs_by_store, many=True)
