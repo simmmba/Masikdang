@@ -1,4 +1,4 @@
-from .models import User, Store, Review, Review_img, Tag, Menu, Bhour, Image_upload
+from .models import User, Store, Review, Review_img, Tag, Menu, Bhour
 from .serializers import UserSerializer, StoreSerializer, ReviewSerializer, ReviewImgSerializer, TagSerializer, MenuSerializer, BhourSerializer
 from django.http import Http404
 from rest_framework import status
@@ -11,6 +11,7 @@ from django.db.models import Avg
 from django.db.models import Subquery
 from django.db.models import functions
 
+
 from rest_framework.decorators import api_view
 
 
@@ -19,8 +20,7 @@ from rest_framework import viewsets
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.decorators import action
 
-from .forms import ImageForm
-from backend import settings
+import json
 
 class SmallPagination(PageNumberPagination):
     page_size = 10
@@ -109,7 +109,6 @@ class StoreDetail(APIView):
         
         review_imgs = Review_img.objects.filter(review_id__store_id=store_id).values_list('img',flat=True)[:10]
         result['review_img'] = review_imgs
-
         return Response(result)
     
     # Store 삭제
@@ -311,7 +310,6 @@ class ReviewPost(APIView):
             user_nickname : String(30),
             total_score : Double,
             taste_score : Double,
-            service_score : Double,
             price_score : Double,
             content : String(3000),
             tag : String(500)
@@ -337,7 +335,11 @@ class ReviewList(APIView):
         result = serializer.data
         # 리뷰 별 사진
         for r in result:
+            # review_img = ReviewImgSerializer(
+            #     Review_img.objects.filter(review_id=r['id']), many=True).data
             review_imgs = Review_img.objects.filter(review_id=r['id']).values_list('img', flat=True)
+            
+            # print(review_img, '\n')
             r['imgs'] = review_imgs
         return Response(serializer.data)
 
@@ -348,6 +350,7 @@ class ReviewDetail(APIView):
         '''
         # 리뷰 삭제
         '''
+        # review_id = request.query_params.get("review_id", "")
         review_del = Review.objects.get(id=review_id)
         review_del.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
@@ -385,32 +388,3 @@ class ReviewImgList(APIView):
         reivew_imgs_by_store = Review_img.objects.filter(review_id=review_id)
         serializer = ReviewImgSerializer(reivew_imgs_by_store, many=True)
         return Response(serializer.data)
-
-
-# 파일 업로드
-@api_view(['POST'])
-def upload_image(request, review_id):
-    '''
-    # 리뷰 사진 업로드
-    '''
-    if request.method == 'POST':
-        form = ImageForm(request.POST, request.FILES)
-        if form.is_valid():
-            
-            newImg_list = request.FILES.getlist('path')
-            for newImg in newImg_list:
-                
-                #img 저장
-                img = Image_upload(path = newImg)
-                img.save()
-                #review_img 저장
-                img_url = settings.MEDAI_HOST+str(img.path)
-                print(img_url)
-                review_img = Review_img(img=img_url, review_id=review_id)
-                review_img.save()
-
-            return Response("upload ok")
-
-        else : 
-            form = ImageForm()
-            return Response("upload fail")
