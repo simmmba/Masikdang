@@ -1,0 +1,43 @@
+.Header {
+    // left: 15px;
+    cursor: pointer;
+    width: 100%;
+    font-family: "NanumSquareRound";
+    text-align: center;
+
+    .survey1_btn {
+        margin-top: 15px;
+        text-align: right;
+        font-size: 12px;
+        a {
+            color: black;
+            text-decoration: none;
+        }
+        a:hover{
+            color: #f9bbc7;
+        }
+    }
+
+    .logo {
+        padding-top: 15px;
+        padding-bottom: 10px;
+        img {
+            height: 50px;
+        }
+    }
+
+    @media screen and (min-width: 768px) {
+
+        .survey1_btn {
+            font-size: 15px;
+        }
+
+        .logo {
+            padding-top: 20px;
+            padding-bottom: 20px;
+            img {
+                height: 60px;
+            }
+        }
+    }
+}

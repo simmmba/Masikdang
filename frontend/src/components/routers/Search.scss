@@ -1,0 +1,22 @@
+.Search{
+
+    span{font-family: "NanumSquareRound";}
+    
+    .store_len{
+        margin-top: 10px;
+        margin-bottom: 10px;
+        padding-left: 5px;
+        font-size: 15px;
+    }
+    .card_item {
+        display: inline-block;
+        width: 50%;
+        padding: 5px;
+    }
+
+    @media screen and (min-width: 768px) {
+        .card_item {
+            width: 25%;
+        }
+    }
+}
