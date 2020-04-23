@@ -73,28 +73,28 @@ def SurveyType(request):
         print("get 시작")
         surveyArr = request.query_params.get("data", "")
         print(surveyArr)
-        food_table = [["불고기", "홍어삼합", "닭볶음탕", "비빔밥", "잡채"],
-                      ["탕수육", "유산슬", "깐풍기", "토마토달걀볶음밥", "잡탕밥"],
-                      ["스테이크", "감바스", "로스티드 터키", "어니언 스프", "햄버거"],
+        food_table = [["불고기", "간장게장", "닭볶음탕", "비빔밥", "잡채"],
+                      ["스테이크", "감바스", "로스티드 터키", "시저샐러드", "햄버거"],
+                      ["탕수육", "유산슬", "깐풍기", "어향가지", "잡탕밥"],
                       ["규카츠", "초밥", "오야꼬동", "야채고로케", "라멘"],
+                      ["분짜", "푸팟뽕커리", "탄두리치킨", "월남쌈", "반미"],
                       ["순대", "어묵", "닭꼬치", "야채튀김", "김밥"],
-                      ["분짜", "푸팟뽕커리", "탄두리치킨", "월남쌈", "반미"]
                       ]
+
         adjective_table = ["레시피보고 만든", "엄마가 만들어 준", "둘이 먹다 셋이 죽는", "또 먹고 싶은",
-                           "지옥에서 온", "눈물 젖은", "심혈을 기울여 만든", "죽기전에 마지막으로 먹고 싶은",
+                           "지옥에서 온", "눈물 젖은", "심혈을 기울여 만든", "죽기 전에 마지막으로 먹고 싶은",
                            "먹다 남긴", "줘도 안먹는", "실수로 소금을 쏟은", "까맣게 타버린",
                            "어쩌다 이렇게 된", "수줍게 선보인 나의", "혀 끝을 휘감는", "장인이 만든"]
-        taste_table = ["쓴", "싱거운", "기름진", "촉촉한",
+
+        taste_table = ["쓴 맛 나는 ", "싱거운", "기름진", "촉촉한",
                        "짠", "달달한", "매콤한", "떫은",
-                       "고소한", "새콤한", "칼칼한", "묘한",
-                       "맛없는", "맛있는", "눅눅한", "바삭바삭한"]
+                       "고소한", "새콤한", "칼칼한", "오묘한",
+                       "맛없는", "맛있는", "눅눅한", "바삭한"]
 
-        food = food_table[int(surveyArr[0])][int(surveyArr[1])]
-        adjective = adjective_table[int(surveyArr[2:6], 2)]
+        food = food_table[int(surveyArr[1])][int(surveyArr[4])]
+        adjective = adjective_table[int(surveyArr[5:9], 2)]
 
-        index = ""
-        for i in range(6, 9):
-            index = index + str(format(int(surveyArr[i]), 'b'))
+        index = ""+ str(format(int(surveyArr[0]), 'b'))+ str(format(int(surveyArr[2]), 'b'))+ str(format(int(surveyArr[3]), 'b'))
         index = int(index, 2)
         taste = taste_table[index]
 
