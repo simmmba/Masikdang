@@ -30,7 +30,6 @@ class Command(BaseCommand):
         print("[*] Initializing stores...")
         # store db 초기화
         # models.Store.objects.all().delete()
-        # stores = dataframes["store"]
         # stores_bulk = [
         #     models.Store(
         #         id=store.id,
@@ -48,7 +47,7 @@ class Command(BaseCommand):
         # ]
         # models.Store.objects.bulk_create(stores_bulk)
 
-        # amenity db 초기화
+        # # amenity db 초기화
         # print("[*] Initializing amenity...")
         # models.Amenity.objects.all().delete()
         # amenities = dataframes["amenity"]
@@ -62,7 +61,7 @@ class Command(BaseCommand):
         # ]
         # models.Amenity.objects.bulk_create(amenitys_bulk)
 
-        # store tag db 초기화
+        # # store tag db 초기화
         # print("[*] Initializing tag...")
         # models.Tag.objects.all().delete()
         # tags = dataframes["tag"]
@@ -80,11 +79,8 @@ class Command(BaseCommand):
         # print("[*] Initializing review...")
         # models.Review.objects.all().delete()
         # reviews = dataframes["review"]
-        # # print(reviews.fillna(0))
-        # # print(reviews.replace({'score':np.nan},{'score':0}))
         # reviews = reviews.replace({'score':np.nan},{'score':None})
         # reviews['user_id'] = 1
-        # # print(reviews.iloc[10])
         # reviews_bulk = [
         #     models.Review(
         #         id=review.id,
@@ -103,7 +99,7 @@ class Command(BaseCommand):
         # ]
         # models.Review.objects.bulk_create(reviews_bulk)
 
-        # review_img db 초기화
+        # # review_img db 초기화
         # print("[*] Initializing tag...")
         # models.Review_img.objects.all().delete()
         # review_imgs = dataframes["review_img"]
@@ -117,31 +113,12 @@ class Command(BaseCommand):
         # ]
         # models.Review_img.objects.bulk_create(review_imgs_bulk)
 
-        # bhours db 초기화
+        # # bhours db 초기화
         # print("[*] Initializing tag...")
         # models.Bhour.objects.all().delete()
         # bhours = dataframes["bhour"]
         # bhours = bhours.fillna(0)
         # print(bhours)
-        # bhours_bulk = []
-        # for bhour in bhours.itertuples():
-        #     if not bhour.store_id None:
-
-        #         bhours_bulk.append(models.Bhour(
-        #             type=bhour.type,
-        #             week_type=bhour.type,
-        #             mon=bhour.mon,
-        #             tue=bhour.tue,
-        #             wed=bhour.wed,
-        #             thu=bhour.thu,
-        #             fri=bhour.fri,
-        #             sat=bhour.sat,
-        #             sun=bhour.sun,
-        #             start_time=bhour.start_time,
-        #             end_time=bhour.end_time,
-        #             etc=bhour.etc,
-        #         )
-        #         )
 
         # bhours_bulk = [
         #     models.Bhour(
@@ -164,21 +141,21 @@ class Command(BaseCommand):
         # models.Bhour.objects.bulk_create(bhours_bulk)
         
 
-        # bhours db 초기화
-        print("[*] Initializing menu...")
-        models.Menu.objects.all().delete()
-        menues = dataframes["menu"]
-        menues = menues.fillna(0)
-        print(menues)
-        menues_bulk = [
-            models.Menu(
-                store_id=menu.store_id,
-                menu=menu.menu,
-                price = menu.price
-            )
-            for menu in menues.itertuples()
-        ]
-        models.Menu.objects.bulk_create(menues_bulk)
+        # # bhours db 초기화
+        # print("[*] Initializing menu...")
+        # models.Menu.objects.all().delete()
+        # menues = dataframes["menu"]
+        # menues = menues.fillna(0)
+        # print(menues)
+        # menues_bulk = [
+        #     models.Menu(
+        #         store_id=menu.store_id,
+        #         menu=menu.menu,
+        #         price = menu.price
+        #     )
+        #     for menu in menues.itertuples()
+        # ]
+        # models.Menu.objects.bulk_create(menues_bulk)
 
         print("[+] Done")
 
