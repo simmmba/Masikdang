@@ -1,4 +1,4 @@
-from .models import User, Store, Review, Review_img, Tag, Menu, Bhour
+from .models import User, Store, Review, Review_img, Tag, Menu, Bhour, Amenity
 from .serializers import UserSerializer, StoreSerializer, ReviewSerializer, ReviewImgSerializer, TagSerializer, MenuSerializer, BhourSerializer
 from django.http import Http404
 from rest_framework import status
@@ -148,19 +148,42 @@ class StoreSearch(APIView):
         serializer = StoreSerializer(queryset, many=True)
         return Response(serializer.data)
 
-    # def get(self, request, subject, word, format=None):
-        # word = word.split(" ")
-        # print(word)
-        # store = Store.objects.all()
-        # tag = Tag.objects.all()
-        # for w in word:
-        #     store = store.filter((
-        #         Q(area__contains=w) | Q(address__contains=w) | Q(store_name__contains=w)))
+    def get(self, request, word, format=None):
+        word = word.split(" ")
 
-        # serializer = StoreSerializer(store, many=True)
-        # return Response(serializer.data)
+        used = set()
+        tag_list = set()
+        tag = Tag.objects.all()
+        for w in word:
+            for t in tag:
+                if w in t.tag:
+                    tag_list.add(t.store_id)
+                    used.add(w)
 
-        # User
+        amenity_list = set()
+        amenity = Amenity.objects.all()
+        for w in word:
+            for a in amenity:
+                if w in a.amenity:
+                    amenity_list.add(a.store_id)
+                    used.add(w)
+
+        tmp_list = list(tag_list | amenity_list)
+        store1 = Store.objects.all().filter(id__in=tmp_list)
+
+        for w in set(word) - set(used):
+            store1 = store1.filter((
+                Q(area__contains=w) | Q(address__contains=w)
+                | Q(store_name__contains=w) | Q(category__contains=w)))
+
+        store2 = Store.objects.all()
+        for w in word:
+            store2 = store2.filter((
+                Q(area__contains=w) | Q(address__contains=w)
+                | Q(store_name__contains=w) | Q(category__contains=w)))
+
+        serializer = StoreSerializer(store1 | store2, many=True)
+        return Response(serializer.data)
 
 
 class UserList(APIView):

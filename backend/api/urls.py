@@ -20,6 +20,7 @@ urlpatterns = [
     path("store", views.StorePost.as_view(), name="store"),
     path("store/<store_id>", views.StoreDetail.as_view(), name="store"),
     path("store/search/<subject>/<word>", views.StoreSearch.as_view(), name="search"),
+    path("store/search/<word>", views.StoreSearch.as_view(), name="search"),
     path("store/list", views.StoreList.as_view(), name="stores"),
     
     # 설문 URL
