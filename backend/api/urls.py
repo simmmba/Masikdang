@@ -28,7 +28,6 @@ urlpatterns = [
     
     # 설문 URL
     path("survey/search", views.SurveySearch, name="surevey_search"),
-    path("survey/type", views.SurveyType, name="surevey_type"),
 
     # 알고리즘
     path("filter/user", views_sy.filteringByUser, name = "filter_user"),
