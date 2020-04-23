@@ -2,7 +2,7 @@ from django.conf.urls import url
 from django.urls import path
 from rest_framework.routers import DefaultRouter
 
-from api import views,views_tmp,views_sy
+from api import views, views_tmp ,views_sy, views_ky
 
 
 router = DefaultRouter(trailing_slash=False)
@@ -22,11 +22,12 @@ urlpatterns = [
     path("store", views.StorePost.as_view(), name="store"),
     path("store/<store_id>", views.StoreDetail.as_view(), name="store"),
     path("store/search/<subject>/<word>", views.StoreSearch.as_view(), name="search"),
+    path("store/search/<word>", views_ky.StoreSearch.as_view(), name="search"),
     path("store/list", views.StoreList.as_view(), name="stores"),
     
     # 설문 URL
     path("survey/search", views.SurveySearch, name="surevey_search"),
-    path("survey/type", views.SurveyType, name="surevey_type"),
+    path("survey/type", views_ky.SurveyType, name="surevey_type"),
     path("filtering", views_sy.filtering, name = "filter"),
 
     # 리뷰 URL
