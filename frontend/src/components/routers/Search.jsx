@@ -8,7 +8,6 @@ import Header from "../common/Header";
 import HeaderSearch from "../common/HeaderSearch";
 import Loading from "../common/Loading";
 
-
 import { SearchContext } from "../../contexts/search";
 
 const Emoji = (props) => (
@@ -47,12 +46,15 @@ class Search extends React.Component {
       this.setState({
         stores: store,
         store_len: store.length,
+        word:this.context.state.word,
+        subject:this.context.state.subject
       });
     }
   }
 
   // 값 바겼을 때 체크
   componentDidUpdate() {
+
     // 입력된 값이 바겼을 때만
     if (
       this.state.word !== this.context.state.word ||

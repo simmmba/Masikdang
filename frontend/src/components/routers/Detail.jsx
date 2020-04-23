@@ -5,13 +5,13 @@ import axios from "axios";
 import AppBar from "../common/AppBar";
 import Header from "../common/Header";
 import HeaderSearch from "../common/HeaderSearch";
+import ScrollToTop from "../common/ScrollToTop";
 import ImageList from "../detail/ImageList";
 import ReadScore from "../detail/ReadScore";
 import Liked from "../common/Liked";
 import Map from "../detail/Map";
 import Review from "../detail/Review";
 import store_img from "../../img/store.png";
-import ScrollToTop from "../common/ScrollToTop";
 
 const Emoji = (props) => (
   <span
@@ -34,6 +34,7 @@ class Detail extends React.Component {
       img_list: [store_img],
       review_img_len: 0,
       review: [],
+      check: false,
     };
   }
 
@@ -70,21 +71,65 @@ class Detail extends React.Component {
       });
 
     // 리뷰 받아오는 axios
+    this.axiosReview();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.check !== prevState.check && this.state.check) {
+      this.axiosReview();
+    }
+  }
+
+  // user id 값 확인
+  user = JSON.parse(window.sessionStorage.getItem("user"));
+
+  axiosReview = () => {
+    // url 확인, axois 호출
+    const url = window.location.href.split("/");
+
+    // 리뷰 받아오는 axios
     axios({
       method: "get",
       url: "http://15.165.19.70:8080/api/review/" + url[url.length - 1],
     })
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         this.setState({
           review: res.data,
+          check: false,
         });
       })
       .catch((error) => {
         console.log(error);
         // alert("현재 정보를 받아오지 못하고 있습니다")
       });
-  }
+  };
+
+  goEvaluation = () => {
+    if (!this.user) {
+      if (
+        window.confirm(
+          "로그인을 해야 이용 가능한 기능입니다.\n로그인 하시겟습니까?"
+        )
+      ) {
+        this.props.history.push("/login");
+      }
+    } else {
+      this.props.history.push({
+        pathname: "/write",
+        params: {
+          storeNo: this.state.store.id,
+        },
+      });
+    }
+  };
+
+  // this.props.changeAge(value);
+  changeReview = (res) => {
+    this.setState({
+      check: true,
+    });
+  };
 
   render() {
     return (
@@ -124,16 +169,14 @@ class Detail extends React.Component {
                       </span>
                     ))}
                   </div>
-                                    {/* 평균 점수 */}
-                                    <div className="store_score">
+                  {/* 평균 점수 */}
+                  <div className="store_score">
                     {this.state.store.avg_score !== null ? (
                       <>
                         <div className="score_text">
-                          {/* ERROR */}
                           {String(
                             Math.round(this.state.store.avg_score * 10) / 10
                           )}
-                          {/* ERROR */}
                         </div>
                         <ReadScore
                           score={this.state.store.avg_score}
@@ -147,36 +190,41 @@ class Detail extends React.Component {
                     )}
                   </div>
                   {/* 메뉴 리스트 */}
-                  <div className="menu_list">
-                    {this.state.store.menu &&
-                      this.state.store.menu.length !== 0 &&
-                      this.state.store.menu.map((menu, index) => (
+                  {this.state.store.menu && this.state.store.menu.length !== 0 && (
+                    <div className="menu_list">
+                      {this.state.store.menu.map((menu, index) => (
                         <div key={index} className="menu">
                           <Emoji label="menu" symbol="🍳" /> {menu.menu} :{" "}
                           {menu.price}
                         </div>
                       ))}
-                  </div>
-                  {/* 영업시간 */}
-                  <div className="time">
-                    <div className="start_end_time">
-                      {this.state.store.bhour &&
-                        this.state.store.bhour.map((bhour, index) => (
-                          <div key={index}>
-                            <Emoji label="calendar" symbol="📆"/>&nbsp;
-                            {bhour.mon === 1 && "월 "}
-                            {bhour.tue === 1 && "화 "}
-                            {bhour.wed === 1 && "수 "}
-                            {bhour.thu === 1 && "목 "}
-                            {bhour.fri === 1 && "금 "}
-                            {bhour.sat === 1 && "토 "}
-                            {bhour.sun === 1 && "일 "}
-                            {bhour.start_time} {"~"} {bhour.end_time}
-                            <div className="time_etc">{bhour.etc}</div>
-                          </div>
-                        ))}
                     </div>
-                  </div>
+                  )}
+
+                  {/* 영업시간 */}
+                  {this.state.store.bhour &&
+                    this.state.store.bhour.length !== 0 && (
+                      <div className="time">
+                        <div className="start_end_time">
+                          {this.state.store.bhour.map((bhour, index) => (
+                            <div key={index}>
+                              <Emoji label="calendar" symbol="📆" />
+                              &nbsp;
+                              {bhour.mon === 1 && "월 "}
+                              {bhour.tue === 1 && "화 "}
+                              {bhour.wed === 1 && "수 "}
+                              {bhour.thu === 1 && "목 "}
+                              {bhour.fri === 1 && "금 "}
+                              {bhour.sat === 1 && "토 "}
+                              {bhour.sun === 1 && "일 "}
+                              {bhour.start_time} {"~"} {bhour.end_time}
+                              <div className="time_etc">{bhour.etc}</div>
+                            </div>
+                          ))}{" "}
+                        </div>
+                      </div>
+                    )}
+
                   {/* 전화 */}
                   <div className="tel">
                     {this.state.store.tel && (
@@ -206,7 +254,12 @@ class Detail extends React.Component {
                   <div className="liked_item button">
                     <Liked></Liked>
                   </div>
-                  <div className="evaluation button">평가하기</div>
+                  <div
+                    className="evaluation button"
+                    onClick={this.goEvaluation}
+                  >
+                    평가하기
+                  </div>
                 </div>
               </div>
             </div>
@@ -217,9 +270,10 @@ class Detail extends React.Component {
                 건의 방문자 평가
               </div>
               {this.state.review.map((review, index) => (
-                <Review key={index} review={review}></Review>
+                <Review key={index} review={review} changeReview={this.changeReview} ></Review>
               ))}
-              <div className="reade_maore">더보기</div>
+              {/* 이것도 구현하면 함수 적용하기 */}
+              <div className="read_more">더보기</div>
             </div>
             {/* 주소 + 지도 표시 */}
             <div className="store_map">

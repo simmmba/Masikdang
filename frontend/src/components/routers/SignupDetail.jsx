@@ -37,7 +37,8 @@ class SignupDetail extends React.Component {
       this.setState({
         provider: location.state.provider,
         api_id: location.state.api_id,
-        answer: location.state.answer
+        answer: location.state.answer,
+        survey_result : location.state.survey_result
       });
     }
   }
@@ -124,7 +125,7 @@ class SignupDetail extends React.Component {
           gender: this.state.gender,
           api_id: this.state.api_id,
           survey_array : this.state.answer.join(''),
-          survey_result : ""
+          survey_result : this.state.survey_result.join(' ')
         },
       })
         .then((res) => {
@@ -140,7 +141,7 @@ class SignupDetail extends React.Component {
 
   // 회원 가입 취소 버튼
   confirm = () => {
-    if (window.confirm("회원가입을 종료하시겠습니까?")) {
+    if (window.confirm("회원가입을 종료하시겠습니까? 입력한 내용이 모두 사라집니다.")) {
       this.props.history.push("/");
     }
   };
