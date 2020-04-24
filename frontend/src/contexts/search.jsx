@@ -10,7 +10,7 @@ class SearchProvider extends Component {
     word: "",
     subject: "name",
     store:[],
-    maxlenth: 0
+    maxlength: 0 // 실제로는 
   };
 
   actions = {
@@ -29,8 +29,8 @@ class SearchProvider extends Component {
     resetstore: () => {
       this.setState(() => ({ store: [] }));
     },
-    getmaxlenth: (select) => {
-      this.setState(() => ({ maxlenth: select }));
+    getmaxlength: (select) => {
+      this.setState(() => ({ maxlength: select }));
     }
   };
 

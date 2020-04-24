@@ -63,6 +63,7 @@ class Search extends React.Component {
     // 무한 스크롤링
     window.addEventListener("scroll", this.infiniteScroll);
 
+
     // axios loading 체크
     this.setState({ store_len: -1 });
 
@@ -78,8 +79,8 @@ class Search extends React.Component {
         word: this.context.state.word,
         subject: this.context.state.subject,
         page: store.length/20 + 1,
-        maxPage: this.context.state.maxlenth/20 + 1,
-        num_store:this.context.state.maxlenth
+        maxPage: this.context.state.maxlength/20 + 1,
+        num_store:this.context.state.maxlength
       });
     }
   }
@@ -141,7 +142,7 @@ class Search extends React.Component {
       // 받아온 store 정보
       .then((res) => {
         console.log(res)
-        this.context.actions.getmaxlenth(res.data.num_store)
+        this.context.actions.getmaxlength(res.data.num_store)
         if (e === 1) {
           this.context.actions.getstore(res.data.data);
           this.setState({
