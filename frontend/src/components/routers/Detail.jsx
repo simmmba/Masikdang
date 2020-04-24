@@ -14,12 +14,7 @@ import Review from "../detail/Review";
 import store_img from "../../img/store.png";
 
 const Emoji = (props) => (
-  <span
-    className="emoji"
-    role="img"
-    aria-label={props.label ? props.label : ""}
-    aria-hidden={props.label ? "false" : "true"}
-  >
+  <span className="emoji" role="img" aria-label={props.label ? props.label : ""} aria-hidden={props.label ? "false" : "true"}>
     {props.symbol}
   </span>
 );
@@ -57,8 +52,7 @@ class Detail extends React.Component {
       .then((res) => {
         console.log(res.data);
         let category_list = [];
-        if (res.data.category !== null)
-          category_list = res.data.category.split("|");
+        if (res.data.category !== null) category_list = res.data.category.split("|");
         this.setState({
           store: res.data,
           category: category_list,
@@ -107,11 +101,7 @@ class Detail extends React.Component {
 
   goEvaluation = () => {
     if (!this.user) {
-      if (
-        window.confirm(
-          "로그인을 해야 이용 가능한 기능입니다.\n로그인 하시겟습니까?"
-        )
-      ) {
+      if (window.confirm("로그인을 해야 이용 가능한 기능입니다.\n로그인 하시겠습니까?")) {
         this.props.history.push("/login");
       }
     } else {
@@ -145,21 +135,13 @@ class Detail extends React.Component {
                 {this.state.review_img_len !== 0 ? (
                   <ImageList img_list={this.state.store.review_img}></ImageList>
                 ) : (
-                  <>
-                    {this.state.store.img !== null ? (
-                      <ImageList img_list={[this.state.store.img]}></ImageList>
-                    ) : (
-                      <ImageList img_list={this.state.img_list}></ImageList>
-                    )}
-                  </>
+                  <>{this.state.store.img !== null ? <ImageList img_list={[this.state.store.img]}></ImageList> : <ImageList img_list={this.state.img_list}></ImageList>}</>
                 )}
               </div>
               <div className="col-12 col-md-4">
                 {/* 가게 정보 표시 */}
                 <div className="store_info">
-                  <div className="store_name">
-                    {this.state.store.store_name}
-                  </div>
+                  <div className="store_name">{this.state.store.store_name}</div>
                   <div className="tags">
                     {this.state.store.area} &nbsp;
                     {this.state.category.map((item, index) => (
@@ -173,14 +155,8 @@ class Detail extends React.Component {
                   <div className="store_score">
                     {this.state.store.avg_score !== null ? (
                       <>
-                        <div className="score_text">
-                          {String(
-                            Math.round(this.state.store.avg_score * 10) / 10
-                          )}
-                        </div>
-                        <ReadScore
-                          score={this.state.store.avg_score}
-                        ></ReadScore>
+                        <div className="score_text">{String(Math.round(this.state.store.avg_score * 10) / 10)}</div>
+                        <ReadScore score={this.state.store.avg_score}></ReadScore>
                       </>
                     ) : (
                       <>
@@ -194,36 +170,34 @@ class Detail extends React.Component {
                     <div className="menu_list">
                       {this.state.store.menu.map((menu, index) => (
                         <div key={index} className="menu">
-                          <Emoji label="menu" symbol="🍳" /> {menu.menu} :{" "}
-                          {menu.price}
+                          <Emoji label="menu" symbol="🍳" /> {menu.menu} : {menu.price}
                         </div>
                       ))}
                     </div>
                   )}
 
                   {/* 영업시간 */}
-                  {this.state.store.bhour &&
-                    this.state.store.bhour.length !== 0 && (
-                      <div className="time">
-                        <div className="start_end_time">
-                          {this.state.store.bhour.map((bhour, index) => (
-                            <div key={index}>
-                              <Emoji label="calendar" symbol="📆" />
-                              &nbsp;
-                              {bhour.mon === 1 && "월 "}
-                              {bhour.tue === 1 && "화 "}
-                              {bhour.wed === 1 && "수 "}
-                              {bhour.thu === 1 && "목 "}
-                              {bhour.fri === 1 && "금 "}
-                              {bhour.sat === 1 && "토 "}
-                              {bhour.sun === 1 && "일 "}
-                              {bhour.start_time} {"~"} {bhour.end_time}
-                              <div className="time_etc">{bhour.etc}</div>
-                            </div>
-                          ))}{" "}
-                        </div>
+                  {this.state.store.bhour && this.state.store.bhour.length !== 0 && (
+                    <div className="time">
+                      <div className="start_end_time">
+                        {this.state.store.bhour.map((bhour, index) => (
+                          <div key={index}>
+                            <Emoji label="calendar" symbol="📆" />
+                            &nbsp;
+                            {bhour.mon === 1 && "월 "}
+                            {bhour.tue === 1 && "화 "}
+                            {bhour.wed === 1 && "수 "}
+                            {bhour.thu === 1 && "목 "}
+                            {bhour.fri === 1 && "금 "}
+                            {bhour.sat === 1 && "토 "}
+                            {bhour.sun === 1 && "일 "}
+                            {bhour.start_time} {"~"} {bhour.end_time}
+                            <div className="time_etc">{bhour.etc}</div>
+                          </div>
+                        ))}{" "}
                       </div>
-                    )}
+                    </div>
+                  )}
 
                   {/* 전화 */}
                   <div className="tel">
@@ -235,29 +209,23 @@ class Detail extends React.Component {
                   </div>
                   {/* tag 모음 */}
                   <div className="tags">
-                    {this.state.store.tags &&
-                      this.state.store.tags.length !== 0 && (
-                        <>
-                          <Emoji label="map" symbol="📢" />{" "}
-                          {this.state.store.tags.map((tag, index) => (
-                            <span key={index}>
-                              {tag}
-                              {index !== this.state.store.tags.length - 1
-                                ? ", "
-                                : ""}
-                            </span>
-                          ))}
-                        </>
-                      )}
+                    {this.state.store.tags && this.state.store.tags.length !== 0 && (
+                      <>
+                        <Emoji label="map" symbol="📢" />{" "}
+                        {this.state.store.tags.map((tag, index) => (
+                          <span key={index}>
+                            {tag}
+                            {index !== this.state.store.tags.length - 1 ? ", " : ""}
+                          </span>
+                        ))}
+                      </>
+                    )}
                   </div>
                   {/* 즐겨찾기 */}
                   <div className="liked_item button">
                     <Liked></Liked>
                   </div>
-                  <div
-                    className="evaluation button"
-                    onClick={this.goEvaluation}
-                  >
+                  <div className="evaluation button" onClick={this.goEvaluation}>
                     평가하기
                   </div>
                 </div>
@@ -270,7 +238,7 @@ class Detail extends React.Component {
                 건의 방문자 평가
               </div>
               {this.state.review.map((review, index) => (
-                <Review key={index} review={review} changeReview={this.changeReview} ></Review>
+                <Review key={index} review={review} changeReview={this.changeReview}></Review>
               ))}
               {/* 이것도 구현하면 함수 적용하기 */}
               <div className="read_more">더보기</div>
@@ -280,10 +248,7 @@ class Detail extends React.Component {
               <div className="address">
                 <Emoji label="map" symbol="🚩" /> {this.state.store.address}
               </div>
-              <Map
-                latitude={this.state.store.latitude}
-                longitude={this.state.store.longitude}
-              ></Map>
+              <Map latitude={this.state.store.latitude} longitude={this.state.store.longitude}></Map>
             </div>
           </div>
         </div>

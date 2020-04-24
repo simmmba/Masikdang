@@ -50,9 +50,11 @@ const SurveyResult = ({ reset, answer, surveyResult, meaning }) => {
       <div className="mentionBottom">입니다!</div> <br />
       <div className="explain">
         <div className="exBox">
-          <div>{meaning[1][answer[1]]}을 좋아하는 당신은</div>
           <div>
-            {meaning[0][answer[0]]} {meaning[2][answer[2]]}에 {meaning[4][answer[4]]} 음식 먹기를 좋아하고,
+            {meaning[0][answer[0]]} {meaning[1][answer[1]]}을 즐겨먹는 당신은
+          </div>
+          <div>
+            {meaning[2][answer[2]]}에 {meaning[4][answer[4]]} 관련 음식 먹기를 좋아하고,
           </div>
           <div>{meaning[5][answer[5]]}는군요!</div>
         </div>
@@ -61,7 +63,7 @@ const SurveyResult = ({ reset, answer, surveyResult, meaning }) => {
           <div>{meaning[8][answer[8]]} 당신은</div>
           <div>{meaning[7][answer[7]]}을 중시하는</div>
           <div>
-            {meaning[3][answer[3]]}가 중요한, <u>마식당이 필요한 사람입니다.</u>
+            {meaning[3][answer[3]]}가 중요한, <u>마식당에 적합한 사람입니다.</u>
           </div>
         </div>
       </div>

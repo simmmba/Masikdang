@@ -5,13 +5,11 @@ import "./Survey.scss";
 const Counter = ({ index, question, decrement }) => {
   return (
     <div className="bottom">
-      {index > 0 ? (
-        <button className="btn" onClick={decrement}>
+      {index > 0 && (
+        <button className="backBtn" onClick={decrement}>
           {" "}
           👈{" "}
         </button>
-      ) : (
-        <span />
       )}
       <span>
         <b>
