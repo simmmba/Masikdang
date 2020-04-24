@@ -1,5 +1,5 @@
 from .models import User, Store, Review, Review_img, Tag, Menu, Bhour, Image_upload, Like_store
-from .serializers import UserSerializer, StoreSerializer, ReviewSerializer, ReviewImgSerializer, TagSerializer, MenuSerializer, BhourSerializer
+from .serializers import UserSerializer, StoreSerializer, ReviewSerializer, ReviewImgSerializer, TagSerializer, MenuSerializer, BhourSerializer, LikeSerializer
 from django.http import Http404
 from rest_framework import status
 from rest_framework.views import APIView
@@ -161,16 +161,17 @@ class StoreSearch(APIView):
         elif subject == "category":
             queryset = Store.objects.filter(category__contains=word).order_by('id')
 
-        
+        num_store = queryset.__len__()
+
         # 페이징 적용
         paginator = Paginator(queryset, 20)
         num_page = paginator.num_pages
-        page = request.POST.get('page')
+        page = request.GET.get('page')
         pagestore = paginator.get_page(page)
-        serializer = StoreSerializer(pagestore,many=True)
+        serializer = StoreSerializer(pagestore, many=True)
 
         result = serializer.data
-        user_id = request.POST.get('user_id')
+        user_id = request.GET.get('user_id')
         like = 0
 
 
@@ -184,6 +185,7 @@ class StoreSearch(APIView):
 
 
         return Response({
+            'num_store' : num_store,
             'num_page' : num_page,
             'data': serializer.data
             })
@@ -350,28 +352,29 @@ class ReviewPost(APIView):
 
 # Review 가게별 조회
 class ReviewList(APIView):
-    '''
-    # 가게별 리뷰 조회
-    '''
     def get(self, request, store_id, format=None):
+        '''
+        # 가게별 리뷰 조회
+        '''
         queryset = Review.objects.filter(store_id=store_id).order_by('id').reverse()
-        # serializer = ReviewSerializer(reivews_by_store, many=True)
+        num_review = queryset.__len__()
         
         # 페이징 적용
         paginator = Paginator(queryset, 5)
         num_page = paginator.num_pages
-        page = request.POST.get('page')
+        page = request.GET.get('page')
         pagestore = paginator.get_page(page)
-        serializer = ReviewSerializer(pagestore,many=True)
+        serializer = ReviewSerializer(pagestore, many=True)
         result = serializer.data
-        
+
         # 리뷰 별 사진
         for r in result:
             review_imgs = Review_img.objects.filter(review_id=r['id']).values_list('img', flat=True)
             r['imgs'] = review_imgs
         
         return Response({
-            'num_page': num_page, 
+            'num_page': num_page,
+            'num_review' : num_review,
             'data' : result
             })
 
@@ -408,20 +411,23 @@ class ReviewByUser(APIView):
     # 유저 리뷰 조회
     '''
     # Store 검색을 위한 클래스
-
     def get(self, request, user_id, format=None):
-        reviews_by_user = Review.objects.filter(user_id=user_id)
+        reviews_by_user = Review.objects.filter(user_id=user_id).order_by('id').reverse()
         serializer = ReviewSerializer(reviews_by_user, many=True)
+        review = serializer.data
+        # print(review)
+
+        for r in review:
+            print(r['store'])
+            store_name = Store.objects.get(id=r['store']).store_name
+            r['store_name'] = store_name
         return Response(serializer.data)
 
 # 가게 리뷰 사진 조회
-
-
 class ReviewImgList(APIView):
     '''
     # 가게 리뷰 사진 조회
     '''
-
     def get(self, request, review_id, format=None):
         reivew_imgs_by_store = Review_img.objects.filter(review_id=review_id)
         serializer = ReviewImgSerializer(reivew_imgs_by_store, many=True)
@@ -436,11 +442,9 @@ def upload_image(request, review_id):
     '''
     if request.method == 'POST':
         form = ImageForm(request.POST, request.FILES)
-        if form.is_valid():
-            
+        if form.is_valid() :            
             newImg_list = request.FILES.getlist('path')
-            for newImg in newImg_list:
-                
+            for newImg in newImg_list :
                 #img 저장
                 img = Image_upload(path = newImg)
                 img.save()
@@ -457,7 +461,7 @@ def upload_image(request, review_id):
 
 # 가게 좋아요
 class Store_like(APIView):
-    def get(self, request,store_id, user_id, format=None) :
+    def get(self,request,store_id, user_id, format=None) :
         is_like = Like_store.objects.filter(store_id = store_id, user_id=user_id).count()
         
         if is_like >= 1 :
@@ -468,4 +472,11 @@ class Store_like(APIView):
             like = Like_store(store_id = store_id, user_id = user_id)
             like.save()
             return Response("like")
-            
+
+class Like_by_user(APIView) :
+    '''
+    # 좋아요 음식점 리스트
+    '''
+    def get(self, request, user_id, format=None) :
+        store_liked = StoreSerializer(Store.objects.extra(tables=['api_like_store'], where=['api_store.id=api_like_store.store_id', "api_like_store.user_id="+user_id]),many=True)
+        return Response(store_liked.data)

@@ -18,6 +18,7 @@ urlpatterns = [
     path("user/<api_id>", views.UserDetail.as_view(), name="user"),
     path("user/join_check/<provider>/<api_id>", views.UserJoinCheck.as_view(), name="join_check"),
     path("user/dup_check/<nickname>", views.NickDuplicateCheck.as_view(), name="dup_check"),
+    path("user/like_list/<user_id>", views.Like_by_user.as_view(), name ="like_list"),
     
     # 스토어 URL
     path("store", views.StorePost.as_view(), name="store_post"),
@@ -44,4 +45,8 @@ urlpatterns = [
 
     # 파일 업로드 URL
     path("upload/<review_id>", views.upload_image, name="upload_image"),
+
+    # 현위치 기반 식당 추천
+    path("location_based/<latitude>/<longitude>/<km>", views_ky.LodationBased.as_view(), name="location_based"),
+
 ]
