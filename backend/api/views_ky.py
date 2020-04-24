@@ -1,4 +1,4 @@
-from .models import User, Store, Review, Review_img, Tag, Menu, Bhour, Amenity
+from .models import User, Store, Review, Review_img, Tag, Menu, Bhour, Amenity, Like_store
 from .serializers import UserSerializer, StoreSerializer, ReviewSerializer, ReviewImgSerializer, TagSerializer, MenuSerializer, BhourSerializer
 from django.http import Http404
 from rest_framework import status
@@ -12,6 +12,7 @@ from django.db.models import Subquery
 from django.db.models import functions
 from django.db.models import Count
 
+from django.core.paginator import Paginator
 
 from rest_framework.decorators import api_view
 
@@ -33,6 +34,8 @@ class StoreSearch(APIView):
     '''
 
     def get(self, request, word, format=None):
+        print("==========================================")
+        print("StoreSearch Total GET!")
         word = word.split(" ")
 
         used = set()
@@ -66,6 +69,7 @@ class StoreSearch(APIView):
                 Q(area__contains=w) | Q(address__contains=w)
                 | Q(store_name__contains=w) | Q(category__contains=w)))
 
+        queryset = store1 | store2
         serializer = StoreSerializer(store1 | store2, many=True)
         return Response(serializer.data)
 
@@ -118,25 +122,109 @@ class LodationBased(APIView):
         km = float(km)
 
         store = Store.objects.all()
-        review = Review.objects.values(
+        review_object = Review.objects.values(
             "store_id").annotate(dcount=Count('store_id')).order_by('-dcount').values_list('store_id', flat=True)
+        store_list = [r for r in review_object]
+
+        store = Store.objects.all().filter(id__in=store_list)
+        store = sorted(store, key=lambda s: store_list.index(s.id))
 
         ret = []
-        for r in review:
-            store = Store.objects.filter(id=r)
-            for s in store:
-                if s.longitude is None:
-                    continue
-                if s.longitude == 0:
-                    continue
-                if km >= GeoUtil.get_harversion_distance(
-                        longitude, latitude, float(s.longitude), float(s.latitude)):
-                    ret.append(s)
-            if len(ret) > 20:
-                break
+        for s in store:
+            if s.longitude is None:
+                continue
+            if s.longitude == 0:
+                continue
+            if km >= GeoUtil.get_harversion_distance(
+                    longitude, latitude, float(s.longitude), float(s.latitude)):
+                ret.append(s)
+
         print(len(ret))
-        serializer = StoreSerializer(ret, many=True)
-        return Response(serializer.data)
+        # serializer = StoreSerializer(ret, many=True)
+        # return Response(serializer.data)
+
+        num_store = len(ret)
+
+        # 페이징 적용
+        paginator = Paginator(ret, 20)
+        num_page = paginator.num_pages
+        page = request.GET.get('page')
+        pagestore = paginator.get_page(page)
+        serializer = StoreSerializer(pagestore, many=True)
+
+        result = serializer.data
+        user_id = request.GET.get('user_id')
+        like = 0
+        if user_id is not "":
+            for r in result:
+                like = Like_store.objects.filter(
+                    store_id=r['id'], user_id=user_id).count()
+                r['like'] = like
+        else:
+            for r in result:
+                r['like'] = like
+
+        return Response({
+            'num_store': num_store,
+            'num_page': num_page,
+            'data': serializer.data
+        })
+
+
+class LodationBasedLikeList(APIView):
+    def get(self, request, user_id, latitude, longitude, km, format=None):
+        print("==========================================")
+        print("Location Based Recommendation GET!")
+        print("user_id:"+user_id+", latitude: "+latitude +
+              " longitude: " + longitude + ", km="+km)
+        latitude = float(latitude)
+        longitude = float(longitude)
+        km = float(km)
+        store_object = Store.objects.extra(tables=['api_like_store'], where=[
+            'api_store.id=api_like_store.store_id', "api_like_store.user_id="+user_id])
+
+        store_list = [s.id for s in store_object]
+
+        store = Store.objects.all().filter(id__in=store_list)
+        ret = []
+        for s in store:
+            if s.longitude is None:
+                continue
+            if s.longitude == 0:
+                continue
+            print(s.longitude)
+            if km >= GeoUtil.get_harversion_distance(
+                    longitude, latitude, float(s.longitude), float(s.latitude)):
+                ret.append(s)
+        print(ret)
+        print("==========================================")
+
+        num_store = len(ret)
+
+        # 페이징 적용
+        paginator = Paginator(ret, 20)
+        num_page = paginator.num_pages
+        page = request.GET.get('page')
+        pagestore = paginator.get_page(page)
+        serializer = StoreSerializer(pagestore, many=True)
+
+        result = serializer.data
+        user_id = request.GET.get('user_id')
+        like = 0
+        if user_id is not "":
+            for r in result:
+                like = Like_store.objects.filter(
+                    store_id=r['id'], user_id=user_id).count()
+                r['like'] = like
+        else:
+            for r in result:
+                r['like'] = like
+
+        return Response({
+            'num_store': num_store,
+            'num_page': num_page,
+            'data': serializer.data
+        })
 
 
 class GeoUtil:
@@ -157,6 +245,8 @@ class GeoUtil:
         """
         if x1 is None or y1 is None or x2 is None or y2 is None:
             return None
+
+        # print("x1="+str(x1)+", y1="+str(y1)+", x2="+str(x2)+", y2="+str(y2))
         # longitude(경도) 범위
         assert isinstance(x1, numbers.Number) and -180 <= x1 and x1 <= 180
         # latitude(위도) 범위
