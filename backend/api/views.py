@@ -478,7 +478,5 @@ class Like_by_user(APIView) :
     # 좋아요 음식점 리스트
     '''
     def get(self, request, user_id, format=None) :
-
-        where = 'api_like_store.user_id='+user_id
         store_liked = StoreSerializer(Store.objects.extra(tables=['api_like_store'], where=['api_store.id=api_like_store.store_id', "api_like_store.user_id="+user_id]),many=True)
         return Response(store_liked.data)
