@@ -21,7 +21,7 @@ const MyReview = ({ review, reviewCnt }) => {
 
     axios({
       method: "get",
-      url: "http://i02a201.p.ssafy.io:8080/api/review/user/" + 297,
+      url: "http://i02a201.p.ssafy.io:8080/api/review/user/" + user.id,
     })
       .then((res) => {
         // console.log(res.data);
