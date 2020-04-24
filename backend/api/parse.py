@@ -6,7 +6,7 @@ from datetime import datetime
 
 DATA_DIR = "../data"
 DATA_FILE = os.path.join(DATA_DIR, "data.json")
-STORE_FILE = os.path.join(DATA_DIR, "store.json")
+STORE_FILE = os.path.join(DATA_DIR, "save.json")
 REVIEW_FILE = os.path.join(DATA_DIR, "review.json")
 USER_FILE = os.path.join(DATA_DIR, "user.json")
 DUMP_FILE = os.path.join(DATA_DIR, "dump.pkl")
@@ -15,7 +15,8 @@ now = datetime.now()
 store_columns = (
     "store_id",  # 음식점 고유번호
     "store_name",  # 음식점 이름
-    "review_cnt"
+    "store_img",
+    "store_area"
 )
 
 review_columns = (
@@ -35,24 +36,35 @@ def import_data():
     Req. 1-1-1 음식점 데이터 파일을 읽어서 Pandas DataFrame 형태로 저장합니다
     """
     try:
-        with open(DATA_FILE, encoding="utf-8") as f:
+        with open(STORE_FILE, encoding="utf-8") as f:
             data = json.loads(f.read())
     except FileNotFoundError as e:
-        print(f"`{DATA_FILE}` 가 존재하지 않습니다.")
+        print(f"`{USER_FILE}` 가 존재하지 않습니다.")
         exit(1)
 
-    stores = []  # 음식점 테이블
-    reviews = []  # 리뷰 테이블
+    stores = []
 
     for d in data:
 
         stores.append(
             [
                 d["id"],
-                d["name"],
-                d["review_cnt"]
+                d["store_name"],
+                d["store_img"],
+                d["area"]
             ]
         )
+
+    try:
+        with open(DATA_FILE, encoding="utf-8") as f:
+            data = json.loads(f.read())
+    except FileNotFoundError as e:
+        print(f"`{DATA_FILE}` 가 존재하지 않습니다.")
+        exit(1)
+
+    reviews = []  # 리뷰 테이블
+
+    for d in data:
 
         for review in d["review_list"]:
             r = review["review_info"]

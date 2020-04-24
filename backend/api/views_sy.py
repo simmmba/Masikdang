@@ -11,24 +11,24 @@ from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 import warnings
 
-
 def filter_by_user(dataframes, surveyRes, userIID):
     # 원본 데이터
     origin_store = dataframes["stores"]
     origin_store = origin_store[origin_store['review_cnt'] >= 5]
     origin_review = dataframes["reviews"]
     origin_user = dataframes["users"]
+    
+    print(origin_store)
+    print(origin_review)
+    print(origin_user)
     origin_user = origin_user[origin_user["survey_array"].str.slice(start=0, stop=2) == surveyRes]
     origin_review = pd.merge(
         origin_review, origin_user, on="user_id"
     )
-
+    print(origin_user)
     userID = origin_user.iloc[1,0]
     print(userID)
     print("원본 데이터")
-    print(origin_store.head())
-    print(origin_review.head())
-    print(origin_user)
 
     # stores = pd.merge(
     #     origin_store, origin_review, left_on="store_id", right_on="store_id"
@@ -80,7 +80,7 @@ def filter_by_user(dataframes, surveyRes, userIID):
     # matrix_user_mean : 사용자-음식점에 대해 사용자 평균 평점을 뺀 것.
     matrix_user_mean = matrix - user_score_mean.reshape(-1, 1)
     pd.DataFrame(matrix_user_mean, columns=user_sotre_score.columns).head()
-    U, sigma, Vt = svds(matrix_user_mean, k=3)
+    U, sigma, Vt = svds(matrix_user_mean, k=1)
     sigma = np.diag(sigma)
 
     svd_user_predicted_score = np.dot(
@@ -90,15 +90,15 @@ def filter_by_user(dataframes, surveyRes, userIID):
     print("svd 행렬 완성")
     print(df_svd_preds)
 
-    user_id = 74999
-    user_row_number = userIID -1
+    user_id = userIID
+    user_row_number = userID-1
     # 최종적으로 만든 pred_df에서 사용자 index에 따라 상점 데이터 정렬 -> 음식 평점이 높은 순으로 정렬 됌
     print("추천 시작")
     print(df_svd_preds.iloc[0])
-    sorted_user_predictions = df_svd_preds.iloc[user_row_number].sort_values(ascending=False)
+    sorted_user_predictions = df_svd_preds.iloc[0].sort_values(ascending=False)
 
     # 원본 평점 데이터에서 user id에 해당하는 데이터를 뽑아낸다.
-    user_data = origin_review[origin_review.user_id == userIID]
+    user_data = origin_review[origin_review.user_id == userID]
 
     # 위에서 뽑은 user_data와 원본 상점 데이터를 합친다.
     user_history = user_data.merge(origin_store, on='store_id').sort_values(['score'], ascending=False)
@@ -108,7 +108,8 @@ def filter_by_user(dataframes, surveyRes, userIID):
     # 사용자의 상점 평점이 높은 순으로 정렬된 데이터와 위 recommendations을 합친다.
     recommendations = recommendations.merge(pd.DataFrame(sorted_user_predictions).reset_index(), on='store_id')
     # 컬럼 이름 바꾸고 정렬해서 return
-    recommendations = recommendations.rename(columns={user_row_number: 'Predictions'}).sort_values('Predictions', ascending=False).iloc[:10, :]
+    print(recommendations)
+    recommendations = recommendations.rename(columns={user_row_number: 'Predictions'}).sort_values('user_row_number', ascending=False).iloc[:10, :]
     print(recommendations)
     return recommendations
 
@@ -138,7 +139,6 @@ def filter_by_type(dataframes, surveyRes):
     # #필요 없는 칼럼 없애기
     # stores.drop('review_id', axis = 1, inplace = True)
     origin_store.drop('review_cnt', axis=1, inplace=True)
-    origin_review.drop('survey_array', axis = 1, inplace = True)
     # stores.drop('user_id', axis = 1, inplace = True)
     # stores.drop('score', axis = 1, inplace = True)
     # print("가공된 음식점 데이터" )
@@ -168,20 +168,18 @@ def filter_by_type(dataframes, surveyRes):
     print("피봇 테이블 user_store_score")
     print(user_sotre_score)
     store_user_score = user_sotre_score.values.T
-    SVD = TruncatedSVD(n_components=4)
+    SVD = TruncatedSVD(n_components=2)
     matrix = SVD.fit_transform(store_user_score)
     
     corr = np.corrcoef(matrix)
     store_ti = user_sotre_score.columns
     store_ti_list = list(store_ti)
     print(store_ti_list)
-
     return store_ti_list
 
-
+# 코사인 유사도
 def similar_store(dataframes, storeID):
     origin_store = dataframes["stores"]
-    origin_store = origin_store[origin_store['review_cnt'] >= 5]
     origin_review = dataframes["reviews"]
     # 평점이 0점 이거나 없는 데이터 없애기
     reviews = origin_review[origin_review['score'] >= 1]
@@ -197,16 +195,21 @@ def similar_store(dataframes, storeID):
     store_user_socre = stores_reviews.pivot_table(
         'score', 'store_id', 'user_id', fill_value="0"
     )
+    print(store_user_socre)
+    store_id = int(storeID)
     item_based_collabor = cosine_similarity(store_user_socre)
     item_based_collabor = pd.DataFrame(data = item_based_collabor, index = store_user_socre.index, columns =store_user_socre.index )
-    result = item_based_collabor[1713].sort_values(ascending=False)[:10]
+    result = item_based_collabor[store_id].sort_values(ascending=False)[:10]
     print(result)
     df1 = pd.DataFrame(data=result.index, columns=['store_id'])
     df2 = pd.DataFrame(data=result.values, columns=['cosine_similarity'])
     df = pd.merge(df1, df2, left_index=True, right_index=True)
+    df4 = pd.merge(df, origin_store, on="store_id")
+    
+    print(df4)
     return df
    
-
+# 코사인 유사도를 사용하여 지금 보고 잇는 상점과 비슷한 상점들 추천(완료)
 @api_view(['GET', 'POST'])
 def similarStore(request):
     if request.method == 'GET':
@@ -217,22 +220,7 @@ def similarStore(request):
         print("데이터 분석 완료")
     return Response(result)
 
-@api_view(['GET', 'POST'])
-def filteringByUser(request):
-    if request.method == 'GET':
-        print("filteringBy User get 요청 받음")
-        typeRes = request.query_params.get("type", "")
-        user = request.query_params.get("user","")
-        print(typeRes)
-        print(user)
-        data = load_dataframes()
-        print("데이터 전 처리/ 분석 시작")
-        df_svd_preds = filter_by_user(data,typeRes,user)
-        print("데이터 분석 완료")
-        print(df_svd_preds)
-
-    return Response(df_svd_preds)
-
+# SVD 사용 협업 필터링 같은 타입들이 좋아하는 상점들
 @api_view(['GET', 'POST'])
 def filteringByType(request):
     if request.method == 'GET':
@@ -248,3 +236,21 @@ def filteringByType(request):
         print(df_svd_preds)
 
     return Response(df_svd_preds)
+
+@api_view(['GET', 'POST'])
+def filteringByUser(request):
+    if request.method == 'GET':
+        print("filteringBy User get 요청 받음")
+        typeRes = request.query_params.get("type", "")
+        user = request.query_params.get("user","")
+        print(typeRes)
+        typeRes = typeRes[:2]
+        print(user)
+        data = load_dataframes()
+        print("데이터 전 처리/ 분석 시작")
+        df_svd_preds = filter_by_user(data,typeRes,user)
+        print("데이터 분석 완료")
+        print(df_svd_preds)
+
+    return Response(df_svd_preds)
+
