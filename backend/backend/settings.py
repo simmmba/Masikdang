@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     "rest_framework_swagger",
     "api",
     "corsheaders",
-
+    "django_db_views",
 ]
 
 MIDDLEWARE = [
@@ -90,12 +90,12 @@ WSGI_APPLICATION = "backend.wsgi.application"
 # }
 
 DATABASES = {
-    'default' : {
+    'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'masik_db',   
-        'USER': 'admin',                  
+        'NAME': 'masik_db',
+        'USER': 'admin',
         'PASSWORD': 'aktlrekd201',
-        'HOST': '15.165.19.70',                  
+        'HOST': '15.165.19.70',
         'PORT': '3306',
         'CONN_MAX_AGE': 3600,
     }
@@ -149,8 +149,8 @@ PASSWORD_HASHERS = (
     "django.contrib.auth.hashers.CryptPasswordHasher",
 )
 
-##CORS
-CORS_ORIGIN_ALLOW_ALL=True
+# CORS
+CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOW_METHODS = (
@@ -175,8 +175,8 @@ CORS_ALLOW_HEADERS = (
 )
 
 # 저장되는 파일 경로 설정
-MEDIA_URL= '/image/'
-MEDIA_ROOT = os.path.join(BASE_DIR,'image')
+MEDIA_URL = '/image/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'image')
 
 MEDIA_HOST = 'http://15.165.19.70:8080/image/'
 # MEDIA_HOST = 'http://localhost:8000/image/'
