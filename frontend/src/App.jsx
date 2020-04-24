@@ -22,6 +22,7 @@ import SurveyResult from "./components/survey/SurveyResult";
 import WhatToEatResult from "./components/whatToEat/WhatToEatResult";
 import Detail from "./components/routers/Detail";
 import Write from "./components/routers/Write"
+import Update from "./components/routers/Update"
 
 // Context 갯수가 많아져도 Provider 적용 위해 코드 구조가 깊어질 필요 없음
 // context를 props로 전달해주면 됨
@@ -55,6 +56,7 @@ const App = () => {
           <Route path="/whatToEatResult" component={WhatToEatResult} />
           <Route path="/search/:storeNo" component={Detail} />
           <Route path="/write" component={Write} />
+          <Route path="/update" component={Update} />
         </Switch>
       </BrowserRouter>
     </AppProvider>
