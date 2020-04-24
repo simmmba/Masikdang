@@ -13,9 +13,6 @@ class Card extends React.Component {
   }
 
   clickItem = (res) => {
-
-    // console.log(res.target.id)
-
     const { history } = this.props;
     if (res.target.id === "evaluation") history.push("/home");
     else if (res.target.id !== "liked") history.push("/search/" + this.state.store.id);

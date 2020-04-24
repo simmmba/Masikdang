@@ -31,30 +31,60 @@ class Search extends React.Component {
       subject: "name",
       stores: [],
       store_len: -1, // 로딩 표시 해주기 위해서
+      page: 1,
+      maxPage : 1
     };
   }
 
+  // 무한 스크롤링 구현
+  infiniteScroll = () => {
+    const { innerHeight } = window;
+    const { scrollHeight } = document.body;
+    // IE에서는 document.documentElement 를 사용.
+    const scrollTop =
+      (document.documentElement && document.documentElement.scrollTop) ||
+      document.body.scrollTop;
+    // 스크롤링 했을때, 브라우저의 가장 밑에서 100정도 높이가 남았을때에 실행하기위함.
+    if (
+      scrollHeight - innerHeight - scrollTop < 100 &&
+      this.state.store_len >= 0 && this.state.page < this.state.maxPage
+    ) {
+      // axios loading 체크
+      this.setState({ store_len: -2});
+      this.getStores(this.state.page + 1);
+      this.setState({ page: this.state.page + 1});
+    }
+  };
+
   // 처음에 입력값 기준으로 값 받아오기
   componentDidMount() {
+    // 무한 스크롤링
+    window.addEventListener("scroll", this.infiniteScroll);
+
+    // axios loading 체크
     this.setState({ store_len: -1 });
 
     // 뒤로 가기면 안부르기
     var store = this.context.state.store;
     if (store.length === 0) {
-      this.getStores();
+      this.getStores(1);
     } else {
       this.setState({
         stores: store,
         store_len: store.length,
-        word:this.context.state.word,
-        subject:this.context.state.subject
+        word: this.context.state.word,
+        subject: this.context.state.subject,
       });
     }
   }
 
+  componentWillUnmount() {
+    // 언마운트 될때에, 스크롤링 이벤트 제거
+    window.removeEventListener("scroll", this.infiniteScroll);
+  }
+
   // 값 바겼을 때 체크
   componentDidUpdate() {
-
     // 입력된 값이 바겼을 때만
     if (
       this.state.word !== this.context.state.word ||
@@ -63,13 +93,15 @@ class Search extends React.Component {
     ) {
       this.setState({
         store_len: -1,
+        page : 1,
+        maxPage : 1
       });
-      this.getStores();
+      this.getStores(1);
     }
   }
 
   // 새로운 식당 정보 받아오기
-  getStores = () => {
+  getStores = (e) => {
     var word = this.context.state.word;
     var subject = this.context.state.subject;
 
@@ -92,11 +124,23 @@ class Search extends React.Component {
     })
       // 받아온 store 정보
       .then((res) => {
-        this.context.actions.getstore(res.data);
-        this.setState({
-          stores: res.data,
-          store_len: res.data.length,
-        });
+        console.log(e);
+        if (e === 1) {
+          this.context.actions.getstore(res.data.data);
+          this.setState({
+            stores: res.data.data,
+            store_len: res.data.num_page,
+            maxPage : res.data.num_page
+          });
+        }
+        else {
+          this.context.actions.getstore(this.state.stores.concat(res.data.data));
+          this.setState({
+            stores: this.state.stores.concat(res.data.data),
+            store_len: res.data.num_page,
+            maxPage : res.data.num_page
+          });
+        } 
       })
       .catch((error) => {
         console.log(error);
@@ -129,8 +173,8 @@ class Search extends React.Component {
                       {this.state.store_len}개의 식당이 검색되었습니다.
                     </span>
                   </div>
-                  {this.state.stores.map((store) => (
-                    <div className="card_item" key={store.id}>
+                  {this.state.stores.map((store, index) => (
+                    <div className="card_item" key={index}>
                       <Card store={store}></Card>
                     </div>
                   ))}
@@ -146,3 +190,6 @@ class Search extends React.Component {
 }
 
 export default Search;
+
+
+//https://velog.io/@killi8n/Dnote-6-1.-React-%EB%AC%B4%ED%95%9C-%EC%8A%A4%ED%81%AC%EB%A1%A4%EB%A7%81-%EA%B8%B0%EB%8A%A5-%EA%B5%AC%ED%98%84.-79jmep7xes

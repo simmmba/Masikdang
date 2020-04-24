@@ -113,8 +113,18 @@
             color: black;
         }
 
+        .store_similar {
+            margin-top: 30px;
+            margin-bottom: 30px;
+            .similar_text {
+                font-size: 24px;
+                font-family: "BMHANNAPro";
+                margin-bottom: 15px;
+            }
+        }
         // 모바일에서 너무 붙어있어서 잘보이게 띄우기
         .store_map,
+        .store_similar,
         .store_review_bundle {
             width: calc(100% - 20px);
             margin-left: 10px;
@@ -137,6 +147,7 @@
             }
 
             .store_map,
+            .store_similar,
             .store_review_bundle {
                 width: calc(100%);
                 padding: 10px;
@@ -147,9 +158,17 @@
                 padding: 0;
             }
 
-            .store_map {
+            .store_map,
+            .store_similar {
                 padding: 0px;
             }
+
+            .store_similar {
+                .similar_text {
+                    font-size: 30px;
+                }
+            }
         }
+
     }
 }
