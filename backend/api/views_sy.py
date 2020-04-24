@@ -14,31 +14,26 @@ import warnings
 def filter_by_user(dataframes, surveyRes, userIID):
     # 원본 데이터
     origin_store = dataframes["stores"]
-    origin_store = origin_store[origin_store['review_cnt'] >= 5]
     origin_review = dataframes["reviews"]
     origin_user = dataframes["users"]
     
-    print(origin_store)
-    print(origin_review)
+    # 같은 타입 유저들만
+    origin_user = origin_user[origin_user["survey_result"].str.contains(surveyRes)==True]
     print(origin_user)
-    origin_user = origin_user[origin_user["survey_array"].str.slice(start=0, stop=2) == surveyRes]
     origin_review = pd.merge(
         origin_review, origin_user, on="user_id"
     )
-    print(origin_user)
-    userID = origin_user.iloc[1,0]
+
+    userID = origin_user.iloc[2,0]
     print(userID)
-    print("원본 데이터")
 
-    # stores = pd.merge(
-    #     origin_store, origin_review, left_on="store_id", right_on="store_id"
-    # )
-    # print(stores.head())
+    stores = pd.merge(
+        origin_store, origin_review, left_on="store_id", right_on="store_id"
+    )
+    print(stores.head())
 
-    # #필요 없는 칼럼 없애기
+    # 필요 없는 칼럼 없애기
     # stores.drop('review_id', axis = 1, inplace = True)
-    origin_store.drop('review_cnt', axis=1, inplace=True)
-    origin_review.drop('survey_array', axis = 1, inplace = True)
     # stores.drop('user_id', axis = 1, inplace = True)
     # stores.drop('score', axis = 1, inplace = True)
     # print("가공된 음식점 데이터" )
@@ -51,20 +46,25 @@ def filter_by_user(dataframes, surveyRes, userIID):
     filter_reviews = filter_reviews[filter_reviews].index.tolist()
     new_reviews = reviews[reviews['user_id'].isin(filter_reviews)]
     print("가공 된 리뷰 데이터")
-    print(new_reviews.head())
+    print(new_reviews)
 
     # 스토어와 리뷰를 가지고 새로운 데이터 프레임 생성
     stores_reviews = pd.merge(origin_store, new_reviews, on='store_id')
     # 리뷰 아이디는 필요 없으니 버리기
     stores_reviews.drop('review_id', axis=1, inplace=True)
     print("스토어 리뷰 하나의 데이터로 생성 stores_reviews")
-    print(stores_reviews.head())
-
+    print(stores_reviews)
+    userID = stores_reviews.iloc[0,4]
+    print(userID)
     # 피봇 테이블 생성 (values, index, column) 순서
     user_sotre_score = stores_reviews.pivot_table(
         'score', 'user_id', 'store_id', fill_value="0"
     )
-    # print(user_sotre_score.shape)
+    print("피봇 테이블 user_store_score")
+    print(user_sotre_score)
+   
+
+   # print(user_sotre_score.shape)
     print("피봇 테이블 user_store_score")
     print(user_sotre_score)
 
@@ -90,12 +90,11 @@ def filter_by_user(dataframes, surveyRes, userIID):
     print("svd 행렬 완성")
     print(df_svd_preds)
 
-    user_id = userIID
     user_row_number = userID-1
     # 최종적으로 만든 pred_df에서 사용자 index에 따라 상점 데이터 정렬 -> 음식 평점이 높은 순으로 정렬 됌
     print("추천 시작")
-    print(df_svd_preds.iloc[0])
-    sorted_user_predictions = df_svd_preds.iloc[0].sort_values(ascending=False)
+    print(df_svd_preds.iloc[1])
+    sorted_user_predictions = df_svd_preds.iloc[1].sort_values(ascending=False)
 
     # 원본 평점 데이터에서 user id에 해당하는 데이터를 뽑아낸다.
     user_data = origin_review[origin_review.user_id == userID]
@@ -109,7 +108,7 @@ def filter_by_user(dataframes, surveyRes, userIID):
     recommendations = recommendations.merge(pd.DataFrame(sorted_user_predictions).reset_index(), on='store_id')
     # 컬럼 이름 바꾸고 정렬해서 return
     print(recommendations)
-    recommendations = recommendations.rename(columns={user_row_number: 'Predictions'}).sort_values('user_row_number', ascending=False).iloc[:10, :]
+    recommendations = recommendations.rename(columns={1: 'Predictions'}).sort_values('Predictions', ascending=False).iloc[:10, :]
     print(recommendations)
     return recommendations
 
