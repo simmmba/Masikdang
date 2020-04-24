@@ -1,4 +1,4 @@
-from .models import User, Store, Review, Review_img, Tag, Menu, Bhour, Image_upload, Amenity
+from .models import User, Store, Review, Review_img, Tag, Menu, Bhour, Image_upload, Like_store
 from .serializers import UserSerializer, StoreSerializer, ReviewSerializer, ReviewImgSerializer, TagSerializer, MenuSerializer, BhourSerializer
 from django.http import Http404
 from rest_framework import status
@@ -21,6 +21,7 @@ from rest_framework.decorators import action
 
 from .forms import ImageForm
 from backend import settings
+from django.core.paginator import Paginator
 
 
 class SmallPagination(PageNumberPagination):
@@ -58,7 +59,14 @@ class StoreList(APIView):
         # Store List 조회
         '''
         queryset = Store.objects.all()
-        serializer = StoreSerializer(queryset, many=True)
+        
+        paginator = Paginator(queryset, 10)
+        page = request.GET.get('page')
+        pagestore = paginator.get_page(page)
+        print(pagestore)
+        
+        serializer = StoreSerializer(pagestore, many=True)
+        
         return Response(serializer.data)
 
 
@@ -97,7 +105,7 @@ class StoreDetail(APIView):
         store = Store.objects.get(id=store_id)
         serializer = StoreSerializer(store)
 
-        # 메뉴, 태그, 업무시간, 평점, 사진
+        # 메뉴, 태그, 업무시간, 평점, 사진, 좋아요
         result = serializer.data
         menu = MenuSerializer(Menu.objects.filter(
             store_id=store_id), many=True).data
@@ -119,6 +127,13 @@ class StoreDetail(APIView):
             review_id__store_id=store_id).values_list('img', flat=True)[:10]
         result['review_img'] = review_imgs
 
+        user_id = request.POST.get('user_id')
+        like = 0
+        if user_id is not "" :
+            like = Like_store.objects.filter(store_id=store_id, user_id=user_id).count()
+
+        result['like'] = like
+
         return Response(result)
 
     # Store 삭제
@@ -136,18 +151,42 @@ class StoreSearch(APIView):
     '''
     # Store 검색
     '''
-
-    def get(self, request, subject, word, format=None):
+    def get(self, request,subject, word, format=None):
+        
         if subject == "name":
-            queryset = Store.objects.filter(store_name__contains=word)[:20]
+            queryset = Store.objects.filter(store_name__contains=word).order_by('id')
         elif subject == "area":
             queryset = Store.objects.filter(
-                Q(area__contains=word) | Q(address__contains=word))[:20]
+                Q(area__contains=word) | Q(address__contains=word)).order_by('id')
         elif subject == "category":
-            queryset = Store.objects.filter(category__contains=word)[:20]
+            queryset = Store.objects.filter(category__contains=word).order_by('id')
 
-        serializer = StoreSerializer(queryset, many=True)
-        return Response(serializer.data)
+        
+        # 페이징 적용
+        paginator = Paginator(queryset, 20)
+        num_page = paginator.num_pages
+        page = request.POST.get('page')
+        pagestore = paginator.get_page(page)
+        serializer = StoreSerializer(pagestore,many=True)
+
+        result = serializer.data
+        user_id = request.POST.get('user_id')
+        like = 0
+
+
+        if user_id is not "" :
+            for r in result:
+                like = Like_store.objects.filter(store_id=r['id'], user_id=user_id).count()
+                r['like'] = like
+        else :
+            for r in result :
+                r['like'] = like
+
+
+        return Response({
+            'num_page' : num_page,
+            'data': serializer.data
+            })
 
 
 class UserList(APIView):
@@ -310,22 +349,31 @@ class ReviewPost(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # Review 가게별 조회
-
-
 class ReviewList(APIView):
     '''
     # 가게별 리뷰 조회
     '''
-
     def get(self, request, store_id, format=None):
-        reivews_by_store = Review.objects.filter(store_id=store_id)
-        serializer = ReviewSerializer(reivews_by_store, many=True)
+        queryset = Review.objects.filter(store_id=store_id).order_by('id').reverse()
+        # serializer = ReviewSerializer(reivews_by_store, many=True)
+        
+        # 페이징 적용
+        paginator = Paginator(queryset, 5)
+        num_page = paginator.num_pages
+        page = request.POST.get('page')
+        pagestore = paginator.get_page(page)
+        serializer = ReviewSerializer(pagestore,many=True)
         result = serializer.data
+        
         # 리뷰 별 사진
         for r in result:
             review_imgs = Review_img.objects.filter(review_id=r['id']).values_list('img', flat=True)
             r['imgs'] = review_imgs
-        return Response(serializer.data)
+        
+        return Response({
+            'num_page': num_page, 
+            'data' : result
+            })
 
 # 특정 Review 를 다루는 클래스
 
@@ -398,7 +446,6 @@ def upload_image(request, review_id):
                 img.save()
                 #review_img 저장
                 img_url = settings.MEDIA_HOST+str(img.path)
-                print(img_url)
                 review_img = Review_img(img=img_url, review_id=review_id)
                 review_img.save()
 
@@ -407,3 +454,18 @@ def upload_image(request, review_id):
         else : 
             form = ImageForm()
             return Response("upload fail")
+
+# 가게 좋아요
+class Store_like(APIView):
+    def get(self, request,store_id, user_id, format=None) :
+        is_like = Like_store.objects.filter(store_id = store_id, user_id=user_id).count()
+        
+        if is_like >= 1 :
+            like_del = Like_store.objects.get(store_id=store_id,user_id=user_id)
+            like_del.delete()
+            return Response("dislike")
+        else :
+            like = Like_store(store_id = store_id, user_id = user_id)
+            like.save()
+            return Response("like")
+            

@@ -52,7 +52,7 @@ class Review(models.Model):
     service_score = models.FloatField(blank=True, null=True)
     content = models.CharField(max_length=3000, blank=True, null=True)
     tag = models.CharField(max_length=500, blank=True, null=True)
-    reg_time = models.CharField(max_length=50, blank=True, null=True)
+    reg_itme = models.CharField(max_length=50, blank=True, null=True)
 
 # 음식점
 class Store(models.Model):
@@ -92,9 +92,6 @@ class Review_img(models.Model):
     review = models.ForeignKey('Review', on_delete=models.CASCADE)
     img = models.CharField(max_length=200, blank=True, null=True)
 
-
-
-
 #파일 경로 설정
 def date_upload_to(instance, filename):
   # upload_to="%Y/%m/%d" 처럼 날짜로 세분화
@@ -112,5 +109,8 @@ def date_upload_to(instance, filename):
 class Image_upload(models.Model):
     path = models.FileField(upload_to=date_upload_to)
 
-    def path_str(self):
-        return self.path
+# 가게 좋아요
+class Like_store(models.Model):
+    user = models.ForeignKey('User', on_delete=models.CASCADE)
+    store = models.ForeignKey('Store', on_delete=models.CASCADE)
+    

@@ -20,12 +20,12 @@ urlpatterns = [
     path("user/dup_check/<nickname>", views.NickDuplicateCheck.as_view(), name="dup_check"),
     
     # 스토어 URL
-    path("store", views.StorePost.as_view(), name="store"),
-    path("store/<store_id>", views.StoreDetail.as_view(), name="store"),
-    path("store/search/<subject>/<word>", views.StoreSearch.as_view(), name="search"),
-    path("store/search/<word>", views_ky.StoreSearch.as_view(), name="search"),
+    path("store", views.StorePost.as_view(), name="store_post"),
     path("store/list", views.StoreList.as_view(), name="stores"),
-    
+    path("store/search/<str:subject>/<str:word>", views.StoreSearch.as_view(), name="search"),
+    path("store/like/<store_id>/<user_id>", views.Store_like.as_view(), name="like_store"),
+    path("store/<int:store_id>", views.StoreDetail.as_view(), name="store"),
+
     # 설문 URL
     path("survey/search", views.SurveySearch, name="surevey_search"),
     path("survey/type", views_ky.SurveyType, name="surevey_type"),
@@ -44,5 +44,4 @@ urlpatterns = [
 
     # 파일 업로드 URL
     path("upload/<review_id>", views.upload_image, name="upload_image"),
-
 ]
