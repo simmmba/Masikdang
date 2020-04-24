@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     "rest_framework_swagger",
     "api",
     "corsheaders",
-    "django_db_views",
 ]
 
 MIDDLEWARE = [
