@@ -28,7 +28,7 @@ review_columns = (
 
 user_columns = {
     "user_id",
-    "survey_array"
+    "survey_result"
 }
 
 def import_data():
@@ -91,7 +91,7 @@ def import_data():
         users.append(
             [
                 d["id"],
-                d["survey_array"]
+                d["survey_result"]
             ]
         )
 
