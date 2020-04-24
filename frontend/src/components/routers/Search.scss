@@ -1,5 +1,6 @@
 .Search {
-    span, .store_len {
+    span,
+    .store_len {
         font-family: "NanumSquareRound";
     }
 
@@ -9,11 +10,12 @@
     }
 
     .store_len {
-
         padding: 5px;
-        margin-left: 5px;;
-
-        
+        margin-left: 5px;
+        .store_num{
+            font-family: "BMHANNAPro";
+            font-size: 20px;
+        }
     }
     .card_item {
         display: inline-block;
@@ -24,6 +26,12 @@
     @media screen and (min-width: 768px) {
         .card_item {
             width: 25%;
+        }
+        .store_len {
+            font-size: 20px;
+            .store_num{
+                font-size: 27px;
+            }
         }
     }
 }

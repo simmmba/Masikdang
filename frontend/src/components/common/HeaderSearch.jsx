@@ -28,7 +28,12 @@ class HeaderSearch extends React.Component {
   componentDidMount() {
     // home 이나 다른 곳으로 오면 검색 reset
     const url = window.location.href.split("/");
-    if (url[url.length - 1] !== "search" && url[url.length - 2] !== "search" && url[url.length -1] !== "write") {
+    if (
+      url[url.length - 1] !== "search" &&
+      url[url.length - 2] !== "search" &&
+      url[url.length - 1] !== "write" &&
+      url[url.length - 1] !== "update"
+    ) {
       this.context.actions.reset();
     }
     // 빈거가 아니면 값 매핑
