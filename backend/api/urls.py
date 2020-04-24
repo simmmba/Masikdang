@@ -49,4 +49,6 @@ urlpatterns = [
     # 현위치 기반 식당 추천
     path("location_based/<latitude>/<longitude>/<km>", views_ky.LodationBased.as_view(), name="location_based"),
 
+    # 현위치 기반 내가 좋아요한 식당 List
+    path("location_based/<user_id>/<latitude>/<longitude>/<km>", views_ky.LodationBasedLikeList.as_view(), name="location_based_like_list"),   
 ]

@@ -1,4 +1,4 @@
-from .models import User, Store, Review, Review_img, Tag, Menu, Bhour, Image_upload, Like_store
+from .models import User, Store, Review, Review_img, Tag, Menu, Bhour, Image_upload, Like_store, Amenity
 from .serializers import UserSerializer, StoreSerializer, ReviewSerializer, ReviewImgSerializer, TagSerializer, MenuSerializer, BhourSerializer, LikeSerializer
 from django.http import Http404
 from rest_framework import status
@@ -59,14 +59,14 @@ class StoreList(APIView):
         # Store List 조회
         '''
         queryset = Store.objects.all()
-        
+
         paginator = Paginator(queryset, 10)
         page = request.GET.get('page')
         pagestore = paginator.get_page(page)
         print(pagestore)
-        
+
         serializer = StoreSerializer(pagestore, many=True)
-        
+
         return Response(serializer.data)
 
 
@@ -129,8 +129,9 @@ class StoreDetail(APIView):
 
         user_id = request.GET.get('user_id')
         like = 0
-        if user_id is not "" :
-            like = Like_store.objects.filter(store_id=store_id, user_id=user_id).count()
+        if user_id is not "":
+            like = Like_store.objects.filter(
+                store_id=store_id, user_id=user_id).count()
 
         result['like'] = like
 
@@ -151,15 +152,53 @@ class StoreSearch(APIView):
     '''
     # Store 검색
     '''
-    def get(self, request,subject, word, format=None):
-        
+
+    def get(self, request, subject, word, format=None):
+
         if subject == "name":
-            queryset = Store.objects.filter(store_name__contains=word).order_by('id')
+            queryset = Store.objects.filter(
+                store_name__contains=word).order_by('id')
         elif subject == "area":
             queryset = Store.objects.filter(
                 Q(area__contains=word) | Q(address__contains=word)).order_by('id')
         elif subject == "category":
-            queryset = Store.objects.filter(category__contains=word).order_by('id')
+            queryset = Store.objects.filter(
+                category__contains=word).order_by('id')
+        elif subject == "total":
+            word = word.split(" ")
+
+            used = set()
+            tag_list = set()
+            tag = Tag.objects.all()
+            for w in word:
+                for t in tag:
+                    if w in t.tag:
+                        tag_list.add(t.store_id)
+                        used.add(w)
+
+            amenity_list = set()
+            amenity = Amenity.objects.all()
+            for w in word:
+                for a in amenity:
+                    if w in a.amenity:
+                        amenity_list.add(a.store_id)
+                        used.add(w)
+
+            tmp_list = list(tag_list | amenity_list)
+            store1 = Store.objects.all().filter(id__in=tmp_list)
+
+            for w in set(word) - set(used):
+                store1 = store1.filter((
+                    Q(area__contains=w) | Q(address__contains=w)
+                    | Q(store_name__contains=w) | Q(category__contains=w)))
+
+            store2 = Store.objects.all()
+            for w in word:
+                store2 = store2.filter((
+                    Q(area__contains=w) | Q(address__contains=w)
+                    | Q(store_name__contains=w) | Q(category__contains=w)))
+
+            queryset = store1 | store2
 
         num_store = queryset.__len__()
 
@@ -173,22 +212,20 @@ class StoreSearch(APIView):
         result = serializer.data
         user_id = request.GET.get('user_id')
         like = 0
-
-
-        if user_id is not "" :
+        if user_id is not "":
             for r in result:
-                like = Like_store.objects.filter(store_id=r['id'], user_id=user_id).count()
+                like = Like_store.objects.filter(
+                    store_id=r['id'], user_id=user_id).count()
                 r['like'] = like
-        else :
-            for r in result :
+        else:
+            for r in result:
                 r['like'] = like
-
 
         return Response({
-            'num_store' : num_store,
-            'num_page' : num_page,
+            'num_store': num_store,
+            'num_page': num_page,
             'data': serializer.data
-            })
+        })
 
 
 class UserList(APIView):
@@ -351,14 +388,17 @@ class ReviewPost(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # Review 가게별 조회
+
+
 class ReviewList(APIView):
     def get(self, request, store_id, format=None):
         '''
         # 가게별 리뷰 조회
         '''
-        queryset = Review.objects.filter(store_id=store_id).order_by('id').reverse()
+        queryset = Review.objects.filter(
+            store_id=store_id).order_by('id').reverse()
         num_review = queryset.__len__()
-        
+
         # 페이징 적용
         paginator = Paginator(queryset, 5)
         num_page = paginator.num_pages
@@ -369,14 +409,15 @@ class ReviewList(APIView):
 
         # 리뷰 별 사진
         for r in result:
-            review_imgs = Review_img.objects.filter(review_id=r['id']).values_list('img', flat=True)
+            review_imgs = Review_img.objects.filter(
+                review_id=r['id']).values_list('img', flat=True)
             r['imgs'] = review_imgs
-        
+
         return Response({
             'num_page': num_page,
-            'num_review' : num_review,
-            'data' : result
-            })
+            'num_review': num_review,
+            'data': result
+        })
 
 # 특정 Review 를 다루는 클래스
 
@@ -411,8 +452,10 @@ class ReviewByUser(APIView):
     # 유저 리뷰 조회
     '''
     # Store 검색을 위한 클래스
+
     def get(self, request, user_id, format=None):
-        reviews_by_user = Review.objects.filter(user_id=user_id).order_by('id').reverse()
+        reviews_by_user = Review.objects.filter(
+            user_id=user_id).order_by('id').reverse()
         serializer = ReviewSerializer(reviews_by_user, many=True)
         review = serializer.data
         # print(review)
@@ -424,10 +467,13 @@ class ReviewByUser(APIView):
         return Response(serializer.data)
 
 # 가게 리뷰 사진 조회
+
+
 class ReviewImgList(APIView):
     '''
     # 가게 리뷰 사진 조회
     '''
+
     def get(self, request, review_id, format=None):
         reivew_imgs_by_store = Review_img.objects.filter(review_id=review_id)
         serializer = ReviewImgSerializer(reivew_imgs_by_store, many=True)
@@ -442,41 +488,48 @@ def upload_image(request, review_id):
     '''
     if request.method == 'POST':
         form = ImageForm(request.POST, request.FILES)
-        if form.is_valid() :            
+        if form.is_valid():
             newImg_list = request.FILES.getlist('path')
-            for newImg in newImg_list :
-                #img 저장
-                img = Image_upload(path = newImg)
+            for newImg in newImg_list:
+                # img 저장
+                img = Image_upload(path=newImg)
                 img.save()
-                #review_img 저장
+                # review_img 저장
                 img_url = settings.MEDIA_HOST+str(img.path)
                 review_img = Review_img(img=img_url, review_id=review_id)
                 review_img.save()
 
             return Response("upload ok")
 
-        else : 
+        else:
             form = ImageForm()
             return Response("upload fail")
 
 # 가게 좋아요
+
+
 class Store_like(APIView):
-    def get(self,request,store_id, user_id, format=None) :
-        is_like = Like_store.objects.filter(store_id = store_id, user_id=user_id).count()
-        
-        if is_like >= 1 :
-            like_del = Like_store.objects.get(store_id=store_id,user_id=user_id)
+    def get(self, request, store_id, user_id, format=None):
+        is_like = Like_store.objects.filter(
+            store_id=store_id, user_id=user_id).count()
+
+        if is_like >= 1:
+            like_del = Like_store.objects.get(
+                store_id=store_id, user_id=user_id)
             like_del.delete()
             return Response("dislike")
-        else :
-            like = Like_store(store_id = store_id, user_id = user_id)
+        else:
+            like = Like_store(store_id=store_id, user_id=user_id)
             like.save()
             return Response("like")
 
-class Like_by_user(APIView) :
+
+class Like_by_user(APIView):
     '''
     # 좋아요 음식점 리스트
     '''
-    def get(self, request, user_id, format=None) :
-        store_liked = StoreSerializer(Store.objects.extra(tables=['api_like_store'], where=['api_store.id=api_like_store.store_id', "api_like_store.user_id="+user_id]),many=True)
+
+    def get(self, request, user_id, format=None):
+        store_liked = StoreSerializer(Store.objects.extra(tables=['api_like_store'], where=[
+                                      'api_store.id=api_like_store.store_id', "api_like_store.user_id="+user_id]), many=True)
         return Response(store_liked.data)
