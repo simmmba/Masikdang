@@ -1,0 +1,187 @@
+.MiniCard {
+    // border-radius: 3px;
+    font-family: "NanumSquareRound";
+    cursor: pointer;
+    width: 100%;
+    // margin-right: 10px;
+
+    #square {
+        width: 100%;
+        display: inline-block;
+    }
+
+    .thumbnail {
+        position: relative;
+        padding-top: 100%;
+        overflow: hidden;
+
+        .centered {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+
+            // 가운데 맞춤
+            -webkit-transform: translate(50%, 50%);
+            -ms-transform: translate(50%, 50%);
+            transform: translate(50%, 50%);
+
+            .img {
+                position: absolute;
+                top: 0px;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                width: calc(100% - 2px);
+                height: calc(100% - 2px);
+                border-radius: 3px;
+
+                -webkit-transform: translate(-50%, -50%);
+                -ms-transform: translate(-50%, -50%);
+                transform: translate(-50%, -50%);
+            }
+        }
+    }
+
+    .explain {
+        display: none;
+    }
+
+    /*base code*/
+    .animated {
+        -webkit-animation-duration: 1s;
+        animation-duration: 1s;
+        -webkit-animation-fill-mode: both;
+        animation-fill-mode: both;
+    }
+    .animated.infinite {
+        -webkit-animation-iteration-count: infinite;
+        animation-iteration-count: infinite;
+    }
+    .animated.hinge {
+        -webkit-animation-duration: 2s;
+        animation-duration: 2s;
+    }
+    /*the animation definition*/
+    @-webkit-keyframes bounceIn {
+        0%,
+        100%,
+        20%,
+        40%,
+        60%,
+        80% {
+            -webkit-transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+            transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+        }
+        0% {
+            opacity: 0;
+            -webkit-transform: scale3d(0.3, 0.3, 0.3);
+            transform: scale3d(0.3, 0.3, 0.3);
+        }
+        20% {
+            -webkit-transform: scale3d(1.1, 1.1, 1.1);
+            transform: scale3d(1.1, 1.1, 1.1);
+        }
+        40% {
+            -webkit-transform: scale3d(0.9, 0.9, 0.9);
+            transform: scale3d(0.9, 0.9, 0.9);
+        }
+        60% {
+            opacity: 1;
+            -webkit-transform: scale3d(1.03, 1.03, 1.03);
+            transform: scale3d(1.03, 1.03, 1.03);
+        }
+        80% {
+            -webkit-transform: scale3d(0.97, 0.97, 0.97);
+            transform: scale3d(0.97, 0.97, 0.97);
+        }
+        100% {
+            opacity: 1;
+            -webkit-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1);
+        }
+    }
+    @keyframes bounceIn {
+        0%,
+        100%,
+        20%,
+        40%,
+        60%,
+        80% {
+            -webkit-transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+            transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+        }
+        0% {
+            opacity: 0;
+            -webkit-transform: scale3d(0.3, 0.3, 0.3);
+            -ms-transform: scale3d(0.3, 0.3, 0.3);
+            transform: scale3d(0.3, 0.3, 0.3);
+        }
+        20% {
+            -webkit-transform: scale3d(1.1, 1.1, 1.1);
+            -ms-transform: scale3d(1.1, 1.1, 1.1);
+            transform: scale3d(1.1, 1.1, 1.1);
+        }
+        40% {
+            -webkit-transform: scale3d(0.9, 0.9, 0.9);
+            -ms-transform: scale3d(0.9, 0.9, 0.9);
+            transform: scale3d(0.9, 0.9, 0.9);
+        }
+        60% {
+            opacity: 1;
+            -webkit-transform: scale3d(1.03, 1.03, 1.03);
+            -ms-transform: scale3d(1.03, 1.03, 1.03);
+            transform: scale3d(1.03, 1.03, 1.03);
+        }
+        80% {
+            -webkit-transform: scale3d(0.97, 0.97, 0.97);
+            -ms-transform: scale3d(0.97, 0.97, 0.97);
+            transform: scale3d(0.97, 0.97, 0.97);
+        }
+        100% {
+            opacity: 1;
+            -webkit-transform: scale3d(1, 1, 1);
+            -ms-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1);
+        }
+    }
+    .bounceIn {
+        -webkit-animation-name: bounceIn;
+        animation-name: bounceIn;
+    }
+}
+
+.MiniCard:hover {
+    .img {
+        opacity: 25%;
+    }
+    .explain {
+        padding-top: 25%;
+        display: unset;
+        position: absolute;
+        width: 100%;
+        left: 0;
+        top: 0;
+        text-align: center;
+        font-size: 20px;
+        .title {
+            font-family: "BMHANNAPro";
+            font-size: 2vw;
+            font-size: 30px;
+        }
+    }
+
+    @media screen and (min-width: 768px) {
+        .explain {
+            font-size: 1.5vw;
+            .title {
+                font-family: "BMHANNAPro";
+                font-size: 2vw;
+                margin-bottom: 0.6vw;
+            }
+        }
+    }
+}
+
+// 이미지 비율 출처: https://webdir.tistory.com/487 [WEBDIR]
