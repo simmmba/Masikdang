@@ -21,7 +21,7 @@ const Emoji = (props) => (
   </span>
 );
 
-class Write extends React.Component {
+class Update extends React.Component {
   // user id 값 확인
   user = JSON.parse(window.sessionStorage.getItem("user"));
 
@@ -36,32 +36,48 @@ class Write extends React.Component {
       price_score: 3,
       service_score: 3,
       content: "",
-      images: [],
-      base64: [],
-      filekey: 0,
       date: new Date(),
     };
   }
 
   // componentDidMount, componentDidUpdate
   componentDidMount() {
+    console.log(this.props);
     // 로그인 안했으면
     if (!this.user) {
       alert("로그인 후 이용해 주세요");
       // 뒤로가기
       this.props.history.goBack();
     }
-    // 식당 통해서 안왔으면
+    // 리뷰 통해서 안왔으면
     else if (this.props.location.params === undefined) {
-      alert("평가할 식당 정보가 없습니다.");
+      alert("수정할 리뷰 정보가 없습니다.");
+      this.props.history.goBack();
+    }
+    // 로그인 정보랑 받아온 정보가 다르면
+    else if (this.props.location.params.review.user !== this.user.id) {
+      alert("작성자가 일치하지 않습니다.");
       this.props.history.goBack();
     }
     // 조건 충족하면 state 적용
     else {
+      let review = this.props.location.params.review;
+      console.log(review)
+      // null 값인거 default 값으로 수정해서 넣기
+      if(review.total_score == null) review.total_score = 3
+      if(review.taste_score == null) review.taste_score = 3
+      if(review.price_score == null) review.price_score = 3
+      if(review.service_score == null) review.service_score = 3
       this.setState({
-        store: this.props.location.params.storeNo,
-        user: this.user.id,
-        user_nickname: this.user.nickname,
+        reviewNo: review.id,
+        store: review.store,
+        user: review.user,
+        user_nickname: review.nickname,
+        total_score: review.total_score,
+        taste_score: review.taste_score,
+        price_score: review.price_score,
+        service_score: review.service_score,
+        content: review.content,
       });
     }
   }
@@ -89,81 +105,11 @@ class Write extends React.Component {
     });
   };
 
-  // 이미지 변경 함수
-  InputChange = (res) => {
-    this.setState({
-      filekey: this.state.filekey + 1,
-    });
-
-    let number = res.target.files?.length;
-    let now = this.state.images.length;
-    // 파일 업로드 하기
-    if (number !== undefined && number !== 0) {
-      // 파일 업로드 수 제한 하기
-      if (number + now > 4) {
-        alert("파일은 최대 4개까지 업로드 가능합니다.");
-      }
-      //이미지 파일 기존배열에 추가해주기
-      else {
-        var image = this.state.images;
-        for (var i = 0; i < number; i++) {
-          let file = res.target.files[i];
-          image = image.concat(file);
-        }
-
-        this.setState({
-          images: image,
-        });
-
-        //이미지 변경 함수 호출
-        for (var j = this.state.images.length; j < image.length; j++)
-          this.ChangeImage(image[j]);
-      }
-    }
-  };
-
-  //이미지 변경됐을 때 프리뷰
-  ChangeImage = (e) => {
-    let reader = new FileReader();
-    reader.onloadend = (e) => {
-      // 2. 읽기가 완료되면 아래코드가 실행
-      const base64 = reader.result; //reader.result는 이미지를 인코딩(base64 ->이미지를 text인코딩)한 결괏값이 나온다.
-      if (base64) {
-        this.setState({
-          base64: [...this.state.base64, base64.toString()], // 파일 base64 상태 업데이트
-        });
-      }
-    };
-    if (e) {
-      reader.readAsDataURL(e); // 1. 파일을 읽어 버퍼에 저장합니다. 저장후 onloadend 트리거
-    }
-  };
-
-  //이미지 삭제하기
-  RemoveImg = (e) => {
-    let forward = this.state.images.slice(0, e.target.id);
-    let back = this.state.images.slice(
-      Number(e.target.id) + 1,
-      this.state.base64.length
-    );
-
-    let forward64 = this.state.base64.slice(0, e.target.id);
-    let back64 = this.state.base64.slice(
-      Number(e.target.id) + 1,
-      this.state.base64.length
-    );
-
-    this.setState({
-      images: forward.concat(back),
-      base64: forward64.concat(back64),
-    });
-  };
-
   // 리뷰 취소 버튼
   confirm = () => {
     if (
       window.confirm(
-        "리뷰 작성을 취소하시겠습니까?\n입력한 내용은 모두 사라집니다."
+        "리뷰 수정을 취소하시겠습니까?\n입력한 내용은 모두 사라집니다."
       )
     ) {
       this.props.history.goBack();
@@ -179,8 +125,8 @@ class Write extends React.Component {
     // axios 호출
     else {
       axios({
-        method: "post",
-        url: "http://15.165.19.70:8080/api/review",
+        method: "put",
+        url: "http://15.165.19.70:8080/api/review/" + this.state.reviewNo + "/",
         data: {
           store: this.state.store,
           user: this.state.user,
@@ -194,28 +140,12 @@ class Write extends React.Component {
         },
       })
         .then((res) => {
-          let path = new FormData();
-          for (let i = 0; i < this.state.images.length; i++) {
-            path.append("path", this.state.images[i]);
-          }
-          axios({
-            method: "post",
-            url: "http://15.165.19.70:8080/api/upload/" + res.data.id,
-            headers: { "content-type": "multipart/form-data" },
-            data: path,
-          })
-            .then((res) => {
-            //   console.log(res);
-              this.props.history.push("/search/" + this.state.store);
-            })
-            .catch((error) => {
-              console.log(error);
-              alert("리뷰 작성에 실패했습니다");
-            });
+          console.log(res);
+          this.props.history.push("/search/" + this.state.store);
         })
         .catch((error) => {
           console.log(error);
-          alert("리뷰 작성에 실패했습니다");
+          alert("리뷰 수정에 실패했습니다");
         });
     }
   };
@@ -292,52 +222,7 @@ class Write extends React.Component {
             </div>
             <hr />
             {/* 사진 업로드 */}
-            <div className="file_upload">
-              <div className="topic">사진첨부</div>
-              {/* 사진 업로드 버튼 */}
-              <div className="upload_btn">
-                <div className="filebox">
-                  <label>
-                    제품 사진 업로드
-                    <input
-                      key={this.state.filekey}
-                      multiple
-                      type="file"
-                      name="images"
-                      accept="image/gif, image/jpeg, image/png"
-                      onChange={this.InputChange}
-                    />
-                  </label>
-                  <div className="write_filenum">
-                    {this.state.images.length}개 사진 업로드
-                  </div>
-                </div>
-              </div>
-              {/* 사진 미리보기 */}
-              <div className="review_img_bundle">
-                {this.state.base64.map((img, index) => (
-                  <div key={index} className="review_img">
-                    <div className="thumbnail">
-                      <div className="centered">
-                        <img
-                          className="store_img"
-                          alt="store_img"
-                          src={img}
-                        ></img>
-                        {/* 이미지 등록 취소 버튼 */}
-                        <img
-                          alt="삭제"
-                          src="https://image.flaticon.com/icons/svg/458/458595.svg"
-                          className="X"
-                          id={index}
-                          onClick={this.RemoveImg}
-                        ></img>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <div className="file_upload">사진은 변경할 수 없습니다</div>
             <hr />
             {/* 클릭 버튼 */}
             <div className="btn_bundle">
@@ -355,4 +240,4 @@ class Write extends React.Component {
     );
   }
 }
-export default Write;
+export default Update;

@@ -1,7 +1,7 @@
 import React from "react";
 import "./Review.scss";
 import ReadScore from "../detail/ReadScore";
-
+import { withRouter } from "react-router-dom";
 import axios from "axios";
 
 // 841번!!
@@ -27,6 +27,17 @@ class Review extends React.Component {
         });
     }
   };
+
+  // 리뷰 수정 버튼
+  edit = () => {
+    const { history } = this.props;
+    history.push({
+      pathname: "/update",
+      params: {
+        review : this.props.review
+      },
+    });
+  }
 
   // 최대 10개까지만 이미지 보이게 하기
   render() {
@@ -76,10 +87,9 @@ class Review extends React.Component {
         {/* 작성자랑 같은지 확인 user_nickname 으로 비교 */}
         {this.user && this.user.nickname === review.user_nickname ? (
           <>
-            <div className="edit_button" onClick={this.confirm}>
-              삭제&nbsp;
-            </div>
-            <div className="edit_button">수정</div>
+            <div className="edit_button" onClick={this.confirm}>삭제</div>
+            &nbsp;
+            <div className="edit_button" onClick={this.edit}>수정</div>
           </>
         ) : (
           <div>&nbsp;</div>
@@ -89,4 +99,4 @@ class Review extends React.Component {
   }
 }
 
-export default Review;
+export default withRouter(Review);
