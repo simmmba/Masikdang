@@ -3,6 +3,7 @@ import "./MypageDetail.scss";
 
 import AppBar from "../common/AppBar";
 import Header from "../common/Header";
+import { NavLink } from "react-router-dom";
 
 class MypageDetail extends React.Component {
   constructor(props) {
@@ -64,6 +65,9 @@ class MypageDetail extends React.Component {
               <div className="box">{this.state.survey_result}</div>
             </div>
           </div>
+          <NavLink className="goProfile" to={`/mypage`}>
+            뒤로가기
+          </NavLink>
         </div>
         <AppBar></AppBar>
       </div>
