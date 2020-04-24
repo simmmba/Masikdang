@@ -309,7 +309,7 @@ class Write extends React.Component {
                     />
                   </label>
                   <div className="write_filenum">
-                    {this.state.images.length}개 사진 업로드
+                    <span className="file_num">{this.state.images.length}</span>개 사진 업로드
                   </div>
                 </div>
               </div>

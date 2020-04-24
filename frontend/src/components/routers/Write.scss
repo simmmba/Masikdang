@@ -14,7 +14,7 @@
             margin-right: 15px;
         }
         .text {
-            vertical-align: -3px;
+            vertical-align: -4px;
         }
         * {
             display: inline-block;
@@ -30,6 +30,11 @@
             margin-bottom: 20px;
             font-family: "BMHANNAPro";
             font-size: 20px;
+        }
+
+        .file_num{
+            font-size: 24px;
+            font-family: "BMHANNAPro";
         }
 
         .totla_score {
@@ -199,6 +204,11 @@
 
 @media screen and (min-width: 980px) {
     .Write {
+
+        .text {
+            font-size: 18px;
+            padding-top: 4px;
+        }
         .write_form {
             .file_upload {
                 .review_img_bundle {
@@ -207,6 +217,16 @@
                         margin-right: 10px;
                     }
                 }
+            }
+
+            .col-3{
+                font-size: 18px;
+            }
+            .topic{
+                font-size: 27px;
+            }
+            .content{
+                font-size: 20px;
             }
         }
     }

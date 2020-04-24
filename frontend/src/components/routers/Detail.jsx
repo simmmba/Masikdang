@@ -39,6 +39,7 @@ class Detail extends React.Component {
       similar: [],
       page: 1,
       maxPage: 1,
+      num_review: 0,
     };
   }
 
@@ -59,7 +60,6 @@ class Detail extends React.Component {
       url: "http://15.165.19.70:8080/api/store/" + url[url.length - 1],
     })
       .then((res) => {
-        // console.log(res.data);
         let category_list = [];
         if (res.data.category !== null)
           category_list = res.data.category.split("|");
@@ -71,7 +71,7 @@ class Detail extends React.Component {
       })
       .catch((error) => {
         console.log(error);
-        // alert("현재 정보를 받아오지 못하고 있습니다")
+        alert("현재 정보를 받아오지 못하고 있습니다");
       });
 
     // 리뷰 받아오는 axios
@@ -100,7 +100,6 @@ class Detail extends React.Component {
       })
       .catch((error) => {
         // console.log(error);
-        // alert("현재 정보를 받아오지 못하고 있습니다")
       });
   }
 
@@ -123,23 +122,34 @@ class Detail extends React.Component {
   };
 
   // 리뷰 받아오기
-  axiosReview = (res) => {
-
+  axiosReview = (e) => {
     // url 확인, axois 호출
     const url = window.location.href.split("/");
     // 리뷰 받아오는 axios
     axios({
       method: "get",
-      url: "http://15.165.19.70:8080/api/review/" + url[url.length - 1],
-      data: res,
+      url:
+        "http://15.165.19.70:8080/api/review/" +
+        url[url.length - 1] +
+        "?page=" +
+        e,
     })
       .then((res) => {
-        console.log(res.data);
-        this.setState({
-          review: this.state.review.concat(res.data.data),
-          check: false,
-          maxPage: res.data.num_page,
-        });
+        if (e === 1) {
+          this.setState({
+            review: res.data.data,
+            check: false,
+            maxPage: res.data.num_page,
+            num_review: res.data.num_review,
+          });
+        } else {
+          this.setState({
+            review: this.state.review.concat(res.data.data),
+            check: false,
+            maxPage: res.data.num_page,
+            num_review: res.data.num_review,
+          });
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -167,7 +177,7 @@ class Detail extends React.Component {
   };
 
   // 삭제하면 리뷰 처음부터 다시 받아오기
-  changeReview = (res) => {
+  changeReview = () => {
     this.setState({
       check: true,
       page: 1,
@@ -316,7 +326,7 @@ class Detail extends React.Component {
             {/* 리뷰 리스트 */}
             <div className="store_review_bundle">
               <div className="review_no_info">
-                {this.state.review && <span>{this.state.review.length}</span>}
+                {this.state.review && <span>{this.state.num_review}</span>}
                 건의 방문자 평가
               </div>
               {this.state.review.map((review, index) => (
