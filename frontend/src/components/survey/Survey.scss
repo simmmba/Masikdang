@@ -1,8 +1,9 @@
 // survey css
 .SurveyComponent {
-  height: 100vh;
+  min-height: 100vh;
   color: black;
   padding: 1rem;
+  // border: 1px solid red;
 
   * {
     font-family: "BMHANNAPro";
@@ -42,8 +43,7 @@
   }
 
   .sbox {
-    height: 490px;
-    // border: 1px solid black;
+    min-height: 350px;
 
     .question {
       padding: 1rem 0 1rem 0;

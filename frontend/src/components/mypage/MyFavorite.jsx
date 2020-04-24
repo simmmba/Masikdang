@@ -1,5 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { NavLink } from "react-router-dom";
 import { useUser } from "../../contexts/user";
 import "../routers/Mypage.scss";
 
@@ -10,22 +11,25 @@ const MyFavorite = ({ favorite, favoriteCnt }) => {
     </span>
   );
 
+  const [favorites, setFavorites] = useState([]);
+
   useEffect(() => {
     let user = JSON.parse(window.sessionStorage.getItem("user"));
-    //   console.log(user);
+    // console.log(user.id);
 
     axios({
       method: "get",
-      url: "http://i02a201.p.ssafy.io:8080/api/review/user/" + user.id,
+      url: "http://i02a201.p.ssafy.io:8080/api/user/like_list/" + user.id,
     })
       .then((res) => {
-        // console.log(res.data);
-        // reviewCnt(res.data.length);
+        console.log(res.data);
+        favoriteCnt(res.data.length);
+        res.data.length > 5 ? setFavorites(res.data.slice(0, 5)) : setFavorites(res.data);
       })
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [favoriteCnt]);
 
   return (
     <div className="favoriteBox">
@@ -33,9 +37,22 @@ const MyFavorite = ({ favorite, favoriteCnt }) => {
         <Emoji label="like" symbol="❤️" /> 최근 좋아한 식당
       </div>
       {favorite > 0 ? (
-        <>
-          <div className="title">작성한 리뷰</div>
-        </>
+        <div className="contentBox">
+          {favorites.map((f) => (
+            <div className="fcontent" key={f.id}>
+              <NavLink to={`/search/` + f.id} className="fname">
+                {f.store_name}
+              </NavLink>
+              <div className="fcategory">{f.category.split("|")[0]}</div>
+              <div className="farea">{f.area}</div>
+            </div>
+          ))}
+          {favorite > 5 && (
+            <NavLink to={`/home`} className="moreBox">
+              <div className="fmore">더보기</div>
+            </NavLink>
+          )}
+        </div>
       ) : (
         <>
           <div className="empty">좋아하는 식당이 없습니다</div>

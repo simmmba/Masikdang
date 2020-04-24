@@ -63,7 +63,7 @@ const SurveyResult = ({ reset, answer, surveyResult, meaning }) => {
           <div>{meaning[8][answer[8]]} 당신은</div>
           <div>{meaning[7][answer[7]]}을 중시하는</div>
           <div>
-            {meaning[3][answer[3]]}가 중요한, <u>마식당에 적합한 사람입니다.</u>
+            {meaning[3][answer[3]]}가 중요한, <u>마식당에 필요한 사람입니다.</u>
           </div>
         </div>
       </div>

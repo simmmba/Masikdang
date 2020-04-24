@@ -139,14 +139,14 @@
 
   .favoriteBox {
     width: 100%;
-    margin-top: 10px;
+    margin: 10px 0 7px 0;
     border: 1.5px solid #98d7db;
     border-radius: 4px;
   }
 
   .reviewBox {
     width: 100%;
-    margin: 10px 0 10px 0;
+    margin: 7px 0 10px 0;
     border: 1.5px solid #f9bbc7;
     border-radius: 4px;
   }
@@ -166,20 +166,75 @@
   }
 
   .contentBox {
-    padding: 4px 0 4px 0;
+    // padding: 4px 0 4px 0;
 
+    // favorite css
+    .fcontent {
+      display: flex;
+      // justify-content: left;
+      align-items: center;
+      border-top: 1px solid #98d7db;
+      border-bottom: 1px solid #98d7db;
+      width: 100%;
+      text-align: center;
+      padding: 4px 0 4px 0;
+      color: #353535;
+      font-size: 1rem;
+
+      .fname {
+        margin: 0 5px 0 8px;
+        // border: 1px solid red;
+        width: 50%;
+        color: #353535;
+        text-align: center;
+
+        // 길어지면 ...으로 생략하기
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        &:hover {
+          color: #5d5d5d;
+        }
+      }
+
+      .fcategory {
+        // border: 1px solid red;
+        width: 25%;
+
+        // 길어지면 ...으로 생략하기
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .farea {
+        margin: 0 8px 0 5px;
+        // border: 1px solid red;
+        width: 25%;
+
+        // 길어지면 ...으로 생략하기
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+
+    // review css
     .content {
       display: flex;
       // justify-content: left;
       align-items: center;
-      // border-bottom: 1px solid red;
+      border-top: 1px solid #f9bbc7;
+      border-bottom: 1px solid #f9bbc7;
       width: 100%;
-      text-align: left;
-      margin: 4px 0 4px 0;
+      text-align: center;
+      padding: 4px 0 4px 0;
       color: #353535;
+      font-size: 1rem;
 
+      // review css
       .name {
-        font-size: 1rem;
         width: 28%;
         margin: 0 8px 0 5px;
         color: #353535;
@@ -195,41 +250,73 @@
       }
 
       .detail {
-        font-size: 1rem;
         // border: 1px solid red;
         width: 60%;
+        color: #353535;
 
         // 길어지면 ...으로 생략하기
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+
+        &:hover {
+          color: #5d5d5d;
+        }
       }
 
       .score {
-        font-size: 1rem;
         // border: 1px solid red;
         width: 12%;
-        text-align: center;
         margin: 0 5px 0 2px;
-      }
-    }
-
-    .more {
-      // border: 1px solid black;
-      margin: 10px;
-      font-size: 1rem;
-      color: grey;
-      // padding: 2px 2px 2px 2px;
-      // height: 200px;
-      &:hover {
-        text-decoration: none;
-        color: darkgrey;
       }
     }
   }
 
+  .moreBox {
+    .fmore {
+      padding: 3px;
+      border-top: 1px solid #98d7db;
+      // background: #d8fcff;
+      // margin: 10px;
+      border-radius: 2px;
+      font-size: 1rem;
+      color: grey;
+      transition: 0.3s;
+
+      &:hover {
+        text-decoration: none;
+        color: #5d5d5d;
+        background: #98d7db;
+      }
+    }
+    &:hover {
+      text-decoration: none;
+      // color: darkgrey;
+    }
+
+    .more {
+      padding: 3px;
+      border-top: 1px solid #f9bbc7;
+      // background: #d8fcff;
+      // margin: 10px;
+      border-radius: 2px;
+      font-size: 1rem;
+      color: grey;
+      transition: 0.3s;
+
+      &:hover {
+        text-decoration: none;
+        color: #5d5d5d;
+        background: #f9bbc7;
+      }
+    }
+    &:hover {
+      text-decoration: none;
+      // color: darkgrey;
+    }
+  }
+
   .empty {
-    // border: 1px solid red;
     color: grey;
     font-size: 1.2rem;
     margin: 20px 0 20px 0;

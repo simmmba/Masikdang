@@ -12,7 +12,6 @@ const MyReview = ({ review, reviewCnt }) => {
   );
 
   const [reviews, setReviews] = useState([]);
-  const [name, setName] = useState("가나다라마바");
 
   useEffect(() => {
     let user = JSON.parse(window.sessionStorage.getItem("user"));
@@ -44,9 +43,11 @@ const MyReview = ({ review, reviewCnt }) => {
           {reviews.map((r) => (
             <div className="content" key={r.id}>
               <NavLink to={`/search/` + r.store} className="name">
-                {name}
+                {r.store_name}
               </NavLink>
-              <div className="detail">{r.content}</div>
+              <NavLink to={`/search/` + r.store} className="detail">
+                {r.content}
+              </NavLink>
               <div className="score">
                 <Emoji label="star" symbol="⭐️" />
                 {r.total_score}
@@ -54,8 +55,8 @@ const MyReview = ({ review, reviewCnt }) => {
             </div>
           ))}
           {review > 5 && (
-            <NavLink to={`/home`} className="more">
-              더보기
+            <NavLink to={`/home`} className="moreBox">
+              <div className="more">더보기</div>
             </NavLink>
           )}
         </div>
