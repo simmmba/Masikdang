@@ -1,9 +1,9 @@
 from django.conf.urls import url
 from django.urls import path
 from rest_framework.routers import DefaultRouter
-from api import views,views_tmp
+from .models import User, Store, Review, Review_img, Tag, Menu, Bhour, Image_upload
 
-
+from api import views, views_tmp ,views_sy, views_ky
 
 
 router = DefaultRouter(trailing_slash=False)
@@ -28,8 +28,13 @@ urlpatterns = [
 
     # 설문 URL
     path("survey/search", views.SurveySearch, name="surevey_search"),
-    path("survey/type", views.SurveyType, name="surevey_type"),
+    path("survey/type", views_ky.SurveyType, name="surevey_type"),
 
+    # 알고리즘
+    path("filter/user", views_sy.filteringByUser, name = "filter_user"),
+    path("filter/type", views_sy.filteringByType, name = "filter_type"),
+    path("similar",views_sy.similarStore, name = "similar_store"),
+    
     # 리뷰 URL
     path("review", views.ReviewPost.as_view(), name="review_post"),
     path("review/<store_id>", views.ReviewList.as_view(), name="review_store"),
