@@ -127,7 +127,7 @@ class StoreDetail(APIView):
             review_id__store_id=store_id).values_list('img', flat=True)[:10]
         result['review_img'] = review_imgs
 
-        user_id = request.POST.get('user_id')
+        user_id = request.GET.get('user_id')
         like = 0
         if user_id is not "":
             like = Like_store.objects.filter(
