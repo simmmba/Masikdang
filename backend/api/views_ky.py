@@ -10,6 +10,7 @@ from django.db.models import Q
 from django.db.models import Avg
 from django.db.models import Subquery
 from django.db.models import functions
+from django.db.models import Count
 
 
 from rest_framework.decorators import api_view
@@ -21,6 +22,8 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.decorators import action
 
 import json
+import numbers
+import math
 
 
 class StoreSearch(APIView):
@@ -94,10 +97,80 @@ def SurveyType(request):
         food = food_table[int(surveyArr[1])][int(surveyArr[4])]
         adjective = adjective_table[int(surveyArr[5:9], 2)]
 
-        index = ""+ str(format(int(surveyArr[0]), 'b'))+ str(format(int(surveyArr[2]), 'b'))+ str(format(int(surveyArr[3]), 'b'))
+        index = "" + str(format(int(surveyArr[0]), 'b')) + str(
+            format(int(surveyArr[2]), 'b')) + str(format(int(surveyArr[3]), 'b'))
         index = int(index, 2)
         taste = taste_table[index]
 
         ret = [adjective, taste, food]
         print(ret)
         return Response(ret)
+
+
+class LodationBased(APIView):
+    # 강남역   127.02758, 37.49794
+    def get(self, request, latitude, longitude, km, format=None):
+        print("==========================================")
+        print("Location Based Recommendation GET!")
+        print("latitude: "+latitude+" longitude: " + longitude + ", km="+km)
+        latitude = float(latitude)
+        longitude = float(longitude)
+        km = float(km)
+
+        store = Store.objects.all()
+        review = Review.objects.values(
+            "store_id").annotate(dcount=Count('store_id')).order_by('-dcount').values_list('store_id', flat=True)
+
+        ret = []
+        for r in review:
+            store = Store.objects.filter(id=r)
+            for s in store:
+                if s.longitude is None:
+                    continue
+                if s.longitude == 0:
+                    continue
+                if km >= GeoUtil.get_harversion_distance(
+                        longitude, latitude, float(s.longitude), float(s.latitude)):
+                    ret.append(s)
+            if len(ret) > 20:
+                break
+        print(len(ret))
+        serializer = StoreSerializer(ret, many=True)
+        return Response(serializer.data)
+
+
+class GeoUtil:
+    """
+    Geographical Utils
+    """
+
+    @staticmethod
+    def degree2radius(degree):
+        return degree * (math.pi/180)
+
+    # 실제 km를 반환
+    @staticmethod
+    def get_harversion_distance(x1, y1, x2, y2, round_decimal_digits=5):
+        """
+        경위도 (x1,y1)과 (x2,y2) 점의 거리를 반환
+        Harversion Formula 이용하여 2개의 경위도간 거래를 구함(단위:Km)
+        """
+        if x1 is None or y1 is None or x2 is None or y2 is None:
+            return None
+        # longitude(경도) 범위
+        assert isinstance(x1, numbers.Number) and -180 <= x1 and x1 <= 180
+        # latitude(위도) 범위
+        assert isinstance(y1, numbers.Number) and -90 <= y1 and y1 <= 90
+        assert isinstance(x2, numbers.Number) and -180 <= x2 and x2 <= 180
+        assert isinstance(y2, numbers.Number) and -90 <= y2 and y2 <= 90
+
+        R = 6371  # 지구의 반경(단위: km)
+        dLon = GeoUtil.degree2radius(x2-x1)
+        dLat = GeoUtil.degree2radius(y2-y1)
+
+        a = math.sin(dLat/2) * math.sin(dLat/2) \
+            + (math.cos(GeoUtil.degree2radius(y1))
+               * math.cos(GeoUtil.degree2radius(y2))
+               * math.sin(dLon/2) * math.sin(dLon/2))
+        b = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
+        return round(R * b, round_decimal_digits)
