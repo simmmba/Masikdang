@@ -1,5 +1,5 @@
 from .models import User, Store, Review, Review_img, Tag, Menu, Bhour, Image_upload, Like_store
-from .serializers import UserSerializer, StoreSerializer, ReviewSerializer, ReviewImgSerializer, TagSerializer, MenuSerializer, BhourSerializer
+from .serializers import UserSerializer, StoreSerializer, ReviewSerializer, ReviewImgSerializer, TagSerializer, MenuSerializer, BhourSerializer, LikeSerializer
 from django.http import Http404
 from rest_framework import status
 from rest_framework.views import APIView
@@ -411,15 +411,19 @@ class ReviewByUser(APIView):
     # 유저 리뷰 조회
     '''
     # Store 검색을 위한 클래스
-
     def get(self, request, user_id, format=None):
-        reviews_by_user = Review.objects.filter(user_id=user_id)
+        reviews_by_user = Review.objects.filter(user_id=user_id).order_by('id').reverse()
         serializer = ReviewSerializer(reviews_by_user, many=True)
+        review = serializer.data
+        # print(review)
+
+        for r in review:
+            print(r['store'])
+            store_name = Store.objects.get(id=r['store']).store_name
+            r['store_name'] = store_name
         return Response(serializer.data)
 
 # 가게 리뷰 사진 조회
-
-
 class ReviewImgList(APIView):
     '''
     # 가게 리뷰 사진 조회
@@ -468,3 +472,13 @@ class Store_like(APIView):
             like = Like_store(store_id = store_id, user_id = user_id)
             like.save()
             return Response("like")
+
+class Like_by_user(APIView) :
+    '''
+    # 좋아요 음식점 리스트
+    '''
+    def get(self, request, user_id, format=None) :
+
+        where = 'api_like_store.user_id='+user_id
+        store_liked = StoreSerializer(Store.objects.extra(tables=['api_like_store'], where=['api_store.id=api_like_store.store_id', "api_like_store.user_id="+user_id]),many=True)
+        return Response(store_liked.data)
