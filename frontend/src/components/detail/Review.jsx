@@ -18,7 +18,7 @@ class Review extends React.Component {
       })
         .then((res) => {
           alert("해당 리뷰가 삭제 되었습니다.");
-          if(this.props.changeReview){
+          if (this.props.changeReview) {
             this.props.changeReview();
           }
         })
@@ -34,10 +34,10 @@ class Review extends React.Component {
     history.push({
       pathname: "/update",
       params: {
-        review : this.props.review
+        review: this.props.review,
       },
     });
-  }
+  };
 
   // 최대 10개까지만 이미지 보이게 하기
   render() {
@@ -57,11 +57,14 @@ class Review extends React.Component {
           </span>
         </div>
         <div className="score_bundle">
-          맛&nbsp;<span>★</span>&nbsp;{review.taste_score}
+          맛&nbsp;<span>★</span>
+          {review.taste_score}
           &nbsp;&nbsp;&nbsp;&nbsp;가격&nbsp;
-          <span>★</span>&nbsp;{review.price_score}
+          <span>★</span>
+          {review.price_score}
           &nbsp;&nbsp;&nbsp;&nbsp;서비스&nbsp;
-          <span>★</span>&nbsp;{review.service_score}
+          <span>★</span>
+          {review.service_score}
         </div>
         <div className="content">{review.content}</div>
         {/* 리뷰 이미지 들어가는 부분 1:1 */}
@@ -83,16 +86,27 @@ class Review extends React.Component {
             </div>
           ))}
         </div>
-        <div className="date">{review.reg_time}</div>
         {/* 작성자랑 같은지 확인 user_nickname 으로 비교 */}
         {this.user && this.user.nickname === review.user_nickname ? (
           <>
-            <div className="edit_button" onClick={this.confirm}>삭제</div>
+            <div className="edit_button" onClick={this.confirm}>
+              삭제
+            </div>
             &nbsp;
-            <div className="edit_button" onClick={this.edit}>수정</div>
+            <div className="edit_button" onClick={this.edit}>
+              수정
+            </div>
+            <div className="date">{review.reg_time}</div>
           </>
         ) : (
-          <div>&nbsp;</div>
+          <>
+            {review.reg_time && (
+              <>
+                <div>&nbsp;</div>
+                <div className="date">{review.reg_time}</div>
+              </>
+            )}
+          </>
         )}
       </div>
     );
