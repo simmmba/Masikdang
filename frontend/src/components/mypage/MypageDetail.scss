@@ -24,6 +24,36 @@
     }
   }
 
+  // 업로드 버튼 보고 css 변경해봐 whatever you want
+  .upload_btn {
+    .filebox label {
+      display: inline-block;
+      padding: 0.5em 0.5em;
+      font-size: 15px;
+      line-height: normal;
+      vertical-align: middle;
+      border: none;
+      color: black;
+      background: rgba(228, 228, 228, 0.699);
+      border-radius: 0.25em;
+      // font-weight: bolder;
+      cursor: pointer;
+    }
+
+    .filebox label:hover {
+      color: #98d7db;
+    }
+
+    .filebox input[type="file"] {
+      /* 파일 필드 숨기기 */
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+  }
   .imgBtn {
     font-size: 13px;
     border: 1.8px solid #747474;
