@@ -217,17 +217,23 @@ def filter_by_type(dataframes, surveyRes):
 def similar_store(dataframes, storeID):
     origin_store = dataframes["stores"]
     origin_review = dataframes["reviews"]
+    # 리뷰 1개 이상 달린 상점만 가져오기
+    st_rv = pd.merge(origin_store, origin_review, on="store_id").groupby(["store_id"]).size()
+    st_rv = st_rv.index[st_rv>=1]
+    new_store = origin_store[origin_store['store_id'].isin(st_rv)]
+    print(new_store)
+
     # 평점이 0점 이거나 없는 데이터 없애기
     reviews = origin_review[origin_review['score'] >= 1]
-    # 300명 이상에게 평점 매겨진 데이터만 가져오기
-    filter_reviews = origin_review['user_id'].value_counts() >= 200
+    # 100개 이상의 리뷰를 남긴 유저의 데이터만 가져오기
+    filter_reviews = origin_review['user_id'].value_counts() >= 100
     filter_reviews = filter_reviews[filter_reviews].index.tolist()
     new_reviews = reviews[reviews['user_id'].isin(filter_reviews)]
     print("가공 된 리뷰 데이터")
-    print(new_reviews.head())
+    print(new_reviews)
 
     # 스토어와 리뷰를 가지고 새로운 데이터 프레임 생성
-    stores_reviews = pd.merge(origin_store, new_reviews, on='store_id')
+    stores_reviews = pd.merge(new_store, new_reviews, on='store_id')
     store_user_socre = stores_reviews.pivot_table(
         'score', 'store_id', 'user_id', fill_value="0"
     )
