@@ -219,7 +219,7 @@ def similar_store(dataframes, storeID):
     origin_review = dataframes["reviews"]
     # 리뷰 1개 이상 달린 상점만 가져오기
     st_rv = pd.merge(origin_store, origin_review, on="store_id").groupby(["store_id"]).size()
-    st_rv = st_rv.index[st_rv>=1]
+    st_rv = st_rv.index[st_rv>=2]
     new_store = origin_store[origin_store['store_id'].isin(st_rv)]
     print(new_store)
 
