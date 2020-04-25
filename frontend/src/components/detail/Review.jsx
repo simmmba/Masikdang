@@ -68,24 +68,27 @@ class Review extends React.Component {
         </div>
         <div className="content">{review.content}</div>
         {/* 리뷰 이미지 들어가는 부분 1:1 */}
-        <div className="review_img_bundle">
-          {review.imgs.map((img, index) => (
-            <div key={index} className="review_img">
-              <div className="thumbnail">
-                <div className="centered">
-                  <img
-                    className="store_img"
-                    alt="store_img"
-                    src={img}
-                    onClick={() => {
-                      window.open(img);
-                    }}
-                  ></img>
+        {review.imgs && review.imgs.length > 0 && (
+          <div className="review_img_bundle">
+            {review.imgs.map((img, index) => (
+              <div key={index} className="review_img">
+                <div className="thumbnail">
+                  <div className="centered">
+                    <img
+                      className="store_img"
+                      alt="store_img"
+                      src={img}
+                      onClick={() => {
+                        window.open(img);
+                      }}
+                    ></img>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
+
         {/* 작성자랑 같은지 확인 user_nickname 으로 비교 */}
         {this.user && this.user.nickname === review.user_nickname ? (
           <>

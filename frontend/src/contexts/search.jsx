@@ -8,14 +8,14 @@ const { Provider } = SearchContext;
 class SearchProvider extends Component {
   state = {
     word: "",
-    subject: "name",
-    store:[],
-    maxlength: 0 // 실제로는 
+    subject: "total",
+    store: [],
+    maxlength: 0, // 실제로는
   };
 
   actions = {
-    reset:() => {
-      this.setState(() => ({ word: "", subject:"name", store:[] }));
+    reset: () => {
+      this.setState(() => ({ word: "", subject: "total", store: [] }));
     },
     changeword: (select) => {
       this.setState(() => ({ word: select }));
@@ -31,7 +31,18 @@ class SearchProvider extends Component {
     },
     getmaxlength: (select) => {
       this.setState(() => ({ maxlength: select }));
-    }
+    },
+    // 뒤로 가기 했을 때 값 변경 되도록 처리
+    editlike: (select) => {
+      const modifiy = this.state.store.map((item) =>
+        item.id === select
+          ? item.like === 1
+            ? { ...item, like: 0 }
+            : { ...item, like: 1 }
+          : item
+      );
+      this.setState(() => ({ store: modifiy }));
+    },
   };
 
   render() {
@@ -42,7 +53,7 @@ class SearchProvider extends Component {
   }
 }
 
-const {Consumer: SearchConsumer} = SearchContext;
+const { Consumer: SearchConsumer } = SearchContext;
 const useSearch = createUseConsumer(SearchConsumer);
 
 export { SearchProvider, SearchConsumer, useSearch, SearchContext };

@@ -21,7 +21,7 @@ class HeaderSearch extends React.Component {
     super(props);
     this.state = {
       word: "",
-      subject: "name",
+      subject: "total",
     };
   }
 
@@ -57,9 +57,18 @@ class HeaderSearch extends React.Component {
 
   // input 작성
   changeInput = (res) => {
-    this.setState({
-      word: res.target.value,
-    });
+    var input = res.target.value.substring(
+      res.target.value.length - 1,
+      res.target.value.length
+    );
+    console.log(input)
+    if (input === "?" || input === "/") {
+      alert("?, / 는 입력할 수 없습니다.");
+    } else {
+      this.setState({
+        word: res.target.value,
+      });
+    }
   };
 
   clicksearch = () => {
@@ -102,6 +111,7 @@ class HeaderSearch extends React.Component {
                   onChange={this.selectSubject}
                   value={this.state.subject}
                 >
+                  <option value="total">전체</option>
                   <option value="name">식당명</option>
                   <option value="area">지역</option>
                   <option value="category">카테고리</option>

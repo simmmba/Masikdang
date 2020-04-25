@@ -28,7 +28,6 @@ class CarouselSlider extends React.Component {
           stopAutoPlayOnHover
           infinite
           centered={false}
-          offset={5.5}
           breakpoints={{
             1000: {
               slidesPerPage: 4,
