@@ -47,7 +47,7 @@ class Search extends React.Component {
       document.body.scrollTop;
     // 스크롤링 했을때, 브라우저의 가장 밑에서 100정도 높이가 남았을때에 실행하기위함.
     if (
-      scrollHeight - innerHeight - scrollTop < 100 &&
+      scrollHeight - innerHeight - scrollTop < 200 &&
       this.state.store_len >= 0 &&
       this.state.page < this.state.maxPage
     ) {
@@ -120,7 +120,6 @@ class Search extends React.Component {
     });
 
     // 입력 값이 없을 때의 초기 값
-    // 나중에는 현재 위치 기준으로 변경
     if (word === "") {
       word = "역삼";
       subject = "area";
