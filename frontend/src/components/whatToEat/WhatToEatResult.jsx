@@ -14,23 +14,27 @@ const WhatToEatResult = ({ wreset, wanswer }) => {
   const [login, setLogin] = useState(false);
 
   useEffect(() => {
-    //   axios({
-    //     method: "get",
-    //     url: "http://i02a201.p.ssafy.io:8080/api/survey/search",
-    //     params: {
-    //       wanswer,
-    //     },
+    console.log(wanswer);
+    // axios({
+    //   method: "post",
+    //   url: "http://i02a201.p.ssafy.io:8080/api/survey/search",
+    //   headers: {
+    //     "content-type": "json",
+    //   },
+
+    //   data: {
+    //     wanswer,
+    //   },
+    // })
+    //   .then((res) => {
+    //     console.log(res);
     //   })
-    //     .then((res) => {
-    //       console.log(res);
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //     });
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
 
     if (window.sessionStorage.getItem("user")) {
       setLogin(true);
-      console.log(wanswer);
     }
   }, [wanswer]);
 

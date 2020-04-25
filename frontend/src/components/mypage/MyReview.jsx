@@ -35,7 +35,7 @@ const MyReview = ({ review, reviewCnt }) => {
   return (
     <div className="reviewBox">
       <div className="reviewTitle">
-        <Emoji label="star" symbol="📝" /> 최근 작성한 리뷰
+        <Emoji label="star" symbol="📝" /> 최근 작성 리뷰
       </div>
       {/* {console.log(reviews)} */}
       {review > 0 ? (

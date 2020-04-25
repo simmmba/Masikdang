@@ -34,7 +34,7 @@ const MyFavorite = ({ favorite, favoriteCnt }) => {
   return (
     <div className="favoriteBox">
       <div className="favoriteTitle">
-        <Emoji label="like" symbol="❤️" /> 최근 좋아한 식당
+        <Emoji label="like" symbol="❤️" /> 최근 즐겨찾기 추가 식당
       </div>
       {favorite > 0 ? (
         <div className="contentBox">
@@ -43,7 +43,7 @@ const MyFavorite = ({ favorite, favoriteCnt }) => {
               <NavLink to={`/search/` + f.id} className="fname">
                 {f.store_name}
               </NavLink>
-              <div className="fcategory">{f.category.split("|")[0]}</div>
+              <div className="fcategory">{f.categoty && f.category.split("|")[0]}</div>
               <div className="farea">{f.area}</div>
             </div>
           ))}

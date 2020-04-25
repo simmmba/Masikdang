@@ -65,7 +65,7 @@ class Mypage extends React.Component {
                   <div className="cntBox">
                     <div className="cnt">
                       <Emoji label="like" symbol="❤️" />
-                      좋아요&nbsp;&nbsp;<span className="cntColor">{this.context.state.favorite}</span>
+                      즐겨찾기&nbsp;&nbsp;<span className="cntColor">{this.context.state.favorite}</span>
                     </div>
                     <div className="cnt">
                       <Emoji label="star" symbol="📝" />
