@@ -14,7 +14,7 @@ const Survey = ({ reset, index, question, options, answer, increment, add, edit 
   };
 
   const optionList = options[index].map((option, idx) => (
-    <span key={idx} className="option">
+    <div key={idx} className="option">
       {answer.length === question.length ? reset() : ""}
       {index !== question.length - 1 ? (
         <NavLink
@@ -40,7 +40,7 @@ const Survey = ({ reset, index, question, options, answer, increment, add, edit 
           {option}{" "}
         </NavLink>
       )}
-    </span>
+    </div>
   ));
 
   return (

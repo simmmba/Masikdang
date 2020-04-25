@@ -6,7 +6,7 @@ const Counter = ({ windex, wquestion, wdecrement }) => {
   return (
     <div className="bottom">
       {windex > 0 ? (
-        <button className="btn" onClick={wdecrement}>
+        <button className="backBtn" onClick={wdecrement}>
           {" "}
           👈{" "}
         </button>

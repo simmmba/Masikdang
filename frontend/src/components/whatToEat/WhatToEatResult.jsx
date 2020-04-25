@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
+// import axios from "axios";
 import { NavLink } from "react-router-dom";
 import { useWhatToEat } from "../../contexts/whatToEat";
+import "./WhatToEat.scss";
 
 const WhatToEatResult = ({ wreset, wanswer }) => {
   const Emoji = (props) => (
@@ -12,19 +14,34 @@ const WhatToEatResult = ({ wreset, wanswer }) => {
   const [login, setLogin] = useState(false);
 
   useEffect(() => {
+    //   axios({
+    //     method: "get",
+    //     url: "http://i02a201.p.ssafy.io:8080/api/survey/search",
+    //     params: {
+    //       wanswer,
+    //     },
+    //   })
+    //     .then((res) => {
+    //       console.log(res);
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //     });
+
     if (window.sessionStorage.getItem("user")) {
       setLogin(true);
+      console.log(wanswer);
     }
-  }, []);
+  }, [wanswer]);
 
   return (
     <div className="WhatToEatBox">
       <div className="ResultComponent">
         <div className="top">결과 페이지</div>
-        {console.log(wanswer)}
+        {/* {console.log(wanswer)} */}
         <div className="select">
           {wanswer.map((option) => (
-            <div>{option}</div>
+            <div key={option}>{option}</div>
           ))}
         </div>
         <div className="mention">를 선택하셨습니다.</div> <br />

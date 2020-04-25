@@ -21,7 +21,6 @@ const Counter = ({ windex, wreset }) => {
 
   return (
     <div className="top">
-      {/* <button className="btn" onClick={() => history.goBack()}> */}
       <button
         className="back"
         onClick={function () {
