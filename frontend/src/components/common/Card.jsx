@@ -42,7 +42,7 @@ class Card extends React.Component {
           </div>
           <div className="text">
             <div className="title">{this.state.store.store_name}</div>
-            <div id="liked" className="liked_item"><Liked></Liked></div>
+            <div id="liked" className="liked_item"><Liked like={this.state.store.like} store={this.state.store.id}></Liked></div>
             <div className="category">{this.state.store.address}</div>
             <div id="evaluation" className="evaluation">
               평가하기
