@@ -14,13 +14,11 @@ class ImageList extends React.Component {
     };
   }
 
-  componentDidUpdate() {
-    if (this.props.img_list !== this.state.img_list) {
-      this.setState({
-        check: true,
-        img_list: this.props.img_list,
-      });
-    }
+  componentDidMount() {
+    this.setState({
+      check: true,
+      img_list: this.props.img_list,
+    });
   }
 
   // 클릭으로 확인

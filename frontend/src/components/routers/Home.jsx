@@ -5,6 +5,7 @@ import AppBar from "../common/AppBar";
 import Header from "../common/Header";
 import HeaderSearch from "../common/HeaderSearch";
 
+
 class Home extends React.Component {
   constructor(props) {
     super(props);

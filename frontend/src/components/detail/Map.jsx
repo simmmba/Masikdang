@@ -3,7 +3,7 @@ import "./Map.scss";
 
 class Map extends React.Component {
 
-  componentDidUpdate() {
+  componentDidMount() {
     var container = document.getElementById("map");
     var options = {
       //지도를 생성할 때 필요한 기본 옵션
