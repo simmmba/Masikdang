@@ -1,0 +1,28 @@
+.NearMap {
+    padding: 0px;
+    .thumbnail {
+        position: relative;
+        padding-top: 56.25%;
+        margin-bottom: 10px;
+        overflow: hidden;
+        display: block;
+
+        .centered {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+
+            .kakaoMap {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                width: 100%;
+                height: 100%;
+            }
+        }
+    }
+}
