@@ -35,6 +35,7 @@ urlpatterns = [
     path("filter/user", views_sy.filteringByUser, name = "filter_user"),
     path("filter/type", views_sy.filteringByType, name = "filter_type"),
     path("similar",views_sy.similarStore, name = "similar_store"),
+    path("content",views_sy.contentStore, name = "content_store"),
     
     # 리뷰 URL
     path("review", views.ReviewPost.as_view(), name="review_post"),

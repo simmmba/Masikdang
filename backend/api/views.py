@@ -330,9 +330,12 @@ class NickDuplicateCheck(APIView):
 @api_view(['GET', 'POST'])
 def SurveySearch(request):
     print("searchpoll 시작")
-    if request.method == 'GET':
+    if request.method == 'POST':
         print("get 시작")
-        surveyArr = request.data
+        ret = request.POST
+        print(ret)
+        surveyArr = ret['wanswer']
+        print(surveyArr)
         if(surveyArr[0] == "혼자"):
             survey01 = Review.objects.filter(
                 content__contains="혼밥").only('store').all()

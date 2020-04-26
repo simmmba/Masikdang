@@ -1,10 +1,12 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .parse import load_dataframes
+from .parse_tmp import load_store_dataframes
 import pandas as pd
 import shutil
 
 from sklearn.decomposition import TruncatedSVD
+from sklearn.feature_extraction.text import CountVectorizer
 from scipy.sparse.linalg import svds
 from sklearn.metrics.pairwise import cosine_similarity
 
@@ -217,17 +219,23 @@ def filter_by_type(dataframes, surveyRes):
 def similar_store(dataframes, storeID):
     origin_store = dataframes["stores"]
     origin_review = dataframes["reviews"]
+    # 리뷰 1개 이상 달린 상점만 가져오기
+    st_rv = pd.merge(origin_store, origin_review, on="store_id").groupby(["store_id"]).size()
+    st_rv = st_rv.index[st_rv>=2]
+    new_store = origin_store[origin_store['store_id'].isin(st_rv)]
+    print(new_store)
+
     # 평점이 0점 이거나 없는 데이터 없애기
     reviews = origin_review[origin_review['score'] >= 1]
-    # 300명 이상에게 평점 매겨진 데이터만 가져오기
-    filter_reviews = origin_review['user_id'].value_counts() >= 200
+    # 100개 이상의 리뷰를 남긴 유저의 데이터만 가져오기
+    filter_reviews = origin_review['user_id'].value_counts() >= 100
     filter_reviews = filter_reviews[filter_reviews].index.tolist()
     new_reviews = reviews[reviews['user_id'].isin(filter_reviews)]
     print("가공 된 리뷰 데이터")
-    print(new_reviews.head())
+    print(new_reviews)
 
     # 스토어와 리뷰를 가지고 새로운 데이터 프레임 생성
-    stores_reviews = pd.merge(origin_store, new_reviews, on='store_id')
+    stores_reviews = pd.merge(new_store, new_reviews, on='store_id')
     store_user_socre = stores_reviews.pivot_table(
         'score', 'store_id', 'user_id', fill_value="0"
     )
@@ -244,7 +252,47 @@ def similar_store(dataframes, storeID):
     
     print(df4)
     return df4
-   
+
+def content_store(dataframes, storeID):
+    stores = dataframes["stores"]
+    reviews = dataframes["reviews"]
+    reviews = reviews[reviews["score"]>=4]
+    stores_reviews = pd.merge(stores, reviews, on="store_id")
+    stores_reviews = stores_reviews.groupby(["store_id"]).mean()
+    stores_reviews.drop('review_id', axis=1, inplace=True)
+    stores_reviews.drop('user_id', axis=1, inplace=True)
+    print(stores_reviews)
+    stores_reviews = pd.merge(stores, stores_reviews, on="store_id")
+    print(stores_reviews)
+
+    count_vector = CountVectorizer(ngram_range=(1, 3))
+    c_vector_category = count_vector.fit_transform(stores_reviews['category_list'])
+    gerne_c_sim = cosine_similarity(c_vector_category, c_vector_category).argsort()[:, ::-1]
+    
+    # 특정 영화와 비슷한 영화를 추천해야 하기 때문에 '특정 영화' 정보를 뽑아낸다.
+    target_store_index = stores_reviews[stores_reviews['store_id'] == storeID].index.values
+    
+    #코사인 유사도 중 비슷한 코사인 유사도를 가진 정보를 뽑아낸다.
+    sim_index = gerne_c_sim[target_store_index, :10].reshape(-1)
+    #본인을 제외
+    sim_index = sim_index[sim_index != target_store_index]
+
+    #data frame으로 만들고 vote_count으로 정렬한 뒤 return
+    result = stores_reviews.iloc[sim_index].sort_values('score', ascending=False)[:10]
+    print(result)
+    return result
+
+# 카테고리 컨텐트 기반 필터링
+@api_view(['GET', 'POST'])
+def contentStore(request):
+    if request.method == 'GET':
+        store = request.query_params.get("store", "")
+        data = load_store_dataframes()
+        print("데이터 전 처리/ 분석 시작")
+        result = content_store(data, store)
+        print("데이터 분석 완료")
+    return Response(result)
+
 # 코사인 유사도를 사용하여 지금 보고 잇는 상점과 비슷한 상점들 추천(완료)
 @api_view(['GET', 'POST'])
 def similarStore(request):
