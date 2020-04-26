@@ -55,7 +55,7 @@ const MyReview = ({ review, reviewCnt }) => {
             </div>
           ))}
           {review > 5 && (
-            <NavLink to={`/home`} className="moreBox">
+            <NavLink to={`/mypage/review`} className="moreBox">
               <div className="more">더보기</div>
             </NavLink>
           )}

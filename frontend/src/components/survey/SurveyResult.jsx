@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { NavLink } from "react-router-dom";
+import TypeRecommend from "./TypeRecommend";
 import { useSurvey } from "../../contexts/survey";
 import "./Survey.scss";
 
@@ -14,6 +15,7 @@ const SurveyResult = ({ reset, answer, surveyResult, meaning }) => {
   let data = answer.join("");
   const [login, setLogin] = useState(false);
   const [result, setResult] = useState([]);
+  const [type, setType] = useState("");
 
   useEffect(() => {
     axios({
@@ -27,6 +29,7 @@ const SurveyResult = ({ reset, answer, surveyResult, meaning }) => {
         let resultString = res.data.join(" ");
         surveyResult(resultString);
         setResult(res.data);
+        setType(res.data[2]);
       })
       .catch((error) => {
         console.log(error);
@@ -67,6 +70,7 @@ const SurveyResult = ({ reset, answer, surveyResult, meaning }) => {
           </div>
         </div>
       </div>
+      {type !== "" && <TypeRecommend type={type} />}
       <NavLink className="retryBtn" to={`/start`} onClick={reset}>
         다시 해보기
       </NavLink>

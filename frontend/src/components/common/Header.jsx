@@ -3,12 +3,6 @@ import "./Header.scss";
 import logo from "../../img/logo6.png";
 import { NavLink } from "react-router-dom";
 
-const Emoji = (props) => (
-  <span className="emoji" role="img" aria-label={props.label ? props.label : ""} aria-hidden={props.label ? "false" : "true"}>
-    {props.symbol}
-  </span>
-);
-
 class Header extends React.Component {
   render() {
     return (
@@ -23,9 +17,7 @@ class Header extends React.Component {
                 </NavLink>
               </div>
               <div className="col-3 survey1_btn">
-                <NavLink to="/start">
-                  설문 <Emoji label="gogo" symbol="👉🏻" />
-                </NavLink>
+                <NavLink to="/start">테스트</NavLink>
               </div>
             </div>
           </div>

@@ -43,12 +43,12 @@ const MyFavorite = ({ favorite, favoriteCnt }) => {
               <NavLink to={`/search/` + f.id} className="fname">
                 {f.store_name}
               </NavLink>
-              <div className="fcategory">{f.categoty && f.category.split("|")[0]}</div>
+              <div className="fcategory">{f.categoty !== null && f.category.split("|")[0]}</div>
               <div className="farea">{f.area}</div>
             </div>
           ))}
           {favorite > 5 && (
-            <NavLink to={`/home`} className="moreBox">
+            <NavLink to={`/mypage/favorite`} className="moreBox">
               <div className="fmore">더보기</div>
             </NavLink>
           )}
