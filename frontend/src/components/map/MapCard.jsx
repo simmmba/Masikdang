@@ -43,7 +43,6 @@ class MapCard extends React.Component {
           <div>
             {this.state.category_list.map((item, index) => (
               <span key={index}>
-                  # 
                 {item}
                 {index !== this.state.category_list.length - 1 && ", "}
               </span>

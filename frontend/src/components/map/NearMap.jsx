@@ -26,7 +26,8 @@ class NearMap extends React.Component {
       check: false,
       level: 5,
       address: "",
-      stores:[]
+      stores:[],
+      loading: false
     };
   }
 
@@ -116,6 +117,10 @@ class NearMap extends React.Component {
 
     // 기존마커 지우기
     this.removeMarker();
+    //Loading 표시
+    this.setState({
+        loading: true
+    })
 
     // axios 호출
     axios({
