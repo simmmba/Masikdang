@@ -14,7 +14,7 @@ import numpy as np
 import warnings
 
 def filter_by_user(dataframes, surveyRes, userIID):
-    # 원본 데이터
+     # 원본 데이터
     origin_store = dataframes["stores"]
     origin_review = dataframes["reviews"]
     origin_user = dataframes["users"]
@@ -22,23 +22,18 @@ def filter_by_user(dataframes, surveyRes, userIID):
     # 같은 타입 유저들만
     origin_user = origin_user[origin_user["survey_result"].str.contains(surveyRes)==True]
     if(len(origin_user)<100):
+        print("같은 타입의 데이터가 너무 적어 전체유저를 대상으로 합니다")
         origin_user = dataframes["users"]
-    origin_review = pd.merge(
-        origin_review, origin_user, on="user_id"
-    )
-    
+
     print(origin_user)
     origin_review = pd.merge(
         origin_review, origin_user, on="user_id"
     )
 
-    userID = origin_user.iloc[2,0]
-    print(userID)
-
-    stores = pd.merge(
-        origin_store, origin_review, left_on="store_id", right_on="store_id"
-    )
-    print(stores.head())
+    # stores = pd.merge(
+    #     origin_store, origin_review, left_on="store_id", right_on="store_id"
+    # )
+    # print(stores.head())
 
     # 필요 없는 칼럼 없애기
     # stores.drop('review_id', axis = 1, inplace = True)
@@ -50,7 +45,13 @@ def filter_by_user(dataframes, surveyRes, userIID):
     # 평점이 0점 이거나 없는 데이터 없애기
     reviews = origin_review[origin_review['score'] >= 1]
     # 300명 이상에게 평점 매겨진 데이터만 가져오기
-    filter_reviews = origin_review['user_id'].value_counts() >= 1
+    if(len(origin_user)>3000):
+        filter_reviews = origin_review['user_id'].value_counts() >= 20
+        print("user가 너무 많을 경우 제한 건다")
+    else:
+        filter_reviews = origin_review['user_id'].value_counts() >= 1
+        print("적절한 user 수가 있습니다.")
+    
     filter_reviews = filter_reviews[filter_reviews].index.tolist()
     new_reviews = reviews[reviews['user_id'].isin(filter_reviews)]
     print("가공 된 리뷰 데이터")
@@ -129,18 +130,18 @@ def filter_by_type(dataframes, surveyRes):
     # 같은 타입 유저들만
     origin_user = origin_user[origin_user["survey_result"].str.contains(surveyRes)==True]
     if(len(origin_user)<100):
+        print("같은 타입의 데이터가 너무 적어 전체유저를 대상으로 합니다")
         origin_user = dataframes["users"]
+
+    print(origin_user)
     origin_review = pd.merge(
         origin_review, origin_user, on="user_id"
     )
 
-    userID = origin_user.iloc[1,0]
-    print(userID)
-
-    stores = pd.merge(
-        origin_store, origin_review, left_on="store_id", right_on="store_id"
-    )
-    print(stores.head())
+    # stores = pd.merge(
+    #     origin_store, origin_review, left_on="store_id", right_on="store_id"
+    # )
+    # print(stores.head())
 
     # 필요 없는 칼럼 없애기
     # stores.drop('review_id', axis = 1, inplace = True)
@@ -152,7 +153,13 @@ def filter_by_type(dataframes, surveyRes):
     # 평점이 0점 이거나 없는 데이터 없애기
     reviews = origin_review[origin_review['score'] >= 1]
     # 300명 이상에게 평점 매겨진 데이터만 가져오기
-    filter_reviews = origin_review['user_id'].value_counts() >= 1
+    if(len(origin_user)>3000):
+        filter_reviews = origin_review['user_id'].value_counts() >= 20
+        print("user가 너무 많을 경우 제한 건다")
+    else:
+        filter_reviews = origin_review['user_id'].value_counts() >= 1
+        print("적절한 user 수가 있습니다.")
+    
     filter_reviews = filter_reviews[filter_reviews].index.tolist()
     new_reviews = reviews[reviews['user_id'].isin(filter_reviews)]
     print("가공 된 리뷰 데이터")
@@ -164,17 +171,12 @@ def filter_by_type(dataframes, surveyRes):
     stores_reviews.drop('review_id', axis=1, inplace=True)
     print("스토어 리뷰 하나의 데이터로 생성 stores_reviews")
     print(stores_reviews)
-    userID = stores_reviews.iloc[0,4]
+    userID = stores_reviews.iloc[1,4]
     print(userID)
     # 피봇 테이블 생성 (values, index, column) 순서
     user_sotre_score = stores_reviews.pivot_table(
         'score', 'user_id', 'store_id', fill_value="0"
     )
-    print("피봇 테이블 user_store_score")
-    print(user_sotre_score)
-   
-
-   # print(user_sotre_score.shape)
     print("피봇 테이블 user_store_score")
     print(user_sotre_score)
 
@@ -226,35 +228,41 @@ def filter_by_type(dataframes, surveyRes):
 def similar_store(dataframes, storeID):
     origin_store = dataframes["stores"]
     origin_review = dataframes["reviews"]
+    print(origin_store)
+    print(origin_review)
     # 리뷰 1개 이상 달린 상점만 가져오기
     st_rv = pd.merge(origin_store, origin_review, on="store_id").groupby(["store_id"]).size()
     st_rv = st_rv.index[st_rv>=2]
     new_store = origin_store[origin_store['store_id'].isin(st_rv)]
+    print(new_store)
 
     # 평점이 0점 이거나 없는 데이터 없애기
     reviews = origin_review[origin_review['score'] >= 1]
+    print(reviews)
     # 100개 이상의 리뷰를 남긴 유저의 데이터만 가져오기
     filter_reviews = origin_review['user_id'].value_counts() >= 8
     filter_reviews = filter_reviews[filter_reviews].index.tolist()
     new_reviews = reviews[reviews['user_id'].isin(filter_reviews)]
+    print("가공 된 리뷰 데이터")
+    print(new_reviews)
 
     # 스토어와 리뷰를 가지고 새로운 데이터 프레임 생성
     stores_reviews = pd.merge(new_store, new_reviews, on='store_id')
     store_user_socre = stores_reviews.pivot_table(
         'score', 'store_id', 'user_id', fill_value="0"
     )
-    # print(store_user_socre)
+    print(store_user_socre)
     store_id = int(storeID)
     item_based_collabor = cosine_similarity(store_user_socre)
     item_based_collabor = pd.DataFrame(data = item_based_collabor, index = store_user_socre.index, columns =store_user_socre.index )
     result = item_based_collabor[store_id].sort_values(ascending=False)[:10]
-    # print(result)
+    print(result)
     df1 = pd.DataFrame(data=result.index, columns=['store_id'])
     df2 = pd.DataFrame(data=result.values, columns=['cosine_similarity'])
     df = pd.merge(df1, df2, left_index=True, right_index=True)
     df4 = pd.merge(df, origin_store, on="store_id")
     
-    # print(df4)
+    print(df4)
     return df4
 
 def content_store(dataframes, storeID):
