@@ -197,7 +197,17 @@ class StoreSearch(APIView):
                     Q(area__contains=w) | Q(address__contains=w)
                     | Q(store_name__contains=w) | Q(category__contains=w)))
 
-            queryset = store1 | store2
+            menu_list = set()
+            for w in word:
+                menu = Menu.objects.all().filter(menu__contains=w).only('store_id').values_list('store_id')
+                menu_list = menu_list | set(menu)
+            store3 = Store.objects.all().filter(id__in=menu)
+
+            for w in word:
+                if store3.filter((Q(area__contains=w) | Q(address__contains=w))).exists():
+                    store3 = store3.filter((Q(area__contains=w) | Q(address__contains=w)))           
+
+            queryset = store1 | store2  | store3
 
         num_store = queryset.__len__()
 
