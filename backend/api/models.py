@@ -75,7 +75,7 @@ class Tag(models.Model):
 # 사용자
 class User(models.Model):
     provider = models.CharField(max_length=20, blank=True, null=True)
-    api_id = models.CharField(unique=True, max_length=30, blank=True, null=True)
+    api_id = models.CharField(unique=True, max_length=40, blank=True, null=True)
     nickname = models.CharField(unique=True, max_length=20)
     age = models.IntegerField(blank=True, null=True)
     gender = models.CharField(max_length=5, blank=True, null=True)
@@ -116,5 +116,5 @@ class Like_store(models.Model):
 
 # 프로필 이미지
 class Profile_img(models.Model):
-    api = models.ForeignKey('User', on_delete=models.CASCADE)
+    user = models.ForeignKey('User', on_delete=models.CASCADE)
     img = models.CharField(max_length=200, blank=True, null=True)
