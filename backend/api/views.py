@@ -1,5 +1,5 @@
-from .models import User, Store, Review, Review_img, Tag, Menu, Bhour, Image_upload, Like_store, Amenity
-from .serializers import UserSerializer, StoreSerializer, ReviewSerializer, ReviewImgSerializer, TagSerializer, MenuSerializer, BhourSerializer, LikeSerializer
+from .models import User, Store, Review, Review_img, Tag, Menu, Bhour, Image_upload, Like_store, Amenity, Profile_img
+from .serializers import UserSerializer, StoreSerializer, ReviewSerializer, ReviewImgSerializer, TagSerializer, MenuSerializer, BhourSerializer, LikeSerializer, Profile_imgSerializer
 from django.http import Http404
 from rest_framework import status
 from rest_framework.views import APIView
@@ -63,7 +63,6 @@ class StoreList(APIView):
         paginator = Paginator(queryset, 10)
         page = request.GET.get('page')
         pagestore = paginator.get_page(page)
-        print(pagestore)
 
         serializer = StoreSerializer(pagestore, many=True)
 
@@ -95,7 +94,7 @@ class StorePost(APIView):
 
 
 class StoreDetail(APIView):
-    # 특정 User 를 다루는 클래스
+    # 특정 Store 를 다루는 클래스
 
     # Store 조회
     def get(self, request, store_id, format=None):
@@ -270,7 +269,15 @@ class UserDetail(APIView):
         '''
         user = User.objects.get(api_id=api_id)
         serializer = UserSerializer(user)
-        return Response(serializer.data)
+        result = serializer.data
+        is_exist = Profile_img.objects.filter(api_id = api_id).count()
+        
+        if is_exist >= 1 :
+            print(is_exist)
+            profile_img = Profile_img.objects.get(api_id=api_id)
+            result['img'] = profile_img.img
+
+        return Response(result)
 
     # User 삭제
     def delete(self, request, api_id, format=None):
@@ -399,6 +406,7 @@ class ReviewPost(APIView):
 
 
 class ReviewList(APIView):
+    
     def get(self, request, store_id, format=None):
         '''
         # 가게별 리뷰 조회
@@ -490,7 +498,7 @@ class ReviewImgList(APIView):
 
 # 파일 업로드
 @api_view(['POST'])
-def upload_image(request, review_id):
+def upload_image_review(request, user_id):
     '''
     # 리뷰 사진 업로드
     '''
@@ -541,3 +549,35 @@ class Like_by_user(APIView):
         store_liked = StoreSerializer(Store.objects.extra(tables=['api_like_store'], where=[
                                       'api_store.id=api_like_store.store_id', "api_like_store.user_id="+user_id]), many=True)
         return Response(store_liked.data)
+
+
+# 파일 업로드
+@api_view(['POST'])
+def upload_image_profile(request, api_id):
+    '''
+    # 리뷰 사진 업로드
+    '''
+    if request.method == 'POST':
+        form = ImageForm(request.POST, request.FILES)
+        if form.is_valid():
+            newImg = request.FILES.get('path')
+            # img 저장
+            img = Image_upload(path=newImg)
+            img.save()
+
+            # profile_img 저장
+            img_url = settings.MEDIA_HOST+str(img.path)
+            is_exist = Profile_img.objects.filter(api_id=api_id).count()
+
+
+            if is_exist >= 1 : 
+                modify = Profile_img.objects.get(api_id = api_id)
+                modify.save()
+            else :
+                profile_img = Profile_img(img = img_url, api_id = api_id)
+                profile_img.save()
+                
+            return Response("upload ok")
+        else:
+            form = ImageForm()
+            return Response("upload fail")
