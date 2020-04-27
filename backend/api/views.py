@@ -591,7 +591,9 @@ def upload_image_profile(request, user_id):
                 profile_img = Profile_img(img = img_url, user_id = user_id)
                 profile_img.save()
                 
-            return Response("upload ok")
+            return Response({
+                "img": img_url
+            })
         else:
             form = ImageForm()
             return Response("upload fail")
