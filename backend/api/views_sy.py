@@ -21,6 +21,12 @@ def filter_by_user(dataframes, surveyRes, userIID):
     
     # 같은 타입 유저들만
     origin_user = origin_user[origin_user["survey_result"].str.contains(surveyRes)==True]
+    if(len(origin_user)<100):
+        origin_user = dataframes["users"]
+    origin_review = pd.merge(
+        origin_review, origin_user, on="user_id"
+    )
+    
     print(origin_user)
     origin_review = pd.merge(
         origin_review, origin_user, on="user_id"
@@ -122,7 +128,8 @@ def filter_by_type(dataframes, surveyRes):
     
     # 같은 타입 유저들만
     origin_user = origin_user[origin_user["survey_result"].str.contains(surveyRes)==True]
-    print(origin_user)
+    if(len(origin_user)<100):
+        origin_user = dataframes["users"]
     origin_review = pd.merge(
         origin_review, origin_user, on="user_id"
     )
