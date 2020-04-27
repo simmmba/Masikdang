@@ -45,7 +45,8 @@ urlpatterns = [
     path("review/img/<review_id>", views.ReviewImgList.as_view(), name="review_user"),
 
     # 파일 업로드 URL
-    path("upload/<review_id>", views.upload_image, name="upload_image"),
+    path("upload/<review_id>", views.upload_image_review, name="upload_image"),
+    path("upload_profile/<api_id>", views.upload_image_profile, name="upload_image"),
 
     # 현위치 기반 식당 추천
     path("location_based/<latitude>/<longitude>/<km>", views_ky.LodationBased.as_view(), name="location_based"),
