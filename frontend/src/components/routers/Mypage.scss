@@ -7,7 +7,7 @@
 
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   margin: 0 10px 0 10px;
   // border: 1px solid red;
@@ -151,45 +151,6 @@
       font-size: 1.2rem;
       width: 8rem;
       margin-top: 10px;
-    }
-  }
-
-  .loginBox {
-    display: flex;
-    flex-direction: column;
-
-    .joinBtn {
-      font-size: 1.2rem;
-      margin: 10px;
-      padding: 10px;
-      width: 8rem;
-      background: #f9bbc7;
-      border: 2px solid #f9bbc7;
-      transition: 0.5s;
-      border-radius: 7px;
-      color: #353535;
-
-      &:hover {
-        text-decoration: none;
-        background-color: #fff;
-      }
-    }
-
-    .loginBtn {
-      font-size: 1.2rem;
-      border: 2px solid #98d7db;
-      border-radius: 7px;
-      margin: 10px;
-      padding: 10px;
-      width: 8rem;
-      background: #98d7db;
-      transition: 0.5s;
-      color: #353535;
-
-      &:hover {
-        text-decoration: none;
-        background-color: #fff;
-      }
     }
   }
 
@@ -417,6 +378,64 @@
     @media screen and (min-width: 768px) {
       font-size: 1.5rem;
       margin: 40px 0 40px 0;
+    }
+  }
+}
+
+.loginBox {
+  min-height: 75vh;
+  font-family: "S-CoreDream-8Heavy";
+  font-size: 1.2rem;
+  text-align: center;
+  padding-bottom: 10px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 10px 0 10px;
+
+  .joinBtn {
+    font-size: 1.2rem;
+    margin: 10px;
+    padding: 10px;
+    width: 8rem;
+    background: #f9bbc7;
+    border: 2px solid #f9bbc7;
+    transition: 0.5s;
+    border-radius: 7px;
+    color: #353535;
+
+    &:hover {
+      text-decoration: none;
+      background-color: #fff;
+    }
+
+    @media screen and (min-width: 768px) {
+      font-size: 1.4rem;
+      width: 9rem;
+    }
+  }
+
+  .loginBtn {
+    font-size: 1.2rem;
+    border: 2px solid #98d7db;
+    border-radius: 7px;
+    margin: 10px;
+    padding: 10px;
+    width: 8rem;
+    background: #98d7db;
+    transition: 0.5s;
+    color: #353535;
+
+    &:hover {
+      text-decoration: none;
+      background-color: #fff;
+    }
+
+    @media screen and (min-width: 768px) {
+      font-size: 1.4rem;
+      width: 9rem;
     }
   }
 }

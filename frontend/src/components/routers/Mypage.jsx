@@ -44,46 +44,43 @@ class Mypage extends React.Component {
     return (
       <div className="Box">
         <Header />
-        <div className="Mypage">
-          {this.state.login && (
-            <>
-              <div className="profileBox">
-                <div className="imgBox">
-                  <img alt="프로필" src="https://d2x5ku95bkycr3.cloudfront.net/App_Themes/Common/images/profile/0_200.png" />
-                  <NavLink className="btn" to={`/mypage/detail`}>
-                    내 정보 조회
+        {this.state.login ? (
+          <div className="Mypage">
+            <div className="profileBox">
+              <div className="imgBox">
+                <img alt="프로필" src="https://d2x5ku95bkycr3.cloudfront.net/App_Themes/Common/images/profile/0_200.png" />
+                <NavLink className="btn" to={`/mypage/detail`}>
+                  내 정보 조회
+                </NavLink>
+              </div>
+              <div className="textBox">
+                <div className="nickname">{this.state.nickname}</div>
+                <div className="type">{this.state.survey_result}</div>
+                <div className="cntBox">
+                  <NavLink to={`/mypage/favorite`} className="fcnt">
+                    <Emoji label="like" symbol="❤️" />
+                    즐겨찾기&nbsp;&nbsp;{this.context.state.favorite}
+                  </NavLink>
+                  <NavLink to={`/mypage/review`} className="rcnt">
+                    <Emoji label="star" symbol="📝" />
+                    리뷰&nbsp;&nbsp;{this.context.state.review}
                   </NavLink>
                 </div>
-                <div className="textBox">
-                  <div className="nickname">{this.state.nickname}</div>
-                  <div className="type">{this.state.survey_result}</div>
-                  <div className="cntBox">
-                    <NavLink to={`/mypage/favorite`} className="fcnt">
-                      <Emoji label="like" symbol="❤️" />
-                      즐겨찾기&nbsp;&nbsp;{this.context.state.favorite}
-                    </NavLink>
-                    <NavLink to={`/mypage/review`} className="rcnt">
-                      <Emoji label="star" symbol="📝" />
-                      리뷰&nbsp;&nbsp;{this.context.state.review}
-                    </NavLink>
-                  </div>
-                </div>
               </div>
-              <MyFavorite />
-              <MyReview />
-            </>
-          )}
-          {!this.state.login && (
-            <div className="loginBox">
-              <a className="joinBtn" href="/signup">
-                회원가입
-              </a>
-              <a className="loginBtn" href="/login">
-                로그인
-              </a>
             </div>
-          )}
-        </div>
+            <MyFavorite />
+            <MyReview />
+          </div>
+        ) : (
+          <div className="loginBox">
+            <a className="joinBtn" href="/signup">
+              회원가입
+            </a>
+            <a className="loginBtn" href="/login">
+              로그인
+            </a>
+          </div>
+        )}
         <AppBar />
       </div>
     );
