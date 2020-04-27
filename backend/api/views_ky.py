@@ -122,9 +122,13 @@ class LodationBased(APIView):
         start = time.time()
         latitude = float(latitude)
         longitude = float(longitude)
-        now = (float(latitude), float(longitude))
         km = float(km)
-        km = float(km)
+
+        # print(type(latitude))
+        # print(latitude)
+
+        # print(type(longitude))
+        # print(longitude)
 
         store = Store.objects.all()
         review_object = Review.objects.values(
@@ -133,7 +137,7 @@ class LodationBased(APIView):
 
         store = Store.objects.all().filter(id__in=store_list)
         # store = sorted(store, key=lambda s: store_list.index(s.id))
-        
+
         ret = []
         for s in store.iterator():
             if s.longitude is None:
@@ -149,7 +153,7 @@ class LodationBased(APIView):
         num_store = len(ret)
 
         # 페이징 적용
-        paginator = Paginator(ret, 20)
+        paginator = Paginator(ret, 15)
         num_page = paginator.num_pages
         page = request.GET.get('page')
         pagestore = paginator.get_page(page)
@@ -205,7 +209,7 @@ class LodationBasedLikeList(APIView):
         num_store = len(ret)
 
         # 페이징 적용
-        paginator = Paginator(ret, 20)
+        paginator = Paginator(ret, 3)
         num_page = paginator.num_pages
         page = request.GET.get('page')
         pagestore = paginator.get_page(page)
