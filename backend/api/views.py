@@ -572,6 +572,7 @@ def upload_image_profile(request, api_id):
 
             if is_exist >= 1 : 
                 modify = Profile_img.objects.get(api_id = api_id)
+                modify.img = img_url
                 modify.save()
             else :
                 profile_img = Profile_img(img = img_url, api_id = api_id)
