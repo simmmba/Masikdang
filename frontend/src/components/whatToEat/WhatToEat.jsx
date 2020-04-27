@@ -19,8 +19,9 @@ const WhatToEat = ({ wreset, windex, wquestion, woptions, wanswer, wincrement, w
 
   const answeringLoc = () => {
     var pattern = /([^가-힣\x20])/i; // 한글 판단
+    var special_pattern = /[`~!@#$%^&*|'";:/?]/gi; // 특수문자 판단
 
-    if (loc.search(/\s/) !== -1 || loc === "" || pattern.test(loc)) {
+    if (special_pattern.test(loc) || loc === "" || pattern.test(loc)) {
       alert("입력한 위치를 다시 확인해주세요.");
       document.getElementById("loc").value = "";
     } else {
@@ -46,7 +47,7 @@ const WhatToEat = ({ wreset, windex, wquestion, woptions, wanswer, wincrement, w
             to={`/whatToEat`}
             onClick={function () {
               // 응답 진행중
-              answering(option);
+              answering(idx);
             }}
             className="optionLink"
           >
@@ -60,7 +61,7 @@ const WhatToEat = ({ wreset, windex, wquestion, woptions, wanswer, wincrement, w
           ) : (
             // 직접 입력
             <div>
-              <input className="locInput" id="loc" placeholder="위치를 입력하세요." val={loc} onChange={onChangeLoc} size="5" />
+              <input className="locInput" id="loc" placeholder="예) 역삼역 or 강남구 역삼동" val={loc} onChange={onChangeLoc} />
               &nbsp;
               <button
                 className="locBtn"
@@ -79,7 +80,7 @@ const WhatToEat = ({ wreset, windex, wquestion, woptions, wanswer, wincrement, w
             to={`/whatToEatResult`}
             onClick={function () {
               // 마지막 문항 완료
-              done(option);
+              done(idx);
             }}
             className="optionLink"
           >

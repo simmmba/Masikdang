@@ -25,8 +25,10 @@ const Location = ({ wreset, windex, wquestion, woptions, wanswer, wincrement, wa
           // 좌표추출
           var geocoder = new window.daum.maps.services.Geocoder();
           var callback = function (result, status) {
-            if (status === window.daum.maps.services.Status.OK) setLocate(result[0].region_3depth_name); // 좌표를 지역이름으로 변경
-            // console.log(result);
+            if (status === window.daum.maps.services.Status.OK) {
+              setLocate(result[0].region_2depth_name + " " + result[0].region_3depth_name); // 좌표를 지역이름으로 변경
+              console.log(result);
+            }
           };
           geocoder.coord2RegionCode(position.coords.longitude, position.coords.latitude, callback); // 현재위치 좌표 가져오기
         },

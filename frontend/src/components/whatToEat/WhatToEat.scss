@@ -1,35 +1,40 @@
-.WhatToEatBox {
-  @media screen and (min-width: 768px) {
-    padding-left: 35%;
-    padding-right: 35%;
-  }
-}
-
+// whatToEat css
 .WhatToEatComponent {
   min-height: 100vh;
   color: black;
   padding: 1rem;
 
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: center;
+
   * {
     font-family: "BMHANNAPro";
   }
 
+  @media screen and (min-width: 768px) {
+    padding-left: 35%;
+    padding-right: 35%;
+  }
+
   .top {
-    // margin: 2rem 0 2rem 0;
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.5rem;
     color: black;
     font-size: 2.2rem;
     text-align: center;
     padding: 1rem 0 0 0;
     display: flex;
-    // flex-direction: column;
-    // flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
   }
 
   .content {
-    min-height: 350px;
+    min-height: 70vh;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
     .question {
       padding: 1rem 0 1rem 0;
@@ -38,6 +43,11 @@
 
       word-wrap: break-word;
       white-space: pre-line;
+
+      @media screen and (min-width: 768px) {
+        font-size: 2.5rem;
+        margin: 5px 0 5px 0;
+      }
     }
 
     .answer {
@@ -48,6 +58,7 @@
 
       word-wrap: break-word;
       white-space: pre-line;
+      width: 100%;
     }
   }
 
@@ -66,6 +77,10 @@
       border: none;
       padding-right: 10px;
     }
+
+    @media screen and (min-width: 768px) {
+      font-size: 1.2rem;
+    }
   }
 
   .back {
@@ -82,10 +97,15 @@
       background: #ffffff;
       box-shadow: 1px 1px 1px 1px #f9bbc7 inset;
     }
+
+    @media screen and (min-width: 768px) {
+      font-size: 1.5rem;
+    }
   }
 
   .locInput {
     text-align: center;
+    width: 75%;
   }
 
   .currLocBtn {
@@ -121,6 +141,7 @@
     border: 2px solid #f9bbc7;
 
     @media screen and (min-width: 768px) {
+      font-size: 1.5rem;
       &:hover {
         background: #ffffff;
         color: #f9bbc7;
@@ -140,52 +161,35 @@
   }
 }
 
-.ResultComponent {
+// 결과 페이지
+.WhatToEatResultComponent {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  // justify-content: center;
+  justify-content: space-around;
   align-items: center;
+  margin-bottom: 30px;
 
   * {
     font-family: "BMHANNAPro";
   }
 
-  .top {
-    margin: 2rem 0 2rem 0;
-    // margin-bottom: 1.5rem;
-    color: black;
-    font-size: 2.2rem;
-    text-align: center;
-    padding: 1rem 0 0 0;
-    display: flex;
-    // flex-direction: column;
-    // flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
+  @media screen and (min-width: 768px) {
+    padding-left: 35%;
+    padding-right: 35%;
   }
 
-  .pageBtn {
-    padding: 1rem;
-    margin: 3px;
-    cursor: pointer;
-    color: black;
-    background: #f9bbc7;
-    border: none;
-    border-radius: 4px;
-    transition: 0.3s;
-    width: 69%;
-    text-decoration: none;
-    height: 3rem;
-
+  .top {
+    color: #faa8b9;
+    font-size: 2.2rem;
+    text-align: center;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    font-size: 1.3rem;
+    margin-top: 30px;
 
-    &:hover {
-      border: 2px solid #f9bbc7;
-      background: white;
+    @media screen and (min-width: 768px) {
+      font-size: 3rem;
     }
   }
 
@@ -194,45 +198,51 @@
     justify-content: center;
     align-items: center;
     font-size: 1.3rem;
-    width: 70%;
-  }
+    width: 90%;
 
-  .memberBtn {
-    padding: 1rem;
-    margin: 3px;
-    cursor: pointer;
-    color: black;
-    background: #98d7db;
-    border: none;
-    border-radius: 4px;
-    transition: 0.3s;
-    width: 50%;
-    text-decoration: none;
-    height: 3rem;
+    @media screen and (min-width: 768px) {
+      width: 100%;
+    }
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.3rem;
+    .memberBtn {
+      padding: 1rem;
+      margin: 3px;
+      cursor: pointer;
+      color: black;
+      background: #98d7db;
+      border: none;
+      border-radius: 4px;
+      transition: 0.3s;
+      width: 50%;
+      text-decoration: none;
+      height: 3rem;
 
-    &:hover {
-      border: 2px solid #98d7db;
-      background: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.3rem;
+
+      &:hover {
+        border: 2px solid #98d7db;
+        background: white;
+      }
+
+      @media screen and (min-width: 768px) {
+        font-size: 1.6rem;
+        height: 3.3rem;
+      }
     }
   }
 
   .retryBtn {
-    padding: 1rem;
-    margin: 3px;
+    padding: 2px 10px 2px 10px;
+    margin: 8px 0 8px 0;
     cursor: pointer;
-    color: black;
-    // background: #98d7db;
-    border: none;
-    border-radius: 4px;
+    color: grey;
+    border: 1.5px solid grey;
+    border-radius: 10px;
     transition: 0.3s;
-    width: 50%;
     text-decoration: none;
-    height: 3rem;
 
     display: flex;
     justify-content: center;
@@ -240,25 +250,76 @@
     font-size: 1.3rem;
 
     &:hover {
-      font-size: larger;
+      background-color: #eaeaea;
+    }
+
+    @media screen and (min-width: 768px) {
+      font-size: 1.7rem;
+      border: 2px solid grey;
+      padding: 2px 12px 2px 12px;
     }
   }
 
-  .mention {
-    font-size: 1.5rem;
-    padding-top: 1rem;
-  }
-
-  .select {
-    font-size: 1.5rem;
-    background-color: #f5f5f5;
-    width: initial;
-    border-radius: 5px;
-    padding: 30px 20px 30px 20px;
-    margin: 0px 55px 0px 55px;
+  .mentionBox {
+    width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+
+    .mentionTop {
+      font-size: 1.5rem;
+      padding-top: 5px;
+      margin: 10px 0 5px 0;
+
+      @media screen and (min-width: 768px) {
+        font-size: 2.2rem;
+        margin: 10px 0 8px 0;
+      }
+    }
+
+    .mentionBottom {
+      font-size: 1.5rem;
+      margin-top: 5px;
+
+      @media screen and (min-width: 768px) {
+        font-size: 2.2rem;
+        margin-top: 8px;
+      }
+    }
+
+    .select {
+      font-size: 1.5rem;
+      background-color: #faa8b967;
+      width: 90%;
+      border-radius: 5px;
+      padding: 10px 20px 10px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      @media screen and (min-width: 768px) {
+        width: 100%;
+        font-size: 2.3rem;
+      }
+
+      .menu {
+        color: black;
+
+        &:hover {
+          color: #5d5d5d;
+        }
+      }
+    }
+
+    .mention {
+      font-size: 1.2rem;
+      margin-top: 5px;
+      color: #4c4c4c;
+
+      @media screen and (min-width: 768px) {
+        font-size: 2rem;
+      }
+    }
   }
 }

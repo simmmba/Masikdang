@@ -19,7 +19,7 @@ const Counter = ({ windex, wquestion, wdecrement }) => {
           {windex + 1} / {wquestion.length}{" "}
         </b>
       </span>
-      {windex > 0 ? <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> : <span />}
+      {windex > 0 ? <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> : <span />}
     </div>
   );
 };

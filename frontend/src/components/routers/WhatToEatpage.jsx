@@ -6,15 +6,11 @@ import "../whatToEat/WhatToEat.scss";
 
 const WhatToEatpage = () => {
   return (
-    <div className="WhatToEatBox">
-      <div className="WhatToEatComponent">
-        <center>
-          <QuestionNum />
-          <WhatToEat />
-          <br />
-          <Counter />
-        </center>
-      </div>
+    <div className="WhatToEatComponent">
+      <QuestionNum />
+      <WhatToEat />
+      <br />
+      <Counter />
     </div>
   );
 };
