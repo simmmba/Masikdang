@@ -5,10 +5,10 @@
 
     .loader {
         font-size: 20px;
-        height: 20px;
         width: 250px;
         display: block;
         margin-left: calc(50% - 125px);
+        min-height: 100vh;
     }
 
     // 98d7db

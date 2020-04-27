@@ -29,6 +29,7 @@ class NearMap extends React.Component {
       address: "",
       stores: [],
       loading: false,
+      infowindow: new window.kakao.maps.InfoWindow({ zIndex: 1 }),
     };
   }
 
@@ -141,7 +142,42 @@ class NearMap extends React.Component {
               res.data.data[i].longitude
             ),
             marker = this.addMarker(placePosition, i);
-          // console.log(marker);
+
+          // 마커와 검색결과 항목에 mouseover 했을때
+          // 해당 장소에 인포윈도우에 장소명을 표시합니다
+          // mouseout 했을 때는 인포윈도우를 닫습니다
+          (function (marker, store) {
+            window.kakao.maps.event.addListener(marker, "mouseover", () => {
+              displayInfowindow(marker, store);
+            });
+
+            window.kakao.maps.event.addListener(marker, "click", () => {
+              markerclick(store)
+            });
+
+            window.kakao.maps.event.addListener(marker, "mouseout", () => {
+              close();
+            });
+          })(marker, res.data.data[i]);
+
+          // 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수입니다
+          // 인포윈도우에 장소명을 표시합니다
+          const displayInfowindow = (marker, store) => {
+            var content = '<div className="store_name">'+store.store_name+"</div>";
+            this.state.infowindow.setContent(content);
+            this.state.infowindow.open(this.map, marker);
+          };
+
+          const close = () => {
+            this.state.infowindow.close();
+          };
+
+          const markerclick = (store) => {
+            console.log(store)
+            var location = document.getElementById(store.id).offsetTop;
+            console.log(location)
+            window.scrollTo({top:location, behavior:'smooth'});
+          }
         }
         this.setState({
           stores: res.data.data,
@@ -222,9 +258,9 @@ class NearMap extends React.Component {
           </div>
         )}
 
-        <div className="thumbnail">
-          <div id="square" className="centered">
-            <div id="map" className="kakaoMap"></div>
+        <div className="thumbnailb">
+          <div id="square" className="centeredb">
+            <div id="map" className="kakaoMapb"></div>
           </div>
         </div>
         <div className="address">
@@ -238,13 +274,17 @@ class NearMap extends React.Component {
             <>
               {this.state.stores.map((store, index) => (
                 <MapCard
-                  key={index}
-                  id={index}
+                  key={store.id}
                   index={index + 1}
                   store={store}
                 ></MapCard>
               ))}
-              {this.state.stores.length === 0 && <span><br/>현위치에서 검색된 식당이 없습니다</span>}
+              {this.state.stores.length === 0 && (
+                <span>
+                  <br />
+                  현위치에서 검색된 식당이 없습니다
+                </span>
+              )}
             </>
           )}
         </div>

@@ -1,0 +1,50 @@
+.LikedMap{
+    margin-top: 10px;
+
+    .likedmap_title{
+        font-size: 20px;
+        font-family: "BMHANNAPro";
+        margin-bottom: 5px;
+    }
+    .thumbnail {
+        position: relative;
+        padding-top: 56.25%;
+        border-radius: 10px 10px 0 0;
+        overflow: hidden;
+        display: block;
+
+        .centered {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+
+            .kakaoMap {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                width: 100%;
+                height: 100%;
+            }
+        }
+    }
+
+    .CarouselSlider{
+        padding: 5px;
+        padding-bottom: 0px;
+        background: rgba(175, 175, 175, 0.1);
+        border-radius: 0 0 10px 10px;
+    }
+
+    @media screen and (min-width: 768px) {
+        .thumbnail {
+            padding-top: 35%;
+        }
+        .likedmap_title{
+            font-size: 25px;
+        }
+    }
+}

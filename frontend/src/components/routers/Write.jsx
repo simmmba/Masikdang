@@ -39,7 +39,6 @@ class Write extends React.Component {
       images: [],
       base64: [],
       filekey: 0,
-      date: new Date(),
     };
   }
 
@@ -190,28 +189,32 @@ class Write extends React.Component {
           price_score: this.state.price_score,
           service_score: this.state.service_score,
           content: this.state.content,
-          reg_time: this.state.date.toLocaleTimeString(),
         },
       })
         .then((res) => {
-          let path = new FormData();
-          for (let i = 0; i < this.state.images.length; i++) {
-            path.append("path", this.state.images[i]);
-          }
-          axios({
-            method: "post",
-            url: "http://15.165.19.70:8080/api/upload/" + res.data.id,
-            headers: { "content-type": "multipart/form-data" },
-            data: path,
-          })
-            .then((res) => {
-              //   console.log(res);
-              this.props.history.push("/search/" + this.state.store);
+          if ((this.state.images.length !== 0)) {
+            let path = new FormData();
+            for (let i = 0; i < this.state.images.length; i++) {
+              path.append("path", this.state.images[i]);
+            }
+            axios({
+              method: "post",
+              url: "http://15.165.19.70:8080/api/upload/" + res.data.id,
+              headers: { "content-type": "multipart/form-data" },
+              data: path,
             })
-            .catch((error) => {
-              console.log(error);
-              alert("리뷰 작성에 실패했습니다");
-            });
+              .then((res) => {
+                this.props.history.push("/search/" + this.state.store);
+                alert("리뷰 작성에 성공했습니다");
+              })
+              .catch((error) => {
+                console.log(error);
+                alert("리뷰 작성에 실패했습니다");
+                this.props.history.push("/search/" + this.state.store);
+              });
+          }else{
+            this.props.history.push("/search/" + this.state.store);
+          }
         })
         .catch((error) => {
           console.log(error);

@@ -48,7 +48,7 @@ class MapCard extends React.Component {
 
   render() {
     return (
-      <div className="MapCard" onClick={this.clickItem}>
+      <div className="MapCard" id={this.state.store.id} onClick={this.clickItem}>
         <img
           alt="food"
           className="img"

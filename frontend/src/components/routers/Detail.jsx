@@ -38,6 +38,7 @@ class Detail extends React.Component {
       review: [],
       check: false,
       similar: [],
+      similar_category: [],
       page: 1,
       maxPage: 1,
       num_review: 0,
@@ -94,18 +95,45 @@ class Detail extends React.Component {
     })
       .then((res) => {
         let similar = [];
+        if (res.data.store_id) {
+          for (var i = 0; i < res.data.store_id.length; i++) {
+            var store = {};
+            store.id = res.data.store_id[i];
+            store.store_name = res.data.store_name[i];
+            if (res.data.store_img[i] !== null)
+              store.img = res.data.store_img[i];
+            else store.store_img = store_img;
+            store.area = res.data.store_area[i];
+            similar[i] = store;
+          }
+          this.setState({
+            similar: similar,
+          });
+        }
+      })
+      .catch((error) => {
+        // console.log(error);
+      });
+
+    // 연관 카테고리 식당 받아오는 axios
+    axios({
+      method: "get",
+      url: "http://15.165.19.70:8080/api/content?store=" + url[url.length - 1],
+    })
+      .then((res) => {
+        console.log(res);
+        let similar_category = [];
         for (var i = 0; i < res.data.store_id.length; i++) {
           var store = {};
-          store.store_id = res.data.store_id[i];
+          store.id = res.data.store_id[i];
           store.store_name = res.data.store_name[i];
-          if (res.data.store_img[i] !== null)
-            store.store_img = res.data.store_img[i];
+          if (res.data.store_img[i] !== null) store.img = res.data.store_img[i];
           else store.store_img = store_img;
-          store.store_area = res.data.store_area[i];
-          similar[i] = store;
+          store.area = res.data.store_area[i];
+          similar_category[i] = store;
         }
         this.setState({
-          similar: similar,
+          similar_category: similar_category,
         });
       })
       .catch((error) => {
@@ -206,7 +234,7 @@ class Detail extends React.Component {
           ) : (
             <div className="container-fluid">
               <div className="row">
-                <div className="store_image col-12 col-md-8">
+                <div className="store_image col-12 col-lg-8">
                   {/* 이미지 넣어주는 부분 */}
                   {this.state.review_img_len !== 0 ? (
                     <ImageList
@@ -224,7 +252,7 @@ class Detail extends React.Component {
                     </>
                   )}
                 </div>
-                <div className="col-12 col-md-4">
+                <div className="col-12 col-lg-4">
                   {/* 가게 정보 표시 */}
                   <div className="store_info">
                     <div className="store_name">
@@ -265,12 +293,15 @@ class Detail extends React.Component {
                     {this.state.store.menu &&
                       this.state.store.menu.length !== 0 && (
                         <div className="menu_list">
-                          {this.state.store.menu.map((menu, index) => (
-                            <div key={index} className="menu">
-                              <Emoji label="menu" symbol="🍳" /> {menu.menu} :{" "}
-                              {menu.price}
-                            </div>
-                          ))}
+                          {this.state.store.menu.map(
+                            (menu, index) =>
+                              index < 9 && (
+                                <div key={index} className="menu">
+                                  <Emoji label="menu" symbol="🍳" /> {menu.menu}{" "}
+                                  : {menu.price}
+                                </div>
+                              )
+                          )}
                         </div>
                       )}
 
@@ -367,7 +398,7 @@ class Detail extends React.Component {
                 )}
               </div>
 
-              {/* 여기에 비슷한 식당 추가 */}
+              {/* 여기에 비슷한 리뷰 식당 추가 */}
               {this.state.similar && this.state.similar.length !== 0 && (
                 <div className="store_similar">
                   <div className="similar_text">
@@ -378,6 +409,15 @@ class Detail extends React.Component {
                 </div>
               )}
 
+              {/* 여기에 비슷한 카테고리 식당 추가 */}
+              {this.state.similar_category && this.state.similar_category.length !== 0 && (
+                <div className="store_similar">
+                  <div className="similar_text">
+                    <Emoji label="good" symbol="👍" /> 유사한 카테고리 맛집 추천
+                  </div>
+                  <CarouselSlider similar={this.state.similar_category}></CarouselSlider>
+                </div>
+              )}
               {/* 주소 + 지도 표시 */}
               <div className="store_map">
                 <div className="address">

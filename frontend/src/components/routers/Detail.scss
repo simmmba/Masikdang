@@ -11,7 +11,9 @@
 
             .col-12,
             .col-md-8,
-            .col-md-4 {
+            .col-md-4,
+            .col-lg-8,
+            .col-lg-4 {
                 padding: 0px;
             }
         }
@@ -117,7 +119,7 @@
             margin-top: 30px;
             margin-bottom: 30px;
             .similar_text {
-                font-size: 24px;
+                font-size: 22px;
                 font-family: "BMHANNAPro";
                 margin-bottom: 15px;
             }
@@ -133,18 +135,18 @@
 
     @media screen and (min-width: 768px) {
         .container-fluid {
-            .store_info {
-                margin-top: 10px;
-                padding-left: 10%;
+            // .store_info {
+            //     margin-top: 10px;
+            //     padding-left: 10%;
 
-                .button {
-                    width: calc(90%);
-                }
+            //     .button {
+            //         width: calc(90%);
+            //     }
 
-                .evaluation {
-                    margin-left: 0px;
-                }
-            }
+            //     .evaluation {
+            //         margin-left: 0px;
+            //     }
+            // }
 
             .store_map,
             .store_similar,
@@ -165,10 +167,26 @@
 
             .store_similar {
                 .similar_text {
-                    font-size: 30px;
+                    font-size: 26px;
                 }
             }
         }
 
+    }
+    @media screen and (min-width: 992px) {
+        .container-fluid {
+            .store_info {
+                margin-top: 10px;
+                padding-left: 10%;
+
+                .button {
+                    width: calc(90%);
+                }
+
+                .evaluation {
+                    margin-left: 0px;
+                }
+            }
+        }
     }
 }
