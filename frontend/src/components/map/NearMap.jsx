@@ -2,7 +2,8 @@ import React from "react";
 import "./NearMap.scss";
 import axios from "axios";
 
-import MapCard from "../map/MapCard"
+import MapCard from "../map/MapCard";
+import Loading from "../map/Loading";
 
 const Emoji = (props) => (
   <span
@@ -26,8 +27,8 @@ class NearMap extends React.Component {
       check: false,
       level: 5,
       address: "",
-      stores:[],
-      loading: false
+      stores: [],
+      loading: false,
     };
   }
 
@@ -114,13 +115,12 @@ class NearMap extends React.Component {
 
   // 현 정보 기반 새로운 식당 정보 받아오기
   axiosStores = () => {
-
     // 기존마커 지우기
     this.removeMarker();
     //Loading 표시
     this.setState({
-        loading: true
-    })
+      loading: true,
+    });
 
     // axios 호출
     axios({
@@ -134,11 +134,8 @@ class NearMap extends React.Component {
         String(this.level_km[this.state.level]),
     })
       .then((res) => {
-        // 뒤로 가기 했을 때 값 변경 되도록 처리
         console.log(res);
-        this.setState({
-            stores:res.data.data
-        });
+
         for (var i = 0; i < res.data.data.length; i++) {
           // 마커를 생성하고 지도에 표시합니다
           var placePosition = new window.kakao.maps.LatLng(
@@ -146,7 +143,12 @@ class NearMap extends React.Component {
               res.data.data[i].longitude
             ),
             marker = this.addMarker(placePosition, i);
+          // console.log(marker);
         }
+        this.setState({
+          stores: res.data.data,
+          loading: false,
+        });
       })
       .catch((error) => {
         console.log(error);
@@ -170,8 +172,8 @@ class NearMap extends React.Component {
     // 지도가 이동, 확대, 축소로 인해 중심좌표가 변경되면 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다
     window.kakao.maps.event.addListener(this.map, "click", (mouseEvent) => {
       this.setState({
-        latitude: this.map.getCenter().Ga,
-        longitude: this.map.getCenter().Ha,
+        latitude: this.map.getCenter().Ha,
+        longitude: this.map.getCenter().Ga,
       });
       searchDetailAddrFromCoords(mouseEvent.latLng, (result, status) => {
         if (status === window.kakao.maps.services.Status.OK) {
@@ -209,21 +211,34 @@ class NearMap extends React.Component {
   render() {
     return (
       <div className="NearMap">
-        {!this.state.check && (
-          <div>
-            <Emoji label="map" symbol="⚙" /> 현재 위치를 알 수 없습니다.
+        {!this.state.check && this.state.address !== "" ? (
+          <div className="address">
+            <Emoji label="map" symbol="⚙"/> 현재 위치를 알 수 없습니다.
           </div>
-        )}
-        ⚙ {this.state.address}
+        ):<div className="address"><Emoji label="map" symbol="⚙"/> {this.state.address}</div>}
+        
         <div className="thumbnail">
           <div id="square" className="centered">
             <div id="map" className="kakaoMap"></div>
           </div>
         </div>
-        <Emoji label="map" symbol="✔️" /> 지도 클릭하면 새로운 식당 정보를
-        받습니다
+        <div className="address"><Emoji label="map" symbol="✔️" /> 지도 클릭하면 새로운 식당 정보를
+        받아옵니다</div>
         <div>
-            {this.state.stores.map((store, index) => (<MapCard key={index} index={index+1} store={store}></MapCard>))}
+          {this.state.loading ? (
+            <Loading></Loading>
+          ) : (
+            <>
+              {this.state.stores.map((store, index) => (
+                <MapCard
+                  key={index}
+                  id={index}
+                  index={index + 1}
+                  store={store}
+                ></MapCard>
+              ))}
+            </>
+          )}
         </div>
       </div>
     );

@@ -1,5 +1,7 @@
 .NearMap {
     padding: 0px;
+    font-family: "NanumSquareRound";
+    
     .thumbnail {
         position: relative;
         padding-top: 56.25%;
@@ -25,4 +27,9 @@
             }
         }
     }
+
+    .address{
+        margin-bottom: 5px;
+    }
+
 }

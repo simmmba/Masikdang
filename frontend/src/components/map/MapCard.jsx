@@ -14,7 +14,6 @@ class MapCard extends React.Component {
     };
   }
   componentDidMount() {
-    console.log(this.props);
     this.setState({
       index: this.props.index,
       store: this.props.store,
@@ -23,6 +22,21 @@ class MapCard extends React.Component {
       this.setState({
         category_list: this.props.store.category.split("|"),
       });
+    }
+  }
+
+  // 값 바겼을 때
+  componentDidUpdate(prevProps) {
+    if (prevProps.store.id !== this.props.store.id) {
+      this.setState({
+        index: this.props.index,
+        store: this.props.store,
+      });
+      if (this.props.store.category !== null) {
+        this.setState({
+          category_list: this.props.store.category.split("|"),
+        });
+      }
     }
   }
 
