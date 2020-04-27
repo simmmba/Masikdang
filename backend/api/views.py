@@ -534,7 +534,6 @@ def upload_image_review(request, review_id):
             review = Review.objects.get(id=review_id)
             store_id = review.store_id
             store = Store.objects.get(id=store_id)
-            print(img_url)
             if store.img is None :
                 store.img = img_url
                 store.save()
