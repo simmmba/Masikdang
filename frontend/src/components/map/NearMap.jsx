@@ -2,15 +2,10 @@ import React from "react";
 import "./NearMap.scss";
 import axios from "axios";
 
-import MapCard from "../map/MapCard"
+import MapCard from "../map/MapCard";
 
 const Emoji = (props) => (
-  <span
-    className="emoji"
-    role="img"
-    aria-label={props.label ? props.label : ""}
-    aria-hidden={props.label ? "false" : "true"}
-  >
+  <span className="emoji" role="img" aria-label={props.label ? props.label : ""} aria-hidden={props.label ? "false" : "true"}>
     {props.symbol}
   </span>
 );
@@ -26,8 +21,8 @@ class NearMap extends React.Component {
       check: false,
       level: 5,
       address: "",
-      stores:[],
-      loading: false
+      stores: [],
+      loading: false,
     };
   }
 
@@ -54,11 +49,7 @@ class NearMap extends React.Component {
                 address: result[0].address_name,
               });
           };
-          new window.daum.maps.services.Geocoder().coord2RegionCode(
-            position.coords.longitude,
-            position.coords.latitude,
-            callback
-          );
+          new window.daum.maps.services.Geocoder().coord2RegionCode(position.coords.longitude, position.coords.latitude, callback);
 
           this.makeMap();
         },
@@ -80,19 +71,14 @@ class NearMap extends React.Component {
 
   // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
   addMarker = (position, idx) => {
-    var imageSrc =
-        "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png", // 마커 이미지 url, 스프라이트 이미지를 씁니다
+    var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png", // 마커 이미지 url, 스프라이트 이미지를 씁니다
       imageSize = new window.kakao.maps.Size(36, 37), // 마커 이미지의 크기
       imgOptions = {
         spriteSize: new window.kakao.maps.Size(36, 691), // 스프라이트 이미지의 크기
         spriteOrigin: new window.kakao.maps.Point(0, idx * 46 + 10), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
         offset: new window.kakao.maps.Point(13, 37), // 마커 좌표에 일치시킬 이미지 내에서의 좌표
       },
-      markerImage = new window.kakao.maps.MarkerImage(
-        imageSrc,
-        imageSize,
-        imgOptions
-      ),
+      markerImage = new window.kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions),
       marker = new window.kakao.maps.Marker({
         position: position, // 마커의 위치
         image: markerImage,
@@ -114,37 +100,27 @@ class NearMap extends React.Component {
 
   // 현 정보 기반 새로운 식당 정보 받아오기
   axiosStores = () => {
-
     // 기존마커 지우기
     this.removeMarker();
     //Loading 표시
     this.setState({
-        loading: true
-    })
+      loading: true,
+    });
 
     // axios 호출
     axios({
       method: "get",
-      url:
-        "http://15.165.19.70:8080/api/location_based/" +
-        String(this.state.latitude) +
-        "/" +
-        String(this.state.longitude) +
-        "/" +
-        String(this.level_km[this.state.level]),
+      url: `${process.env.REACT_APP_URL}/location_based/${String(this.state.latitude)}/${String(this.state.longitude)}/${String(this.level_km[this.state.level])}`,
     })
       .then((res) => {
         // 뒤로 가기 했을 때 값 변경 되도록 처리
         console.log(res);
         this.setState({
-            stores:res.data.data
+          stores: res.data.data,
         });
         for (var i = 0; i < res.data.data.length; i++) {
           // 마커를 생성하고 지도에 표시합니다
-          var placePosition = new window.kakao.maps.LatLng(
-              res.data.data[i].latitude,
-              res.data.data[i].longitude
-            ),
+          var placePosition = new window.kakao.maps.LatLng(res.data.data[i].latitude, res.data.data[i].longitude),
             marker = this.addMarker(placePosition, i);
         }
       })
@@ -157,10 +133,7 @@ class NearMap extends React.Component {
     var container = document.getElementById("map");
     var options = {
       //지도를 생성할 때 필요한 기본 옵션
-      center: new window.kakao.maps.LatLng(
-        this.state.latitude,
-        this.state.longitude
-      ), //지도의 중심좌표.
+      center: new window.kakao.maps.LatLng(this.state.latitude, this.state.longitude), //지도의 중심좌표.
       level: this.state.level, //지도의 레벨(확대, 축소 정도)
     };
 
@@ -176,22 +149,13 @@ class NearMap extends React.Component {
       searchDetailAddrFromCoords(mouseEvent.latLng, (result, status) => {
         if (status === window.kakao.maps.services.Status.OK) {
           this.setState({
-            address:
-              result[0].address.region_1depth_name +
-              " " +
-              result[0].address.region_2depth_name +
-              " " +
-              result[0].address.region_3depth_name,
+            address: result[0].address.region_1depth_name + " " + result[0].address.region_2depth_name + " " + result[0].address.region_3depth_name,
           });
         }
       });
       // 좌표로 법정동 상세 주소 정보를 요청
       function searchDetailAddrFromCoords(coords, callback) {
-        new window.kakao.maps.services.Geocoder().coord2Address(
-          coords.getLng(),
-          coords.getLat(),
-          callback
-        );
+        new window.kakao.maps.services.Geocoder().coord2Address(coords.getLng(), coords.getLat(), callback);
       }
       this.axiosStores();
     });
@@ -220,10 +184,11 @@ class NearMap extends React.Component {
             <div id="map" className="kakaoMap"></div>
           </div>
         </div>
-        <Emoji label="map" symbol="✔️" /> 지도 클릭하면 새로운 식당 정보를
-        받습니다
+        <Emoji label="map" symbol="✔️" /> 지도 클릭하면 새로운 식당 정보를 받습니다
         <div>
-            {this.state.stores.map((store, index) => (<MapCard key={index} index={index+1} store={store}></MapCard>))}
+          {this.state.stores.map((store, index) => (
+            <MapCard key={index} index={index + 1} store={store}></MapCard>
+          ))}
         </div>
       </div>
     );

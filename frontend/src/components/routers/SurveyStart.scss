@@ -5,11 +5,7 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-
-  @media screen and (min-width: 768px) {
-    margin-left: 35%;
-    margin-right: 35%;
-  }
+  // border: 1px solid black;
 
   .btn {
     font-size: 1.4rem;
@@ -24,6 +20,10 @@
       background: white;
       box-shadow: inset 0px 0px 10px #98d7db, 0px 0px 10px #98d7db;
     }
+
+    @media screen and (min-width: 768px) {
+      font-size: 2rem;
+    }
   }
 
   .explain {
@@ -37,20 +37,37 @@
     font-size: 1.2rem;
     color: grey;
     background: #f6f6f6;
+
+    @media screen and (min-width: 768px) {
+      font-size: 1.6rem;
+    }
   }
 
   .first {
     margin-bottom: 2rem;
     font-size: 2.1rem;
-    color: #ffaabb;
+    color: #4cbfc7;
+
+    @media screen and (min-width: 768px) {
+      font-size: 3rem;
+    }
   }
 
   .second {
     font-size: 1.7rem;
+
+    @media screen and (min-width: 768px) {
+      font-size: 2.2rem;
+    }
   }
 
   .third {
     margin-top: 0.5rem;
     font-size: 1.3rem;
+    color: #4c4c4c;
+
+    @media screen and (min-width: 768px) {
+      font-size: 1.7rem;
+    }
   }
 }

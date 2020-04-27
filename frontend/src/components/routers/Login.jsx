@@ -37,7 +37,7 @@ class Login extends React.Component {
     //axios 호출
     axios({
       method: "get",
-      url: "http://15.165.19.70:8080/api/user/join_check/"+this.state.provider+"/"+this.state.id,
+      url: `${process.env.REACT_APP_URL}/user/join_check/${this.state.provider}/${this.state.id}`,
     })
       // 회원 가입 안되있는 거면
       .then((res) => {
@@ -45,7 +45,7 @@ class Login extends React.Component {
         if (res.data === "YES") {
           axios({
             method: "get",
-            url: "http://15.165.19.70:8080/api/user/"+this.state.id,
+            url: `${process.env.REACT_APP_URL}/user/${this.state.id}`,
           })
             // 로그인 성공하면 메인으로 보내기
             .then((res) => {

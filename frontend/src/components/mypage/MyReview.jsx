@@ -20,7 +20,7 @@ const MyReview = ({ review, reviewCnt }) => {
 
     axios({
       method: "get",
-      url: "http://i02a201.p.ssafy.io:8080/api/review/user/" + user.id,
+      url: `${process.env.REACT_APP_URL}/review/user/${user.id}`,
     })
       .then((res) => {
         // console.log(res.data);

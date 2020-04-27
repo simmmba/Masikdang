@@ -20,7 +20,7 @@ const SurveyResult = ({ reset, answer, surveyResult, meaning }) => {
   useEffect(() => {
     axios({
       method: "get",
-      url: "http://15.165.19.70:8080/api/survey/type",
+      url: `${process.env.REACT_APP_URL}/survey/type`,
       params: {
         data: data,
       },
@@ -87,11 +87,11 @@ const SurveyResult = ({ reset, answer, surveyResult, meaning }) => {
       {/* 로그인 하지 않았으면 */}
       {!login && (
         <div className="memberBox">
-          <NavLink className="memberBtn" to="/login">
-            로그인
-          </NavLink>
           <NavLink className="memberBtn" to="/signup">
             회원가입
+          </NavLink>
+          <NavLink className="memberBtn" to="/login">
+            로그인
           </NavLink>
         </div>
       )}

@@ -23,7 +23,7 @@ class SignupDetail extends React.Component {
       open: false,
       provider: "",
       api_id: "",
-      answer: []
+      answer: [],
     };
   }
 
@@ -38,7 +38,7 @@ class SignupDetail extends React.Component {
         provider: location.state.provider,
         api_id: location.state.api_id,
         answer: location.state.answer,
-        survey_result : location.state.survey_result
+        survey_result: location.state.survey_result,
       });
     }
   }
@@ -79,7 +79,7 @@ class SignupDetail extends React.Component {
     //axios 호출
     axios({
       method: "get",
-      url: "http://15.165.19.70:8080/api/user/dup_check/"+res,
+      url: `${process.env.REACT_APP_URL}/user/dup_check/${res}`,
     })
       .then((res) => {
         // 닉네임 없는 거면
@@ -117,15 +117,15 @@ class SignupDetail extends React.Component {
       // axios 호출로 보내주기
       axios({
         method: "post",
-        url: "http://15.165.19.70:8080/api/user",
+        url: `${process.env.REACT_APP_URL}/user`,
         data: {
           provider: this.state.provider,
           nickname: this.state.nickname,
           age: this.state.age,
           gender: this.state.gender,
           api_id: this.state.api_id,
-          survey_array : this.state.answer.join(''),
-          survey_result : this.state.survey_result.join(' ')
+          survey_array: this.state.answer.join(""),
+          survey_result: this.state.survey_result.join(" "),
         },
       })
         .then((res) => {
@@ -154,21 +154,13 @@ class SignupDetail extends React.Component {
         <AuthTemplate>
           <div className="main_letter">추가 정보 입력</div>
           <input
-            className={
-              isnicknameVaild | (this.state.nickname.length < 3)
-                ? "input_nickname"
-                : "input_nickname_duplicate"
-            }
+            className={isnicknameVaild | (this.state.nickname.length < 3) ? "input_nickname" : "input_nickname_duplicate"}
             placeholder="닉네임을 입력해주세요 (3~10자)"
             value={this.state.nickname}
             onChange={this.changeNickname}
           ></input>
 
-          {isnicknameVaild | (this.state.nickname.length < 3) ? (
-            ""
-          ) : (
-            <p className="nickname_check">중복된 닉네임입니다</p>
-          )}
+          {isnicknameVaild | (this.state.nickname.length < 3) ? "" : <p className="nickname_check">중복된 닉네임입니다</p>}
 
           <div className="div_age">나이 : {this.state.age}</div>
           <div className="age_slider">
@@ -176,12 +168,7 @@ class SignupDetail extends React.Component {
           </div>
 
           <FormControl component="fieldset">
-            <RadioGroup
-              aria-label="gender"
-              name="gender1"
-              value={this.state.gender}
-              onChange={this.handleChange}
-            >
+            <RadioGroup aria-label="gender" name="gender1" value={this.state.gender} onChange={this.handleChange}>
               <FormControlLabel value="여자" control={<Radio />} label="여자" />
               <FormControlLabel value="남자" control={<Radio />} label="남자" />
             </RadioGroup>

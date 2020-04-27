@@ -16,7 +16,7 @@ const TypeRecommend = (props) => {
   useEffect(() => {
     axios({
       method: "get",
-      url: "http://15.165.19.70:8080/api/filter/type",
+      url: `${process.env.REACT_APP_URL}/filter/type`,
       params: {
         type: props.type,
       },
@@ -58,7 +58,7 @@ const TypeRecommend = (props) => {
         {info.length > 0 &&
           info.map((store, idx) => (
             <div
-              className="type"
+              className="type col-6 col-md-4"
               onClick={function () {
                 go(store.store_id);
               }}

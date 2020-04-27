@@ -7,12 +7,10 @@ import "../survey/Survey.scss";
 const Surveypage = () => {
   return (
     <div className="SurveyComponent">
-      <center>
-        <QuestionNum />
-        <Survey />
-        <br />
-        <Counter />
-      </center>
+      <QuestionNum />
+      <Survey />
+      <br />
+      <Counter />
     </div>
   );
 };

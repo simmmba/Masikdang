@@ -41,7 +41,7 @@ class Signup extends React.Component {
     //axios 호출
     axios({
       method: "get",
-      url: "http://15.165.19.70:8080/api/user/join_check/" + this.state.provider + "/" + this.state.id,
+      url: `${process.env.REACT_APP_URL}/user/join_check/${this.state.provider}/${this.state.id}`,
     })
       // 회원 가입 안되있는 거면
       .then((res) => {
@@ -56,7 +56,7 @@ class Signup extends React.Component {
               api_id: this.state.id,
               provider: this.state.provider,
               answer: this.context.state.answer,
-              survey_result : this.context.state.survey_result
+              survey_result: this.context.state.survey_result,
             },
           });
           this.context.actions.reset();

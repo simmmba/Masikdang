@@ -27,7 +27,7 @@ const MypageMore = (props) => {
       if (path === "/mypage/favorite") {
         axios({
           method: "get",
-          url: "http://i02a201.p.ssafy.io:8080/api/user/like_list/" + user.id,
+          url: `${process.env.REACT_APP_URL}/user/like_list/${user.id}`,
         })
           .then((res) => {
             console.log(res.data);
@@ -42,7 +42,7 @@ const MypageMore = (props) => {
       else if (path === "/mypage/review") {
         axios({
           method: "get",
-          url: "http://i02a201.p.ssafy.io:8080/api/review/user/" + user.id,
+          url: `${process.env.REACT_APP_URL}/review/user/${user.id}`,
         })
           .then((res) => {
             console.log(res.data);

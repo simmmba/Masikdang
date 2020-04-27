@@ -6,19 +6,12 @@ import { withRouter } from "react-router-dom";
 import { SearchContext } from "../../contexts/search";
 
 const Emoji = (props) => (
-  <span
-    id="liked"
-    className="emoji"
-    role="img"
-    aria-label={props.label ? props.label : ""}
-    aria-hidden={props.label ? "false" : "true"}
-  >
+  <span id="liked" className="emoji" role="img" aria-label={props.label ? props.label : ""} aria-hidden={props.label ? "false" : "true"}>
     {props.symbol}
   </span>
 );
 
 class Liked extends React.Component {
-
   static contextType = SearchContext;
 
   constructor(props) {
@@ -60,15 +53,11 @@ class Liked extends React.Component {
         // axios 호출
         axios({
           method: "get",
-          url:
-            "http://15.165.19.70:8080/api/store/like/" +
-            this.state.store +
-            "/" +
-            this.user.id,
+          url: `${process.env.REACT_APP_URL}/store/like/${this.state.store}/${this.user.id}`,
         })
           .then((res) => {
             // 뒤로 가기 했을 때 값 변경 되도록 처리
-            this.context.actions.editlike(this.state.store)
+            this.context.actions.editlike(this.state.store);
             this.setState({
               check: check,
             });
@@ -82,11 +71,7 @@ class Liked extends React.Component {
     }
     // 로그인을 안했으면
     else {
-      if (
-        window.confirm(
-          "로그인을 해야 사용 가능한 기능입니다.\n로그인하시겠습니까?"
-        )
-      ) {
+      if (window.confirm("로그인을 해야 사용 가능한 기능입니다.\n로그인하시겠습니까?")) {
         this.props.history.push("/login");
       }
     }

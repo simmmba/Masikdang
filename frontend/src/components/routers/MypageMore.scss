@@ -72,6 +72,11 @@
         font-size: 1.2rem;
         // border: 1px solid black;
         padding: 0 6px 0 6px;
+
+        @media screen and (min-width: 768px) {
+          margin-top: 6px;
+          font-size: 1.5rem;
+        }
       }
 
       .storeArea {
@@ -86,6 +91,11 @@
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+
+        @media screen and (min-width: 768px) {
+          margin-top: 2px;
+          font-size: 1.2rem;
+        }
       }
 
       .imgBox {

@@ -48,7 +48,7 @@ class MypageDetail extends React.Component {
       file.append("profile", this.state.profile);
       axios({
         method: "put",
-        url: "http://15.165.19.70:8080/api/user/" + this.user.id,
+        url: `${process.env.REACT_APP_URL}/user/${this.user.id}`,
         headers: { "Content-Type": "multipart/form-data" },
         data: file,
       })
@@ -104,24 +104,13 @@ class MypageDetail extends React.Component {
         <Header></Header>
         <div className="MypageDetail">
           <div className="profile_img">
-            {this.state.base64 === "" ? (
-              <img
-                alt="프로필"
-                src="https://d2x5ku95bkycr3.cloudfront.net/App_Themes/Common/images/profile/0_200.png"
-              />
-            ) : (
-              <img alt="프로필" src={this.state.base64} />
-            )}
+            {this.state.base64 === "" ? <img alt="프로필" src="https://d2x5ku95bkycr3.cloudfront.net/App_Themes/Common/images/profile/0_200.png" /> : <img alt="프로필" src={this.state.base64} />}
           </div>
           <div className="upload_btn">
             <div className="filebox">
               <label>
                 제품 사진 업로드
-                <input
-                  type="file"
-                  accept="image/gif, image/jpeg, image/png"
-                  onChange={this.InputChange}
-                />
+                <input type="file" accept="image/gif, image/jpeg, image/png" onChange={this.InputChange} />
               </label>
             </div>
           </div>

@@ -13,8 +13,7 @@ class Review extends React.Component {
     if (window.confirm("리뷰를 삭제하시겠습니까?")) {
       axios({
         method: "delete",
-        url:
-          "http://15.165.19.70:8080/api/review/" + this.props.review.id + "/",
+        url: `${process.env.REACT_APP_URL}/review/${this.props.review.id}/`,
       })
         .then((res) => {
           alert("해당 리뷰가 삭제 되었습니다.");
@@ -45,16 +44,10 @@ class Review extends React.Component {
     return (
       <div className="Review">
         <div className="user_info">
-          <img
-            className="profile"
-            alt="profile"
-            src="https://d2x5ku95bkycr3.cloudfront.net/App_Themes/Common/images/profile/0_200.png"
-          ></img>
+          <img className="profile" alt="profile" src="https://d2x5ku95bkycr3.cloudfront.net/App_Themes/Common/images/profile/0_200.png"></img>
           <span className="user_name">{review.user_nickname}</span>
           <ReadScore score={review.total_score}></ReadScore>
-          <span className="tscore">
-            ({review.total_score ? review.total_score : "0"})
-          </span>
+          <span className="tscore">({review.total_score ? review.total_score : "0"})</span>
         </div>
         <div className="score_bundle">
           맛&nbsp;<span>★</span>
