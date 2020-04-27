@@ -113,6 +113,7 @@ class Image_upload(models.Model):
 class Like_store(models.Model):
     user = models.ForeignKey('User', on_delete=models.CASCADE)
     store = models.ForeignKey('Store', on_delete=models.CASCADE)
+    like_time = models.DateTimeField(auto_now_add=True,blank=True, null=True)
 
 # 프로필 이미지
 class Profile_img(models.Model):
