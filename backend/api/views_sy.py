@@ -230,34 +230,31 @@ def similar_store(dataframes, storeID):
     st_rv = pd.merge(origin_store, origin_review, on="store_id").groupby(["store_id"]).size()
     st_rv = st_rv.index[st_rv>=2]
     new_store = origin_store[origin_store['store_id'].isin(st_rv)]
-    print(new_store)
 
     # 평점이 0점 이거나 없는 데이터 없애기
     reviews = origin_review[origin_review['score'] >= 1]
     # 100개 이상의 리뷰를 남긴 유저의 데이터만 가져오기
-    filter_reviews = origin_review['user_id'].value_counts() >= 100
+    filter_reviews = origin_review['user_id'].value_counts() >= 8
     filter_reviews = filter_reviews[filter_reviews].index.tolist()
     new_reviews = reviews[reviews['user_id'].isin(filter_reviews)]
-    print("가공 된 리뷰 데이터")
-    print(new_reviews)
 
     # 스토어와 리뷰를 가지고 새로운 데이터 프레임 생성
     stores_reviews = pd.merge(new_store, new_reviews, on='store_id')
     store_user_socre = stores_reviews.pivot_table(
         'score', 'store_id', 'user_id', fill_value="0"
     )
-    print(store_user_socre)
+    # print(store_user_socre)
     store_id = int(storeID)
     item_based_collabor = cosine_similarity(store_user_socre)
     item_based_collabor = pd.DataFrame(data = item_based_collabor, index = store_user_socre.index, columns =store_user_socre.index )
     result = item_based_collabor[store_id].sort_values(ascending=False)[:10]
-    print(result)
+    # print(result)
     df1 = pd.DataFrame(data=result.index, columns=['store_id'])
     df2 = pd.DataFrame(data=result.values, columns=['cosine_similarity'])
     df = pd.merge(df1, df2, left_index=True, right_index=True)
     df4 = pd.merge(df, origin_store, on="store_id")
     
-    print(df4)
+    # print(df4)
     return df4
 
 def content_store(dataframes, storeID):
