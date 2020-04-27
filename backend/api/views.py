@@ -349,8 +349,7 @@ def SurveySearch(request):
 
         if(surveyArr[1] == "여자"):
             survey02 = Review.objects.filter(
-                id__in=survey01,
-                Q(tag__contains="여자") | Q(content__contains="여자") | Q(tag__contains="여성") | Q(content__contains="여성")
+                Q(id__in=survey01), Q(tag__contains="여자") | Q(content__contains="여자") | Q(tag__contains="여성") | Q(content__contains="여성")
                 ).only('store').all()
         else:
             survey02 = survey01

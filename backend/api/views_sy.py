@@ -152,7 +152,7 @@ def filter_by_type(dataframes, surveyRes):
     # 평점이 0점 이거나 없는 데이터 없애기
     reviews = origin_review[origin_review['score'] >= 1]
     # 300명 이상에게 평점 매겨진 데이터만 가져오기
-    filter_reviews = origin_review['user_id'].value_counts() >= 10
+    filter_reviews = origin_review['user_id'].value_counts() >= 1
     filter_reviews = filter_reviews[filter_reviews].index.tolist()
     new_reviews = reviews[reviews['user_id'].isin(filter_reviews)]
     print("가공 된 리뷰 데이터")
