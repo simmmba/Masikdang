@@ -6,7 +6,7 @@ from datetime import datetime
 
 DATA_DIR = "../data"
 DATA_FILE = os.path.join(DATA_DIR, "data.json")
-STORE_FILE = os.path.join(DATA_DIR, "save.json")
+STORE_FILE = os.path.join(DATA_DIR, "data_save.json")
 REVIEW_FILE = os.path.join(DATA_DIR, "review.json")
 USER_FILE = os.path.join(DATA_DIR, "user.json")
 DUMP_FILE = os.path.join(DATA_DIR, "dump.pkl")
@@ -39,7 +39,7 @@ def import_data():
         with open(STORE_FILE, encoding="utf-8") as f:
             data = json.loads(f.read())
     except FileNotFoundError as e:
-        print(f"`{USER_FILE}` 가 존재하지 않습니다.")
+        print(f"`{STORE_FILE}` 가 존재하지 않습니다.")
         exit(1)
 
     stores = []
@@ -56,24 +56,24 @@ def import_data():
         )
 
     try:
-        with open(DATA_FILE, encoding="utf-8") as f:
+        with open(REVIEW_FILE, encoding="utf-8") as f:
             data = json.loads(f.read())
     except FileNotFoundError as e:
-        print(f"`{DATA_FILE}` 가 존재하지 않습니다.")
+        print(f"`{REVIEW_FILE}` 가 존재하지 않습니다.")
         exit(1)
 
     reviews = []  # 리뷰 테이블
 
     for d in data:
-
-        for review in d["review_list"]:
-            r = review["review_info"]
-            u = review["writer_info"]
-
-            reviews.append(
-                [r["id"], d["id"], u["id"], r["score"]]
-            )
-
+        reviews.append(
+            [
+                d["id"],
+                d["store_id"],
+                d["user_id"],
+                d["total_score"]
+            ]
+        )
+        
     store_frame = pd.DataFrame(data=stores, columns=store_columns)
     review_frame = pd.DataFrame(data=reviews, columns=review_columns)
 

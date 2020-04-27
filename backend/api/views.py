@@ -278,15 +278,19 @@ class UserDetail(APIView):
         # 유저 조회
         '''
         user = User.objects.get(api_id=api_id)
+        user_id = user.id
         serializer = UserSerializer(user)
         result = serializer.data
-        is_exist = Profile_img.objects.filter(api_id = api_id).count()
+        is_exist = Profile_img.objects.filter(user_id = user_id).count()
         
+        img = None
         if is_exist >= 1 :
             print(is_exist)
-            profile_img = Profile_img.objects.get(api_id=api_id)
-            result['img'] = profile_img.img
-
+            profile_img = Profile_img.objects.get(user_id = user_id)
+            img = profile_img.img
+            
+        result['img'] = img
+            
         return Response(result)
 
     # User 삭제
@@ -306,8 +310,19 @@ class UserDetail(APIView):
         user_modify = User.objects.get(api_id=api_id)
         serializer = UserSerializer(user_modify, data=request.data)
         if serializer.is_valid():
+            
+            user_id = user_modify.id
+            is_exist = Profile_img.objects.filter(user_id = user_id).count()
+            img = None
+            if is_exist >= 1 :
+                profile_img = Profile_img.objects.get(user_id = user_id)
+                img = profile_img.img
+
+
             serializer.save()
-            return Response(serializer.data)
+            result = serializer.data
+            result['img'] = img
+            return Response(result)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -318,8 +333,6 @@ class UserJoinCheck(APIView):
     '''
 
     def get(self, request, provider, api_id, format=None):
-        # api_id = request.query_params.get("api_id", "")
-        # provider = request.query_params.get("provider", "")
         is_exist = User.objects.filter(
             api_id=api_id, provider=provider).count()
 
@@ -508,7 +521,7 @@ class ReviewImgList(APIView):
 
 # 파일 업로드
 @api_view(['POST'])
-def upload_image_review(request, user_id):
+def upload_image_review(request, review_id):
     '''
     # 리뷰 사진 업로드
     '''
@@ -516,6 +529,8 @@ def upload_image_review(request, user_id):
         form = ImageForm(request.POST, request.FILES)
         if form.is_valid():
             newImg_list = request.FILES.getlist('path')
+            print(newImg_list[0])
+            
             for newImg in newImg_list:
                 # img 저장
                 img = Image_upload(path=newImg)
@@ -525,6 +540,13 @@ def upload_image_review(request, user_id):
                 review_img = Review_img(img=img_url, review_id=review_id)
                 review_img.save()
 
+            #음식점 img 추가
+            review = Review.objects.get(id=review_id)
+            store_id = review.store_id
+            store = Store.objects.get(id=store_id)
+            if store.img is None :
+                store.img = img_url
+                store.save()
             return Response("upload ok")
 
         else:
@@ -557,13 +579,13 @@ class Like_by_user(APIView):
 
     def get(self, request, user_id, format=None):
         store_liked = StoreSerializer(Store.objects.extra(tables=['api_like_store'], where=[
-                                      'api_store.id=api_like_store.store_id', "api_like_store.user_id="+user_id]), many=True)
+                                      'api_store.id=api_like_store.store_id', "api_like_store.user_id="+user_id], order_by=['api_like_store.like_time']).reverse(), many=True)
         return Response(store_liked.data)
 
 
 # 파일 업로드
 @api_view(['POST'])
-def upload_image_profile(request, api_id):
+def upload_image_profile(request, user_id):
     '''
     # 리뷰 사진 업로드
     '''
@@ -577,17 +599,20 @@ def upload_image_profile(request, api_id):
 
             # profile_img 저장
             img_url = settings.MEDIA_HOST+str(img.path)
-            is_exist = Profile_img.objects.filter(api_id=api_id).count()
+            is_exist = Profile_img.objects.filter(user_id=user_id).count()
 
 
             if is_exist >= 1 : 
-                modify = Profile_img.objects.get(api_id = api_id)
+                modify = Profile_img.objects.get(user_id = user_id)
+                modify.img = img_url
                 modify.save()
             else :
-                profile_img = Profile_img(img = img_url, api_id = api_id)
+                profile_img = Profile_img(img = img_url, user_id = user_id)
                 profile_img.save()
                 
-            return Response("upload ok")
+            return Response({
+                "img": img_url
+            })
         else:
             form = ImageForm()
             return Response("upload fail")

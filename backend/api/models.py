@@ -52,7 +52,7 @@ class Review(models.Model):
     service_score = models.FloatField(blank=True, null=True)
     content = models.CharField(max_length=3000, blank=True, null=True)
     tag = models.CharField(max_length=500, blank=True, null=True)
-    reg_itme = models.CharField(max_length=50, blank=True, null=True)
+    reg_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
 # 음식점
 class Store(models.Model):
@@ -75,7 +75,7 @@ class Tag(models.Model):
 # 사용자
 class User(models.Model):
     provider = models.CharField(max_length=20, blank=True, null=True)
-    api_id = models.CharField(unique=True, max_length=30, blank=True, null=True)
+    api_id = models.CharField(unique=True, max_length=40, blank=True, null=True)
     nickname = models.CharField(unique=True, max_length=20)
     age = models.IntegerField(blank=True, null=True)
     gender = models.CharField(max_length=5, blank=True, null=True)
@@ -113,8 +113,9 @@ class Image_upload(models.Model):
 class Like_store(models.Model):
     user = models.ForeignKey('User', on_delete=models.CASCADE)
     store = models.ForeignKey('Store', on_delete=models.CASCADE)
+    like_time = models.DateTimeField(auto_now_add=True,blank=True, null=True)
 
 # 프로필 이미지
 class Profile_img(models.Model):
-    api = models.ForeignKey('User', on_delete=models.CASCADE)
+    user = models.ForeignKey('User', on_delete=models.CASCADE)
     img = models.CharField(max_length=200, blank=True, null=True)

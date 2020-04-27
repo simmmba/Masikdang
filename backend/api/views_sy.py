@@ -14,7 +14,7 @@ import numpy as np
 import warnings
 
 def filter_by_user(dataframes, surveyRes, userIID):
-    # 원본 데이터
+     # 원본 데이터
     origin_store = dataframes["stores"]
     origin_review = dataframes["reviews"]
     origin_user = dataframes["users"]
@@ -22,23 +22,18 @@ def filter_by_user(dataframes, surveyRes, userIID):
     # 같은 타입 유저들만
     origin_user = origin_user[origin_user["survey_result"].str.contains(surveyRes)==True]
     if(len(origin_user)<100):
+        print("같은 타입의 데이터가 너무 적어 전체유저를 대상으로 합니다")
         origin_user = dataframes["users"]
-    origin_review = pd.merge(
-        origin_review, origin_user, on="user_id"
-    )
-    
+
     print(origin_user)
     origin_review = pd.merge(
         origin_review, origin_user, on="user_id"
     )
 
-    userID = origin_user.iloc[2,0]
-    print(userID)
-
-    stores = pd.merge(
-        origin_store, origin_review, left_on="store_id", right_on="store_id"
-    )
-    print(stores.head())
+    # stores = pd.merge(
+    #     origin_store, origin_review, left_on="store_id", right_on="store_id"
+    # )
+    # print(stores.head())
 
     # 필요 없는 칼럼 없애기
     # stores.drop('review_id', axis = 1, inplace = True)
@@ -50,7 +45,13 @@ def filter_by_user(dataframes, surveyRes, userIID):
     # 평점이 0점 이거나 없는 데이터 없애기
     reviews = origin_review[origin_review['score'] >= 1]
     # 300명 이상에게 평점 매겨진 데이터만 가져오기
-    filter_reviews = origin_review['user_id'].value_counts() >= 1
+    if(len(origin_user)>3000):
+        filter_reviews = origin_review['user_id'].value_counts() >= 20
+        print("user가 너무 많을 경우 제한 건다")
+    else:
+        filter_reviews = origin_review['user_id'].value_counts() >= 1
+        print("적절한 user 수가 있습니다.")
+    
     filter_reviews = filter_reviews[filter_reviews].index.tolist()
     new_reviews = reviews[reviews['user_id'].isin(filter_reviews)]
     print("가공 된 리뷰 데이터")
@@ -129,18 +130,18 @@ def filter_by_type(dataframes, surveyRes):
     # 같은 타입 유저들만
     origin_user = origin_user[origin_user["survey_result"].str.contains(surveyRes)==True]
     if(len(origin_user)<100):
+        print("같은 타입의 데이터가 너무 적어 전체유저를 대상으로 합니다")
         origin_user = dataframes["users"]
+
+    print(origin_user)
     origin_review = pd.merge(
         origin_review, origin_user, on="user_id"
     )
 
-    userID = origin_user.iloc[1,0]
-    print(userID)
-
-    stores = pd.merge(
-        origin_store, origin_review, left_on="store_id", right_on="store_id"
-    )
-    print(stores.head())
+    # stores = pd.merge(
+    #     origin_store, origin_review, left_on="store_id", right_on="store_id"
+    # )
+    # print(stores.head())
 
     # 필요 없는 칼럼 없애기
     # stores.drop('review_id', axis = 1, inplace = True)
@@ -152,7 +153,13 @@ def filter_by_type(dataframes, surveyRes):
     # 평점이 0점 이거나 없는 데이터 없애기
     reviews = origin_review[origin_review['score'] >= 1]
     # 300명 이상에게 평점 매겨진 데이터만 가져오기
-    filter_reviews = origin_review['user_id'].value_counts() >= 1
+    if(len(origin_user)>3000):
+        filter_reviews = origin_review['user_id'].value_counts() >= 20
+        print("user가 너무 많을 경우 제한 건다")
+    else:
+        filter_reviews = origin_review['user_id'].value_counts() >= 1
+        print("적절한 user 수가 있습니다.")
+    
     filter_reviews = filter_reviews[filter_reviews].index.tolist()
     new_reviews = reviews[reviews['user_id'].isin(filter_reviews)]
     print("가공 된 리뷰 데이터")
@@ -164,17 +171,12 @@ def filter_by_type(dataframes, surveyRes):
     stores_reviews.drop('review_id', axis=1, inplace=True)
     print("스토어 리뷰 하나의 데이터로 생성 stores_reviews")
     print(stores_reviews)
-    userID = stores_reviews.iloc[0,4]
+    userID = stores_reviews.iloc[1,4]
     print(userID)
     # 피봇 테이블 생성 (values, index, column) 순서
     user_sotre_score = stores_reviews.pivot_table(
         'score', 'user_id', 'store_id', fill_value="0"
     )
-    print("피봇 테이블 user_store_score")
-    print(user_sotre_score)
-   
-
-   # print(user_sotre_score.shape)
     print("피봇 테이블 user_store_score")
     print(user_sotre_score)
 
@@ -226,6 +228,8 @@ def filter_by_type(dataframes, surveyRes):
 def similar_store(dataframes, storeID):
     origin_store = dataframes["stores"]
     origin_review = dataframes["reviews"]
+    print(origin_store)
+    print(origin_review)
     # 리뷰 1개 이상 달린 상점만 가져오기
     st_rv = pd.merge(origin_store, origin_review, on="store_id").groupby(["store_id"]).size()
     st_rv = st_rv.index[st_rv>=2]
@@ -234,8 +238,9 @@ def similar_store(dataframes, storeID):
 
     # 평점이 0점 이거나 없는 데이터 없애기
     reviews = origin_review[origin_review['score'] >= 1]
+    print(reviews)
     # 100개 이상의 리뷰를 남긴 유저의 데이터만 가져오기
-    filter_reviews = origin_review['user_id'].value_counts() >= 100
+    filter_reviews = origin_review['user_id'].value_counts() >= 8
     filter_reviews = filter_reviews[filter_reviews].index.tolist()
     new_reviews = reviews[reviews['user_id'].isin(filter_reviews)]
     print("가공 된 리뷰 데이터")
@@ -263,7 +268,7 @@ def similar_store(dataframes, storeID):
 def content_store(dataframes, storeID):
     stores = dataframes["stores"]
     reviews = dataframes["reviews"]
-    reviews = reviews[reviews["score"]>=4]
+    # reviews = reviews[reviews["score"]>=1]
     stores_reviews = pd.merge(stores, reviews, on="store_id")
     stores_reviews = stores_reviews.groupby(["store_id"]).mean()
     stores_reviews.drop('review_id', axis=1, inplace=True)
@@ -274,13 +279,14 @@ def content_store(dataframes, storeID):
 
     count_vector = CountVectorizer(ngram_range=(1, 3))
     c_vector_category = count_vector.fit_transform(stores_reviews['category_list'])
-    gerne_c_sim = cosine_similarity(c_vector_category, c_vector_category).argsort()[:, ::-1]
-    
-    # 특정 영화와 비슷한 영화를 추천해야 하기 때문에 '특정 영화' 정보를 뽑아낸다.
-    target_store_index = stores_reviews[stores_reviews['store_id'] == storeID].index.values
-    
+    print(c_vector_category)
+    category_c_sim = cosine_similarity(c_vector_category, c_vector_category).argsort()[:, ::-1]
+    print(category_c_sim)
+    # 특정 상점과 비슷한 상점을 추천해야 하기 때문에 '특정 상점' 정보를 뽑아낸다.
+    target_store_index = stores_reviews[stores_reviews['store_id'] == int(storeID)].index.values
+    print(target_store_index)
     #코사인 유사도 중 비슷한 코사인 유사도를 가진 정보를 뽑아낸다.
-    sim_index = gerne_c_sim[target_store_index, :10].reshape(-1)
+    sim_index = category_c_sim[target_store_index, :10].reshape(-1)
     #본인을 제외
     sim_index = sim_index[sim_index != target_store_index]
 
@@ -294,6 +300,7 @@ def content_store(dataframes, storeID):
 def contentStore(request):
     if request.method == 'GET':
         store = request.query_params.get("store", "")
+        print(store)
         data = load_store_dataframes()
         print("데이터 전 처리/ 분석 시작")
         result = content_store(data, store)
