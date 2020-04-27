@@ -19,7 +19,7 @@ const MyFavorite = ({ favorite, favoriteCnt }) => {
 
     axios({
       method: "get",
-      url: "http://i02a201.p.ssafy.io:8080/api/user/like_list/" + user.id,
+      url: `${process.env.REACT_APP_URL}/user/like_list/${user.id}`,
     })
       .then((res) => {
         console.log(res.data);
@@ -31,9 +31,10 @@ const MyFavorite = ({ favorite, favoriteCnt }) => {
           var store = {};
           store.id = res.data[i].id;
           store.store_name = res.data[i].store_name;
-          store.area = res.data[i].area;
-          if (res.data[i].category !== null) store.category = res.data[i].category.split("|")[0];
-          else store.category = "";
+          if (res.data[i].category === null || res.data[i].category === "" || res.data[i].category === undefined) store.category = "-";
+          else store.category = res.data[i].category.split("|")[0];
+          if (res.data[i].area !== null) store.area = res.data[i].area;
+          else store.area = "-";
           arr[i] = store;
         }
 

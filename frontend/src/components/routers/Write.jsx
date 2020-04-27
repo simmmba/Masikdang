@@ -179,7 +179,7 @@ class Write extends React.Component {
     else {
       axios({
         method: "post",
-        url: "http://15.165.19.70:8080/api/review",
+        url: `${process.env.REACT_APP_URL}/review`,
         data: {
           store: this.state.store,
           user: this.state.user,
@@ -199,7 +199,7 @@ class Write extends React.Component {
             }
             axios({
               method: "post",
-              url: "http://15.165.19.70:8080/api/upload/" + res.data.id,
+              url: `${process.env.REACT_APP_URL}/upload/${res.data.id}`,
               headers: { "content-type": "multipart/form-data" },
               data: path,
             })

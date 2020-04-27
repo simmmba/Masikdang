@@ -11,12 +11,7 @@ import Rating from "@material-ui/lab/Rating";
 import Box from "@material-ui/core/Box";
 
 const Emoji = (props) => (
-  <span
-    className="emoji"
-    role="img"
-    aria-label={props.label ? props.label : ""}
-    aria-hidden={props.label ? "false" : "true"}
-  >
+  <span className="emoji" role="img" aria-label={props.label ? props.label : ""} aria-hidden={props.label ? "false" : "true"}>
     {props.symbol}
   </span>
 );
@@ -62,12 +57,12 @@ class Update extends React.Component {
     // 조건 충족하면 state 적용
     else {
       let review = this.props.location.params.review;
-      console.log(review)
+      console.log(review);
       // null 값인거 default 값으로 수정해서 넣기
-      if(review.total_score == null) review.total_score = 3
-      if(review.taste_score == null) review.taste_score = 3
-      if(review.price_score == null) review.price_score = 3
-      if(review.service_score == null) review.service_score = 3
+      if (review.total_score == null) review.total_score = 3;
+      if (review.taste_score == null) review.taste_score = 3;
+      if (review.price_score == null) review.price_score = 3;
+      if (review.service_score == null) review.service_score = 3;
       this.setState({
         reviewNo: review.id,
         store: review.store,
@@ -107,11 +102,7 @@ class Update extends React.Component {
 
   // 리뷰 취소 버튼
   confirm = () => {
-    if (
-      window.confirm(
-        "리뷰 수정을 취소하시겠습니까?\n입력한 내용은 모두 사라집니다."
-      )
-    ) {
+    if (window.confirm("리뷰 수정을 취소하시겠습니까?\n입력한 내용은 모두 사라집니다.")) {
       this.props.history.goBack();
     }
   };
@@ -126,7 +117,7 @@ class Update extends React.Component {
     else {
       axios({
         method: "put",
-        url: "http://15.165.19.70:8080/api/review/" + this.state.reviewNo + "/",
+        url: `${process.env.REACT_APP_URL}/review/${this.state.reviewNo}/`,
         data: {
           store: this.state.store,
           user: this.state.user,
@@ -172,12 +163,7 @@ class Update extends React.Component {
               <div className="topic">전체 평점</div>
               <div className="total_score_select">
                 <Box mb={3} borderColor="transparent">
-                  <Rating
-                    precision={1}
-                    value={this.state.total_score}
-                    name="total_score"
-                    onChange={this.chageValues}
-                  />
+                  <Rating precision={1} value={this.state.total_score} name="total_score" onChange={this.chageValues} />
                 </Box>
               </div>
             </div>
@@ -192,19 +178,12 @@ class Update extends React.Component {
                   <div className="col-4">
                     <div className="detail_score_select">
                       <Box mb={3} borderColor="transparent">
-                        <Rating
-                          name={score[0]}
-                          precision={1}
-                          value={this.state[score[0]]}
-                          onChange={this.chageValues}
-                        />
+                        <Rating name={score[0]} precision={1} value={this.state[score[0]]} onChange={this.chageValues} />
                       </Box>
                     </div>
                   </div>
                   <div className="col-1"></div>
-                  <div className="col-3 right">
-                    {this.select_text[index][this.state[score[0]]]}
-                  </div>
+                  <div className="col-3 right">{this.select_text[index][this.state[score[0]]]}</div>
                 </div>
               ))}
             </div>
@@ -212,13 +191,7 @@ class Update extends React.Component {
             {/* 방문 후기 작성 */}
             <div className="content">
               <div className="topic">방문후기</div>
-              <textarea
-                name="content"
-                className="content_box"
-                value={this.state.content}
-                placeholder="최소 10자 이상 작성해 주세요"
-                onChange={this.chageValues}
-              ></textarea>
+              <textarea name="content" className="content_box" value={this.state.content} placeholder="최소 10자 이상 작성해 주세요" onChange={this.chageValues}></textarea>
             </div>
             <hr />
             {/* 사진 업로드 */}

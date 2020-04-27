@@ -17,7 +17,7 @@ const Counter = ({ index, question, decrement }) => {
           {index + 1} / {question.length}{" "}
         </b>
       </span>
-      {index > 0 ? <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> : <span />}
+      {index > 0 ? <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> : <span />}
     </div>
   );
 };

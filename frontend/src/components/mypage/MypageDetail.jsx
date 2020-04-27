@@ -48,7 +48,7 @@ class MypageDetail extends React.Component {
       path.append("path", this.state.profile);
       axios({
         method: "post",
-        url: "http://15.165.19.70:8080/api/upload_profile/" + this.user.id,
+        url: `${process.env.REACT_APP_URL}/upload_profile/${this.user.id}`,
         headers: { "Content-Type": "multipart/form-data" },
         data: path,
       })

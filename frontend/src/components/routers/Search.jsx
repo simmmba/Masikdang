@@ -11,12 +11,7 @@ import Loading from "../common/Loading";
 import { SearchContext } from "../../contexts/search";
 
 const Emoji = (props) => (
-  <span
-    className="emoji"
-    role="img"
-    aria-label={props.label ? props.label : ""}
-    aria-hidden={props.label ? "false" : "true"}
-  >
+  <span className="emoji" role="img" aria-label={props.label ? props.label : ""} aria-hidden={props.label ? "false" : "true"}>
     {props.symbol}
   </span>
 );
@@ -33,7 +28,7 @@ class Search extends React.Component {
       store_len: -1, // 로딩 표시 해주기 위해서
       page: 1,
       maxPage: 1,
-      num_store: 0
+      num_store: 0,
     };
   }
 
@@ -42,15 +37,9 @@ class Search extends React.Component {
     const { innerHeight } = window;
     const { scrollHeight } = document.body;
     // IE에서는 document.documentElement 를 사용.
-    const scrollTop =
-      (document.documentElement && document.documentElement.scrollTop) ||
-      document.body.scrollTop;
+    const scrollTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
     // 스크롤링 했을때, 브라우저의 가장 밑에서 100정도 높이가 남았을때에 실행하기위함.
-    if (
-      scrollHeight - innerHeight - scrollTop < 200 &&
-      this.state.store_len >= 0 &&
-      this.state.page < this.state.maxPage
-    ) {
+    if (scrollHeight - innerHeight - scrollTop < 200 && this.state.store_len >= 0 && this.state.page < this.state.maxPage) {
       // axios loading 체크
       this.setState({ store_len: -2 });
       this.getStores(this.state.page + 1);
@@ -62,7 +51,6 @@ class Search extends React.Component {
   componentDidMount() {
     // 무한 스크롤링
     window.addEventListener("scroll", this.infiniteScroll);
-
 
     // axios loading 체크
     this.setState({ store_len: -1 });
@@ -78,9 +66,9 @@ class Search extends React.Component {
         store_len: store.length,
         word: this.context.state.word,
         subject: this.context.state.subject,
-        page: store.length/20 + 1,
-        maxPage: this.context.state.maxlength/20 + 1,
-        num_store:this.context.state.maxlength
+        page: store.length / 20 + 1,
+        maxPage: this.context.state.maxlength / 20 + 1,
+        num_store: this.context.state.maxlength,
       });
     }
   }
@@ -93,11 +81,7 @@ class Search extends React.Component {
   // 값 바겼을 때 체크
   componentDidUpdate() {
     // 입력된 값이 바겼을 때만
-    if (
-      this.state.word !== this.context.state.word ||
-      (this.context.state.word !== "" &&
-        this.state.subject !== this.context.state.subject)
-    ) {
+    if (this.state.word !== this.context.state.word || (this.context.state.word !== "" && this.state.subject !== this.context.state.subject)) {
       this.setState({
         store_len: -1,
         page: 1,
@@ -125,40 +109,32 @@ class Search extends React.Component {
       subject = "area";
     }
 
-    let id = ""
-    if(this.user) id= this.user.id
+    let id = "";
+    if (this.user) id = this.user.id;
     //axios 호출
     axios({
       method: "get",
-      url:
-        "http://15.165.19.70:8080/api/store/search/" +
-        subject +
-        "/" +
-        word +
-        "?user_id="+ id +"&page=" +
-        e,
+      url: `${process.env.REACT_APP_URL}/store/search/${subject}/${word}?user_id=${id}&page=${e}`,
     })
       // 받아온 store 정보
       .then((res) => {
-        console.log(res)
-        this.context.actions.getmaxlength(res.data.num_store)
+        console.log(res);
+        this.context.actions.getmaxlength(res.data.num_store);
         if (e === 1) {
           this.context.actions.getstore(res.data.data);
           this.setState({
             stores: res.data.data,
             store_len: res.data.num_page,
             maxPage: res.data.num_page,
-            num_store: res.data.num_store
+            num_store: res.data.num_store,
           });
         } else {
-          this.context.actions.getstore(
-            this.state.stores.concat(res.data.data)
-          );
+          this.context.actions.getstore(this.state.stores.concat(res.data.data));
           this.setState({
             stores: this.state.stores.concat(res.data.data),
             store_len: res.data.num_page,
             maxPage: res.data.num_page,
-            num_store: res.data.num_store
+            num_store: res.data.num_store,
           });
         }
       })
@@ -190,10 +166,7 @@ class Search extends React.Component {
                   <div className="store_len">
                     <Emoji label="search" symbol="🏠" />
                     &nbsp;
-                    <span className="store_num">
-                      {this.state.num_store}
-                    </span>{" "}
-                    개의 식당이 검색되었습니다.
+                    <span className="store_num">{this.state.num_store}</span> 개의 식당이 검색되었습니다.
                   </div>
                   {this.state.stores.map((store, index) => (
                     <div className="card_item" key={index}>

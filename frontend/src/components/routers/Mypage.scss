@@ -7,9 +7,10 @@
 
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   margin: 0 10px 0 10px;
+  // border: 1px solid red;
 
   @media screen and (min-width: 768px) {
     margin: 0;
@@ -17,10 +18,13 @@
 
   .profileBox {
     display: flex;
-    // border: 1px solid red;
     margin: 8px 0 5px 0;
     width: 100%;
     // height: 30%;
+
+    @media screen and (min-width: 768px) {
+      margin: 12px 0 5px 0;
+    }
 
     .imgBox {
       // border: 1px solid red;
@@ -38,8 +42,8 @@
         // border: 1px solid red;
 
         @media screen and (min-width: 768px) {
-          width: 120px;
-          height: 120px;
+          width: 160px;
+          height: 160px;
           border-radius: 100px;
           // border: 1px solid red;
         }
@@ -62,7 +66,7 @@
         margin-bottom: 5px;
 
         @media screen and (min-width: 768px) {
-          font-size: 1.8rem;
+          font-size: 2.5rem;
         }
       }
 
@@ -74,7 +78,7 @@
         // border: 1px solid red;
 
         @media screen and (min-width: 768px) {
-          font-size: 1.6rem;
+          font-size: 2rem;
         }
       }
 
@@ -96,8 +100,8 @@
           transition: 0.2s;
 
           @media screen and (min-width: 768px) {
-            width: 35%;
-            font-size: 1.2rem;
+            width: 45%;
+            font-size: 1.5rem;
           }
 
           &:hover {
@@ -115,8 +119,8 @@
           transition: 0.2s;
 
           @media screen and (min-width: 768px) {
-            width: 65%;
-            font-size: 1.2rem;
+            width: 55%;
+            font-size: 1.5rem;
           }
 
           &:hover {
@@ -127,10 +131,11 @@
       }
     }
   }
+
   .btn {
     padding: 2px;
     font-size: 0.8rem;
-    border: 1.5px solid #747474;
+    border: 1.7px solid #747474;
     color: #747474;
     width: 5.5rem;
     background-color: #f6f6f6;
@@ -143,9 +148,9 @@
     }
 
     @media screen and (min-width: 768px) {
-      font-size: 1rem;
-      width: 6.7rem;
-      margin-top: 7px;
+      font-size: 1.2rem;
+      width: 8rem;
+      margin-top: 10px;
     }
   }
 
@@ -191,15 +196,23 @@
   .favoriteBox {
     width: 100%;
     margin: 10px 0 7px 0;
-    border: 1.5px solid #98d7db;
+    border: 2px solid #98d7db;
     border-radius: 4px;
+
+    @media screen and (min-width: 768px) {
+      margin: 20px 0 10px 0;
+    }
   }
 
   .reviewBox {
     width: 100%;
     margin: 7px 0 10px 0;
-    border: 1.5px solid #f9bbc7;
+    border: 2px solid #f9bbc7;
     border-radius: 4px;
+
+    @media screen and (min-width: 768px) {
+      margin: 20px 0 10px 0;
+    }
   }
 
   .favoriteTitle {
@@ -207,6 +220,10 @@
     padding: 4px 0 4px 0;
     // border: 1px solid red;
     font-size: 1.2rem;
+
+    @media screen and (min-width: 768px) {
+      font-size: 1.5rem;
+    }
   }
 
   .reviewTitle {
@@ -214,6 +231,10 @@
     padding: 4px 0 4px 0;
     // border: 1px solid red;
     font-size: 1.2rem;
+
+    @media screen and (min-width: 768px) {
+      font-size: 1.5rem;
+    }
   }
 
   .contentBox {
@@ -231,6 +252,11 @@
       padding: 4px 0 4px 0;
       color: #353535;
       font-size: 1rem;
+
+      @media screen and (min-width: 768px) {
+        padding: 8px 0 8px 0;
+        font-size: 1.2rem;
+      }
 
       .fname {
         margin: 0 5px 0 8px;
@@ -283,6 +309,11 @@
       padding: 4px 0 4px 0;
       color: #353535;
       font-size: 1rem;
+
+      @media screen and (min-width: 768px) {
+        padding: 8px 0 8px 0;
+        font-size: 1.2rem;
+      }
 
       // review css
       .name {
@@ -340,6 +371,11 @@
         color: #5d5d5d;
         background: #98d7db;
       }
+
+      @media screen and (min-width: 768px) {
+        padding: 5px 0 5px 0;
+        font-size: 1.15rem;
+      }
     }
     &:hover {
       text-decoration: none;
@@ -361,6 +397,11 @@
         color: #5d5d5d;
         background: #f9bbc7;
       }
+
+      @media screen and (min-width: 768px) {
+        padding: 5px 0 5px 0;
+        font-size: 1.15rem;
+      }
     }
     &:hover {
       text-decoration: none;
@@ -372,5 +413,10 @@
     color: grey;
     font-size: 1.2rem;
     margin: 20px 0 20px 0;
+
+    @media screen and (min-width: 768px) {
+      font-size: 1.5rem;
+      margin: 40px 0 40px 0;
+    }
   }
 }

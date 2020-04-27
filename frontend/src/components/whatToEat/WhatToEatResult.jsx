@@ -16,29 +16,19 @@ const WhatToEatResult = ({ wreset, wanswer }) => {
   useEffect(() => {
     console.log(wanswer);
 
-    // const bodyFormData = new FormData();
-
-    // wanswer.forEach((item) => {
-    //   bodyFormData.append("wanswer[]", item);
-    // });
-
-    // axios.post("https://test.com/api/get_product", bodyFormData);
-
-    let payload = {
-      wanswer: wanswer,
-    };
-
-    axios({
-      method: "post",
-      url: "http://i02a201.p.ssafy.io:8080/api/survey/search",
-      data: payload,
-    })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    // axios({
+    //   method: "get",
+    //   url: `${process.env.REACT_APP_URL}/survey/search`,
+    //   params: {
+    //     wanswer: wanswer,
+    //   },
+    // })
+    //   .then((res) => {
+    //     console.log(res);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
 
     if (window.sessionStorage.getItem("user")) {
       setLogin(true);
@@ -46,39 +36,55 @@ const WhatToEatResult = ({ wreset, wanswer }) => {
   }, [wanswer]);
 
   return (
-    <div className="WhatToEatBox">
-      <div className="ResultComponent">
-        <div className="top">결과 페이지</div>
-        {/* {console.log(wanswer)} */}
+    <div className="WhatToEatResultComponent">
+      <div className="top">오늘 뭐먹지? 선택 결과</div>
+      <div className="mentionBox">
+        <div className="mentionTop">오늘의 추천 메뉴는 </div>
         <div className="select">
-          {wanswer.map((option) => (
-            <div key={option}>{option}</div>
-          ))}
-        </div>
-        <div className="mention">를 선택하셨습니다.</div> <br />
-        <NavLink className="retryBtn" to={`/whatToEat`} onClick={wreset}>
-          다시 해보기
-        </NavLink>
-        {!login && (
-          <NavLink className="pageBtn" to={`/`}>
-            <Emoji label="home" symbol="🏠" />
-            메인 페이지
+          <NavLink className="menu" to={`/`}>
+            하나
           </NavLink>
-        )}
-        <NavLink className="pageBtn" to={`/home`}>
-          <Emoji label="restaurant" symbol="🍝" /> 마식당 페이지
-        </NavLink>
-        {!login && (
-          <div className="memberBox">
-            <NavLink className="memberBtn" to="/login">
-              로그인
-            </NavLink>
-            <NavLink className="memberBtn" to="/signup">
-              회원가입
-            </NavLink>
-          </div>
-        )}
+          <NavLink className="menu" to={`/`}>
+            하나
+          </NavLink>
+          <NavLink className="menu" to={`/`}>
+            하나
+          </NavLink>
+          <NavLink className="menu" to={`/`}>
+            하나
+          </NavLink>
+          <NavLink className="menu" to={`/`}>
+            하나
+          </NavLink>
+        </div>
+        <div className="mentionBottom">입니다.</div>
       </div>
+
+      <div className="mentionBox">
+        <div className="mention">
+          <Emoji label="yum" symbol="🤤" />
+          <u>먹고 싶은 메뉴</u>를 선택하면
+        </div>
+        <div className="mention">
+          맛있는 <Emoji label="yum" symbol="🍝" />
+          <u>마식당</u>을 추천해드려요!
+        </div>
+      </div>
+
+      <NavLink className="retryBtn" to={`/whatToEat`} onClick={wreset}>
+        다시 검색하기
+      </NavLink>
+      {/* 로그인 하지 않았으면 */}
+      {!login && (
+        <div className="memberBox">
+          <NavLink className="memberBtn" to="/signup">
+            회원가입
+          </NavLink>
+          <NavLink className="memberBtn" to="/login">
+            로그인
+          </NavLink>
+        </div>
+      )}
     </div>
   );
 };
