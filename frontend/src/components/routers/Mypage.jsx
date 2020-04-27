@@ -30,12 +30,13 @@ class Mypage extends React.Component {
   componentDidMount() {
     if (window.sessionStorage.getItem("user")) {
       let user = JSON.parse(window.sessionStorage.getItem("user"));
-      // console.log(user);
+      console.log(user);
 
       this.setState({
         login: true,
         nickname: user.nickname,
         survey_result: user.survey_result,
+        img: user.img
       });
     }
   }
@@ -49,7 +50,8 @@ class Mypage extends React.Component {
             <>
               <div className="profileBox">
                 <div className="imgBox">
-                  <img alt="프로필" src="https://d2x5ku95bkycr3.cloudfront.net/App_Themes/Common/images/profile/0_200.png" />
+                  
+                  {this.state.img !== null? <img alt="프로필" src={this.state.img} /> : <img alt="프로필" src="https://d2x5ku95bkycr3.cloudfront.net/App_Themes/Common/images/profile/0_200.png" />}
                   <NavLink className="btn" to={`/mypage/detail`}>
                     내 정보 조회
                   </NavLink>

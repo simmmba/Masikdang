@@ -46,7 +46,6 @@ class NearMap extends React.Component {
             longitude: position.coords.longitude,
             check: true,
           });
-          this.axiosStores();
 
           // 좌표 기반으로 현위치 찍기
           var callback = (result, status) => {
@@ -54,18 +53,16 @@ class NearMap extends React.Component {
               this.setState({
                 address: result[0].address_name,
               });
+            this.makeMap();
           };
           new window.daum.maps.services.Geocoder().coord2RegionCode(
             position.coords.longitude,
             position.coords.latitude,
             callback
           );
-
-          this.makeMap();
         },
         function (error) {
           console.error(error);
-          this.makeMap();
         },
         {
           enableHighAccuracy: false,
@@ -75,8 +72,9 @@ class NearMap extends React.Component {
       );
     } else {
       alert("GPS를 지원하지 않아 현재위치를 가져올 수 없습니다");
-      this.makeMap();
     }
+
+    this.makeMap();
   }
 
   // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
@@ -172,11 +170,12 @@ class NearMap extends React.Component {
     // 지도가 이동, 확대, 축소로 인해 중심좌표가 변경되면 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다
     window.kakao.maps.event.addListener(this.map, "click", (mouseEvent) => {
       this.setState({
-        latitude: this.map.getCenter().Ha,
-        longitude: this.map.getCenter().Ga,
+        latitude: mouseEvent.latLng.getLat(),
+        longitude: mouseEvent.latLng.getLng(),
       });
       searchDetailAddrFromCoords(mouseEvent.latLng, (result, status) => {
         if (status === window.kakao.maps.services.Status.OK) {
+          this.axiosStores();
           this.setState({
             address:
               result[0].address.region_1depth_name +
@@ -195,7 +194,6 @@ class NearMap extends React.Component {
           callback
         );
       }
-      this.axiosStores();
     });
 
     // 지도가 확대 또는 축소되면 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다
@@ -206,24 +204,33 @@ class NearMap extends React.Component {
         level: level,
       });
     });
+
+    this.axiosStores();
   };
 
   render() {
     return (
       <div className="NearMap">
-        {!this.state.check && this.state.address !== "" ? (
+        {/* 제일 처음에만 현위치 못받아올때 */}
+        {!this.state.check && this.state.address === "" ? (
           <div className="address">
-            <Emoji label="map" symbol="⚙"/> 현재 위치를 알 수 없습니다.
+            <Emoji label="map" symbol="⚙" /> 현재 위치를 알 수 없습니다.
           </div>
-        ):<div className="address"><Emoji label="map" symbol="⚙"/> {this.state.address}</div>}
-        
+        ) : (
+          <div className="address">
+            <Emoji label="map" symbol="⚙" /> {this.state.address}
+          </div>
+        )}
+
         <div className="thumbnail">
           <div id="square" className="centered">
             <div id="map" className="kakaoMap"></div>
           </div>
         </div>
-        <div className="address"><Emoji label="map" symbol="✔️" /> 지도 클릭하면 새로운 식당 정보를
-        받아옵니다</div>
+        <div className="address">
+          <Emoji label="map" symbol="✔️" /> 지도를 클릭하면 새로운 식당 정보를
+          받아옵니다
+        </div>
         <div>
           {this.state.loading ? (
             <Loading></Loading>
@@ -237,6 +244,7 @@ class NearMap extends React.Component {
                   store={store}
                 ></MapCard>
               ))}
+              {this.state.stores.length === 0 && <span><br/>현위치에서 검색된 식당이 없습니다</span>}
             </>
           )}
         </div>

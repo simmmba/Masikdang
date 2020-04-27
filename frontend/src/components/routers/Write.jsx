@@ -298,7 +298,7 @@ class Write extends React.Component {
               <div className="upload_btn">
                 <div className="filebox">
                   <label>
-                    가게 사진 업로드
+                    식당 사진 업로드
                     <input
                       key={this.state.filekey}
                       multiple

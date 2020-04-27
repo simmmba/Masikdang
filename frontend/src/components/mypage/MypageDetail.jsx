@@ -16,7 +16,7 @@ class MypageDetail extends React.Component {
       provider: "",
       nickname: "",
       survey_result: "",
-      profile: "", // 새로운 이미지 파일
+      profile: [], // 새로운 이미지 파일
       base64: "", // 미리보기
     };
   }
@@ -32,7 +32,7 @@ class MypageDetail extends React.Component {
         provider: this.user.provider,
         nickname: this.user.nickname,
         survey_result: this.user.survey_result,
-        base64: "",
+        base64: this.user.img,
       });
     } else {
       const { history } = this.props;
@@ -43,24 +43,23 @@ class MypageDetail extends React.Component {
   // 사진 변경 axios 연결
   handleClick = () => {
     // 이미지를 변경한 경우에만
-    if (this.state.profile) {
-      const file = new FormData();
-      file.append("profile", this.state.profile);
+    if (this.state.profile.length !== 0) {
+      const path = new FormData();
+      path.append("path", this.state.profile);
       axios({
-        method: "put",
-        url: "http://15.165.19.70:8080/api/user/" + this.user.id,
+        method: "post",
+        url: "http://15.165.19.70:8080/api/upload_profile/" + this.user.id,
         headers: { "Content-Type": "multipart/form-data" },
-        data: file,
+        data: path,
       })
         .then((res) => {
           console.log(res.data);
-          this.user.profileImg = res.data.data.profileImg;
+          this.user.img = res.data.img;
           window.sessionStorage.removeItem("user");
           window.sessionStorage.setItem("user", JSON.stringify(this.user));
-          alert("프로필 이미지를 변경했습니다");
+          alert("프로필 이미지 변경이 완료되었습니다");
         })
         .catch((err) => {
-          // console.log(err);
           alert("이미지 수정 실패");
         });
     }
@@ -72,7 +71,6 @@ class MypageDetail extends React.Component {
 
   // 이미지 변경 함수
   InputChange = (e) => {
-    console.log(e.target.files[0]);
 
     //이미지 변경됐을 때 프리뷰
     let reader = new FileReader();
@@ -104,7 +102,7 @@ class MypageDetail extends React.Component {
         <Header></Header>
         <div className="MypageDetail">
           <div className="profile_img">
-            {this.state.base64 === "" ? (
+            {this.state.base64 === null ? (
               <img
                 alt="프로필"
                 src="https://d2x5ku95bkycr3.cloudfront.net/App_Themes/Common/images/profile/0_200.png"
@@ -116,7 +114,7 @@ class MypageDetail extends React.Component {
           <div className="upload_btn">
             <div className="filebox">
               <label>
-                제품 사진 업로드
+                프로필 사진 선택
                 <input
                   type="file"
                   accept="image/gif, image/jpeg, image/png"

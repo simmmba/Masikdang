@@ -1,6 +1,7 @@
 import React from "react";
 import "./MapCard.scss";
 import store_img from "../../img/store.png";
+import { withRouter } from "react-router-dom";
 
 class MapCard extends React.Component {
   constructor(props) {
@@ -40,9 +41,14 @@ class MapCard extends React.Component {
     }
   }
 
+  clickItem = () => {
+    const { history } = this.props;
+    history.push("/search/" + this.state.store.id);
+  };
+
   render() {
     return (
-      <div className="MapCard">
+      <div className="MapCard" onClick={this.clickItem}>
         <img
           alt="food"
           className="img"
@@ -68,4 +74,4 @@ class MapCard extends React.Component {
   }
 }
 
-export default MapCard;
+export default withRouter(MapCard);
