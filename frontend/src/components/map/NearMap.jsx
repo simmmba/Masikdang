@@ -2,6 +2,8 @@ import React from "react";
 import "./NearMap.scss";
 import axios from "axios";
 
+import MapCard from "../map/MapCard"
+
 const Emoji = (props) => (
   <span
     className="emoji"
@@ -24,6 +26,7 @@ class NearMap extends React.Component {
       check: false,
       level: 5,
       address: "",
+      stores:[]
     };
   }
 
@@ -128,6 +131,9 @@ class NearMap extends React.Component {
       .then((res) => {
         // 뒤로 가기 했을 때 값 변경 되도록 처리
         console.log(res);
+        this.setState({
+            stores:res.data.data
+        });
         for (var i = 0; i < res.data.data.length; i++) {
           // 마커를 생성하고 지도에 표시합니다
           var placePosition = new window.kakao.maps.LatLng(
@@ -211,6 +217,9 @@ class NearMap extends React.Component {
         </div>
         <Emoji label="map" symbol="✔️" /> 지도 클릭하면 새로운 식당 정보를
         받습니다
+        <div>
+            {this.state.stores.map((store, index) => (<MapCard key={index} index={index+1} store={store}></MapCard>))}
+        </div>
       </div>
     );
   }
