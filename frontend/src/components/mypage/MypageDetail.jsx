@@ -31,6 +31,9 @@ class MypageDetail extends React.Component {
         nickname: user.nickname,
         survey_result: user.survey_result,
       });
+    } else {
+      const { history } = this.props;
+      history.push("/mypage");
     }
   }
 

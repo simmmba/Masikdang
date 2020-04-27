@@ -24,7 +24,20 @@ const MyFavorite = ({ favorite, favoriteCnt }) => {
       .then((res) => {
         console.log(res.data);
         favoriteCnt(res.data.length);
-        res.data.length > 5 ? setFavorites(res.data.slice(0, 5)) : setFavorites(res.data);
+
+        var size = res.data.length > 5 ? 5 : res.data.length;
+        var arr = [];
+        for (var i = 0; i < size; i++) {
+          var store = {};
+          store.id = res.data[i].id;
+          store.store_name = res.data[i].store_name;
+          store.area = res.data[i].area;
+          if (res.data[i].category !== null) store.category = res.data[i].category.split("|")[0];
+          else store.category = "";
+          arr[i] = store;
+        }
+
+        setFavorites(arr);
       })
       .catch((error) => {
         console.log(error);
@@ -43,7 +56,7 @@ const MyFavorite = ({ favorite, favoriteCnt }) => {
               <NavLink to={`/search/` + f.id} className="fname">
                 {f.store_name}
               </NavLink>
-              <div className="fcategory">{f.categoty !== null && f.category.split("|")[0]}</div>
+              <div className="fcategory">{f.category}</div>
               <div className="farea">{f.area}</div>
             </div>
           ))}

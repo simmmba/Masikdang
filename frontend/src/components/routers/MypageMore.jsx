@@ -52,6 +52,8 @@ const MypageMore = (props) => {
             console.log(error);
           });
       }
+    } else {
+      history.push(`/mypage`);
     }
   }, [path, props.location.pathname]);
 
@@ -79,7 +81,7 @@ const MypageMore = (props) => {
                 >
                   <div className="imgBox">{store.img !== null ? <img src={store.img} alt="store" /> : <img src={store_img} alt="store" />}</div>
                   <div className="storeName">{store.store_name}</div>
-                  <div className="storeArea">{store.area}</div>
+                  <div className="storeArea">{store.area !== null ? store.area : "-"}</div>
                 </div>
               ))}
             </div>
