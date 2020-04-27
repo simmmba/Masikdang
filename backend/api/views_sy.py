@@ -268,7 +268,7 @@ def similar_store(dataframes, storeID):
 def content_store(dataframes, storeID):
     stores = dataframes["stores"]
     reviews = dataframes["reviews"]
-    reviews = reviews[reviews["score"]>=4]
+    # reviews = reviews[reviews["score"]>=1]
     stores_reviews = pd.merge(stores, reviews, on="store_id")
     stores_reviews = stores_reviews.groupby(["store_id"]).mean()
     stores_reviews.drop('review_id', axis=1, inplace=True)
@@ -279,13 +279,14 @@ def content_store(dataframes, storeID):
 
     count_vector = CountVectorizer(ngram_range=(1, 3))
     c_vector_category = count_vector.fit_transform(stores_reviews['category_list'])
-    gerne_c_sim = cosine_similarity(c_vector_category, c_vector_category).argsort()[:, ::-1]
-    
-    # 특정 영화와 비슷한 영화를 추천해야 하기 때문에 '특정 영화' 정보를 뽑아낸다.
-    target_store_index = stores_reviews[stores_reviews['store_id'] == storeID].index.values
-    
+    print(c_vector_category)
+    category_c_sim = cosine_similarity(c_vector_category, c_vector_category).argsort()[:, ::-1]
+    print(category_c_sim)
+    # 특정 상점과 비슷한 상점을 추천해야 하기 때문에 '특정 상점' 정보를 뽑아낸다.
+    target_store_index = stores_reviews[stores_reviews['store_id'] == int(storeID)].index.values
+    print(target_store_index)
     #코사인 유사도 중 비슷한 코사인 유사도를 가진 정보를 뽑아낸다.
-    sim_index = gerne_c_sim[target_store_index, :10].reshape(-1)
+    sim_index = category_c_sim[target_store_index, :10].reshape(-1)
     #본인을 제외
     sim_index = sim_index[sim_index != target_store_index]
 
@@ -299,6 +300,7 @@ def content_store(dataframes, storeID):
 def contentStore(request):
     if request.method == 'GET':
         store = request.query_params.get("store", "")
+        print(store)
         data = load_store_dataframes()
         print("데이터 전 처리/ 분석 시작")
         result = content_store(data, store)
