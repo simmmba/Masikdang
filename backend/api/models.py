@@ -113,4 +113,8 @@ class Image_upload(models.Model):
 class Like_store(models.Model):
     user = models.ForeignKey('User', on_delete=models.CASCADE)
     store = models.ForeignKey('Store', on_delete=models.CASCADE)
-    
+
+# 프로필 이미지
+class Profile_img(models.Model):
+    api = models.ForeignKey('User', on_delete=models.CASCADE)
+    img = models.CharField(max_length=200, blank=True, null=True)
