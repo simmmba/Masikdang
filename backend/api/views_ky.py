@@ -209,7 +209,7 @@ class LodationBasedLikeList(APIView):
         num_store = len(ret)
 
         # 페이징 적용
-        paginator = Paginator(ret, 3)
+        paginator = Paginator(ret, 15)
         num_page = paginator.num_pages
         page = request.GET.get('page')
         pagestore = paginator.get_page(page)
