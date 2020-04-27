@@ -1,43 +1,49 @@
 .Header {
-    // left: 15px;
-    cursor: pointer;
-    width: 100%;
-    font-family: "NanumSquareRound";
-    text-align: center;
+  // left: 15px;
+  cursor: pointer;
+  width: 100%;
+  font-family: "NanumSquareRound";
+  text-align: center;
 
+  .survey1_btn {
+    margin-top: 20px;
+    text-align: right;
+    font-size: 12px;
+    a {
+      color: #5d5d5d;
+      text-decoration: none;
+      transition: 0.3s;
+      border-radius: 7px;
+      border: 1.5px solid white;
+      padding: 5px 7px 5px 7px;
+      background: #ffffff;
+      box-shadow: 1px 1px 1px 1px #f9bbc7 inset;
+    }
+    a:hover {
+      color: #f9bbc7;
+      border: 1.5px solid #f9bbc7;
+    }
+  }
+
+  .logo {
+    padding-top: 15px;
+    padding-bottom: 10px;
+    img {
+      height: 50px;
+    }
+  }
+
+  @media screen and (min-width: 768px) {
     .survey1_btn {
-        margin-top: 15px;
-        text-align: right;
-        font-size: 12px;
-        a {
-            color: black;
-            text-decoration: none;
-        }
-        a:hover{
-            color: #f9bbc7;
-        }
+      font-size: 15px;
     }
 
     .logo {
-        padding-top: 15px;
-        padding-bottom: 10px;
-        img {
-            height: 50px;
-        }
+      padding-top: 20px;
+      padding-bottom: 20px;
+      img {
+        height: 60px;
+      }
     }
-
-    @media screen and (min-width: 768px) {
-
-        .survey1_btn {
-            font-size: 15px;
-        }
-
-        .logo {
-            padding-top: 20px;
-            padding-bottom: 20px;
-            img {
-                height: 60px;
-            }
-        }
-    }
+  }
 }

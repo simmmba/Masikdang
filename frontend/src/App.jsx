@@ -13,6 +13,7 @@ import Login from "./components/routers/Login";
 import Signup from "./components/routers/Signup";
 import SignupDetail from "./components/routers/SignupDetail";
 import Mypage from "./components/routers/Mypage";
+import MypageMore from "./components/routers/MypageMore";
 import MypageDetail from "./components/mypage/MypageDetail";
 import Search from "./components/routers/Search";
 import Map from "./components/routers/Map";
@@ -60,7 +61,9 @@ const App = () => {
           {/* 마이페이지 */}
           <Route path="/mypage" component={Mypage} exact />
           {/* 마이페이지 상세조회 */}
-          <Route path="/mypage/detail" component={MypageDetail} />
+          <Route path="/mypage/detail" component={MypageDetail} exact />
+          {/* 즐겨찾기, 리뷰 더보기 리스트 */}
+          <Route path="/mypage/:option" component={MypageMore} />
           {/* 검색 페이지 */}
           <Route path="/search" component={Search} exact />
           {/* 가게 상세 페이지 */}

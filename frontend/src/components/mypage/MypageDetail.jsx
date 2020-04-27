@@ -90,6 +90,11 @@ class MypageDetail extends React.Component {
     }
   };
 
+  logout = () => {
+    alert("로그아웃 되었습니다");
+    window.sessionStorage.clear();
+  };
+
   render() {
     return (
       <div className="Box">
@@ -136,9 +141,14 @@ class MypageDetail extends React.Component {
               <div className="box">{this.state.survey_result}</div>
             </div>
           </div>
-          <NavLink className="goProfile" to={`/mypage`}>
-            뒤로가기
-          </NavLink>
+          <div className="btnBox">
+            <NavLink className="btn" to={`/mypage`}>
+              뒤로가기
+            </NavLink>
+            <NavLink className="btn" to={`/home`} onClick={this.logout}>
+              로그아웃
+            </NavLink>
+          </div>
         </div>
         <AppBar></AppBar>
       </div>

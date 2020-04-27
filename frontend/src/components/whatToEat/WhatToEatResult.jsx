@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-// import axios from "axios";
+import axios from "axios";
 import { NavLink } from "react-router-dom";
 import { useWhatToEat } from "../../contexts/whatToEat";
 import "./WhatToEat.scss";
@@ -15,23 +15,30 @@ const WhatToEatResult = ({ wreset, wanswer }) => {
 
   useEffect(() => {
     console.log(wanswer);
-    // axios({
-    //   method: "post",
-    //   url: "http://i02a201.p.ssafy.io:8080/api/survey/search",
-    //   headers: {
-    //     "content-type": "json",
-    //   },
 
-    //   data: {
-    //     wanswer,
-    //   },
-    // })
-    //   .then((res) => {
-    //     console.log(res);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
+    // const bodyFormData = new FormData();
+
+    // wanswer.forEach((item) => {
+    //   bodyFormData.append("wanswer[]", item);
+    // });
+
+    // axios.post("https://test.com/api/get_product", bodyFormData);
+
+    let payload = {
+      wanswer: wanswer,
+    };
+
+    axios({
+      method: "post",
+      url: "http://i02a201.p.ssafy.io:8080/api/survey/search",
+      data: payload,
+    })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
     if (window.sessionStorage.getItem("user")) {
       setLogin(true);

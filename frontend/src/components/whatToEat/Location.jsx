@@ -51,7 +51,7 @@ const Location = ({ wreset, windex, wquestion, woptions, wanswer, wincrement, wa
       </button>
       {locate !== "" && (
         <>
-          <span>:&nbsp;{locate}&nbsp;&nbsp;</span>
+          <span className="loc">:&nbsp;{locate}&nbsp;&nbsp;</span>
           <button
             className="locBtn"
             onClick={function () {

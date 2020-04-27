@@ -93,6 +93,10 @@
     border: none;
   }
 
+  .loc {
+    color: black;
+  }
+
   .locBtn {
     color: #353535;
     background: #eaeaea;
@@ -137,7 +141,7 @@
 }
 
 .ResultComponent {
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   // justify-content: center;

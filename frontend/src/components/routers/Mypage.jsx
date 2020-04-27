@@ -40,11 +40,6 @@ class Mypage extends React.Component {
     }
   }
 
-  logout = () => {
-    alert("로그아웃 되었습니다");
-    window.sessionStorage.clear();
-  };
-
   render() {
     return (
       <div className="Box">
@@ -63,22 +58,19 @@ class Mypage extends React.Component {
                   <div className="nickname">{this.state.nickname}</div>
                   <div className="type">{this.state.survey_result}</div>
                   <div className="cntBox">
-                    <div className="cnt">
+                    <NavLink to={`/mypage/favorite`} className="fcnt">
                       <Emoji label="like" symbol="❤️" />
-                      즐겨찾기&nbsp;&nbsp;<span className="cntColor">{this.context.state.favorite}</span>
-                    </div>
-                    <div className="cnt">
+                      즐겨찾기&nbsp;&nbsp;{this.context.state.favorite}
+                    </NavLink>
+                    <NavLink to={`/mypage/review`} className="rcnt">
                       <Emoji label="star" symbol="📝" />
-                      리뷰&nbsp;&nbsp;<span className="cntColor">{this.context.state.review}</span>
-                    </div>
+                      리뷰&nbsp;&nbsp;{this.context.state.review}
+                    </NavLink>
                   </div>
                 </div>
               </div>
               <MyFavorite />
               <MyReview />
-              <NavLink className="btn" to={`/home`} onClick={this.logout}>
-                로그아웃
-              </NavLink>
             </>
           )}
           {!this.state.login && (
