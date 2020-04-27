@@ -511,7 +511,7 @@ class ReviewImgList(APIView):
 
 # 파일 업로드
 @api_view(['POST'])
-def upload_image_review(request, user_id):
+def upload_image_review(request, review_id):
     '''
     # 리뷰 사진 업로드
     '''
@@ -560,7 +560,7 @@ class Like_by_user(APIView):
 
     def get(self, request, user_id, format=None):
         store_liked = StoreSerializer(Store.objects.extra(tables=['api_like_store'], where=[
-                                      'api_store.id=api_like_store.store_id', "api_like_store.user_id="+user_id]), many=True)
+                                      'api_store.id=api_like_store.store_id', "api_like_store.user_id="+user_id], order_by=['api_like_store.like_time']).reverse(), many=True)
         return Response(store_liked.data)
 
 
