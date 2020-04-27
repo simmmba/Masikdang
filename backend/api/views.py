@@ -268,15 +268,19 @@ class UserDetail(APIView):
         # 유저 조회
         '''
         user = User.objects.get(api_id=api_id)
+        user_id = user.id
         serializer = UserSerializer(user)
         result = serializer.data
-        is_exist = Profile_img.objects.filter(api_id = api_id).count()
+        is_exist = Profile_img.objects.filter(user_id = user_id).count()
         
+        img = None
         if is_exist >= 1 :
             print(is_exist)
-            profile_img = Profile_img.objects.get(api_id=api_id)
-            result['img'] = profile_img.img
-
+            profile_img = Profile_img.objects.get(user_id = user_id)
+            img = profile_img.img
+            
+        result['img'] = img
+            
         return Response(result)
 
     # User 삭제
@@ -296,8 +300,19 @@ class UserDetail(APIView):
         user_modify = User.objects.get(api_id=api_id)
         serializer = UserSerializer(user_modify, data=request.data)
         if serializer.is_valid():
+            
+            user_id = user_modify.id
+            is_exist = Profile_img.objects.filter(user_id = user_id).count()
+            img = None
+            if is_exist >= 1 :
+                profile_img = Profile_img.objects.get(user_id = user_id)
+                img = profile_img.img
+
+
             serializer.save()
-            return Response(serializer.data)
+            result = serializer.data
+            result['img'] = img
+            return Response(result)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -308,8 +323,6 @@ class UserJoinCheck(APIView):
     '''
 
     def get(self, request, provider, api_id, format=None):
-        # api_id = request.query_params.get("api_id", "")
-        # provider = request.query_params.get("provider", "")
         is_exist = User.objects.filter(
             api_id=api_id, provider=provider).count()
 
@@ -553,7 +566,7 @@ class Like_by_user(APIView):
 
 # 파일 업로드
 @api_view(['POST'])
-def upload_image_profile(request, api_id):
+def upload_image_profile(request, user_id):
     '''
     # 리뷰 사진 업로드
     '''
@@ -567,15 +580,15 @@ def upload_image_profile(request, api_id):
 
             # profile_img 저장
             img_url = settings.MEDIA_HOST+str(img.path)
-            is_exist = Profile_img.objects.filter(api_id=api_id).count()
+            is_exist = Profile_img.objects.filter(user_id=user_id).count()
 
 
             if is_exist >= 1 : 
-                modify = Profile_img.objects.get(api_id = api_id)
+                modify = Profile_img.objects.get(user_id = user_id)
                 modify.img = img_url
                 modify.save()
             else :
-                profile_img = Profile_img(img = img_url, api_id = api_id)
+                profile_img = Profile_img(img = img_url, user_id = user_id)
                 profile_img.save()
                 
             return Response("upload ok")
