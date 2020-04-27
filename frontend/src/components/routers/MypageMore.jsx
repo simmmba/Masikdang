@@ -55,7 +55,7 @@ const MypageMore = (props) => {
     } else {
       history.push(`/mypage`);
     }
-  }, [path, props.location.pathname]);
+  }, [history, path, props.location.pathname]);
 
   const go = (val) => {
     history.push("/search/" + val);

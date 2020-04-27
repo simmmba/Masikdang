@@ -3,6 +3,7 @@ import "./Map.scss";
 
 import AppBar from "../common/AppBar";
 import Header from "../common/Header";
+import NearMap from "../map/NearMap";
 
 const Emoji = (props) => (
   <span
@@ -16,33 +17,14 @@ const Emoji = (props) => (
 );
 
 class Map extends React.Component {
-  componentDidMount() {
-    if (navigator.geolocation) {
-      // GPS를 지원하면
-      navigator.geolocation.getCurrentPosition(
-        function (position) {
-          alert(position.coords.latitude + " " + position.coords.longitude);
-        },
-        function (error) {
-          console.error(error);
-        },
-        {
-          enableHighAccuracy: false,
-          maximumAge: 0,
-          timeout: Infinity,
-        }
-      );
-    } else {
-      alert("GPS를 지원하지 않습니다");
-    }
-  }
+
   render() {
     return (
       <div className="Box">
         <Header></Header>
         <div className="Map">
           <div className="title"><Emoji label="map" symbol="🗺️" /> 내 주변 맛집 정보</div>
-          <div>&nbsp;&nbsp;&nbsp;⚙ 현재 위치를 알 수 없습니다.</div>
+          <div className="map_content"><NearMap></NearMap></div>
         </div>
         <AppBar></AppBar>
       </div>

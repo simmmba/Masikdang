@@ -1,5 +1,6 @@
 import React from "react";
 import "./MypageDetail.scss";
+import axios from "axios";
 
 import AppBar from "../common/AppBar";
 import Header from "../common/Header";
@@ -15,21 +16,23 @@ class MypageDetail extends React.Component {
       provider: "",
       nickname: "",
       survey_result: "",
+      profile: "", // 새로운 이미지 파일
+      base64: "", // 미리보기
     };
   }
 
-  componentDidMount() {
-    if (window.sessionStorage.getItem("user")) {
-      let user = JSON.parse(window.sessionStorage.getItem("user"));
-      console.log(user);
+  user = JSON.parse(window.sessionStorage.getItem("user"));
 
+  componentDidMount() {
+    if (this.user) {
       this.setState({
         login: true,
-        age: user.age,
-        gender: user.gender,
-        provider: user.provider,
-        nickname: user.nickname,
-        survey_result: user.survey_result,
+        age: this.user.age,
+        gender: this.user.gender,
+        provider: this.user.provider,
+        nickname: this.user.nickname,
+        survey_result: this.user.survey_result,
+        base64: "",
       });
     } else {
       const { history } = this.props;
@@ -37,9 +40,58 @@ class MypageDetail extends React.Component {
     }
   }
 
-  handleClick() {
-    alert("사진변경");
-  }
+  // 사진 변경 axios 연결
+  handleClick = () => {
+    // 이미지를 변경한 경우에만
+    if (this.state.profile) {
+      const file = new FormData();
+      file.append("profile", this.state.profile);
+      axios({
+        method: "put",
+        url: "http://15.165.19.70:8080/api/user/" + this.user.id,
+        headers: { "Content-Type": "multipart/form-data" },
+        data: file,
+      })
+        .then((res) => {
+          console.log(res.data);
+          this.user.profileImg = res.data.data.profileImg;
+          window.sessionStorage.removeItem("user");
+          window.sessionStorage.setItem("user", JSON.stringify(this.user));
+          alert("프로필 이미지를 변경했습니다");
+        })
+        .catch((err) => {
+          // console.log(err);
+          alert("이미지 수정 실패");
+        });
+    }
+    // 이미지를 변경 안한 경우
+    else {
+      alert("이미지를 변경하지 않았습니다.");
+    }
+  };
+
+  // 이미지 변경 함수
+  InputChange = (e) => {
+    console.log(e.target.files[0]);
+
+    //이미지 변경됐을 때 프리뷰
+    let reader = new FileReader();
+    reader.onloadend = () => {
+      // 2. 읽기가 완료되면 아래코드가 실행
+      const base64 = reader.result; //reader.result는 이미지를 인코딩(base64 ->이미지를 text인코딩)한 결괏값이 나온다.
+      if (base64) {
+        this.setState({
+          base64: base64.toString(), // 파일 base64 상태 업데이트
+        });
+      }
+    };
+    if (e.target.files) {
+      reader.readAsDataURL(e.target.files[0]); // 1. 파일을 읽어 버퍼에 저장합니다. 저장후 onloadend 트리거
+      this.setState({
+        profile: e.target.files[0],
+      });
+    }
+  };
 
   logout = () => {
     alert("로그아웃 되었습니다");
@@ -52,7 +104,26 @@ class MypageDetail extends React.Component {
         <Header></Header>
         <div className="MypageDetail">
           <div className="profile_img">
-            <img alt="프로필" src="https://d2x5ku95bkycr3.cloudfront.net/App_Themes/Common/images/profile/0_200.png" />
+            {this.state.base64 === "" ? (
+              <img
+                alt="프로필"
+                src="https://d2x5ku95bkycr3.cloudfront.net/App_Themes/Common/images/profile/0_200.png"
+              />
+            ) : (
+              <img alt="프로필" src={this.state.base64} />
+            )}
+          </div>
+          <div className="upload_btn">
+            <div className="filebox">
+              <label>
+                제품 사진 업로드
+                <input
+                  type="file"
+                  accept="image/gif, image/jpeg, image/png"
+                  onChange={this.InputChange}
+                />
+              </label>
+            </div>
           </div>
           <div className="imgBtn" onClick={this.handleClick}>
             프로필 사진 변경

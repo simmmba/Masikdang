@@ -5,23 +5,25 @@
   font-family: "NanumSquareRound";
   text-align: center;
 
-  .survey1_btn {
-    margin-top: 20px;
-    text-align: right;
-    font-size: 12px;
-    a {
-      color: #5d5d5d;
-      text-decoration: none;
-      transition: 0.3s;
-      border-radius: 7px;
-      border: 1.5px solid white;
-      padding: 5px 7px 5px 7px;
-      background: #ffffff;
-      box-shadow: 1px 1px 1px 1px #f9bbc7 inset;
-    }
-    a:hover {
-      color: #f9bbc7;
+  a {
+    text-decoration: none;
+    color: #5d5d5d;
+    transition: 0.3s;
+
+    .survey1_btn {
+      font-family: "S-CoreDream-8Heavy";
+      float: right;
+      margin-top: 17px;
+      font-size: 12px;
+      width: 60px;
       border: 1.5px solid #f9bbc7;
+      border-radius: 7px;
+      padding-top: 4px;
+      padding-bottom: 5px;
+      &:hover {
+        color: #f9bbc7;
+        border: 1.5px solid #f9bbc7;
+      }
     }
   }
 
@@ -44,6 +46,9 @@
       img {
         height: 60px;
       }
+    }
+    .col-3{
+      padding: 0;
     }
   }
 }

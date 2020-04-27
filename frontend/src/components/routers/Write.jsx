@@ -205,7 +205,7 @@ class Write extends React.Component {
             data: path,
           })
             .then((res) => {
-            //   console.log(res);
+              //   console.log(res);
               this.props.history.push("/search/" + this.state.store);
             })
             .catch((error) => {
@@ -298,7 +298,7 @@ class Write extends React.Component {
               <div className="upload_btn">
                 <div className="filebox">
                   <label>
-                    제품 사진 업로드
+                    가게 사진 업로드
                     <input
                       key={this.state.filekey}
                       multiple
@@ -309,7 +309,8 @@ class Write extends React.Component {
                     />
                   </label>
                   <div className="write_filenum">
-                    <span className="file_num">{this.state.images.length}</span>개 사진 업로드
+                    <span className="file_num">{this.state.images.length}</span>
+                    개 사진 업로드
                   </div>
                 </div>
               </div>

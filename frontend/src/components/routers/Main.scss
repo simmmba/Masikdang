@@ -9,6 +9,7 @@
   }
 
   .logoImg {
+    margin-top: 35px;
     width: 50%;
     transition: 0.5s;
 
@@ -17,10 +18,11 @@
     }
 
     @media screen and (min-width: 768px) {
-      width: 17%;
+      width: 250px;
+      margin-top: 0px;
 
       &:hover {
-        width: 18%;
+        width: 280px;
       }
     }
   }
@@ -29,60 +31,58 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 5px;
+  }
 
-    .pColor {
-      padding: 20px 40px 20px 40px;
-      background-color: #eaeaea55;
-      color: black;
+  .moveBox {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  
+    .moveBtn:nth-child(odd) {
+      font-size: 17px;
+      margin: 15px;
+      padding: 10px 20px 10px 20px;
+      border: 2px solid #fff;
       border-radius: 10px;
-      width: fit-content;
+      background: #98d7db;
+      color: black;
+      transition: 0.4s;
+  
+      &:hover {
+        background: #98d7db88;
+        color: white;
+        text-decoration: none;
+      }
+    }
+  
+    .moveBtn:nth-child(even) {
+      font-size: 17px;
+      margin: 15px;
+      padding: 10px 20px 10px 20px;
+      border: 2px solid #fff;
+      border-radius: 10px;
+      background: #f9bbc7;
+      transition: 0.4s;
+      color: black;
+  
+      &:hover {
+        background: #f9bbc788;
+        text-decoration: none;
+        color: white;
+      }
+    }
 
-      @media screen and (min-width: 768px) {
-        background-color: #eaeaea88;
+    @media screen and (min-width: 768px) {
+      .moveBtn:nth-child(odd), .moveBtn:nth-child(even) {
+        margin-top: 20px;
+        font-size: 20px;
+        padding: 10px 40px 10px 40px;
       }
     }
   }
 }
 
-.moveBox {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-
-  .moveBtn:nth-child(odd) {
-    font-size: 17px;
-    margin: 20px 20px 20px 20px;
-    padding: 10px 20px 10px 20px;
-    border: 2px solid #fff;
-    border-radius: 10px;
-    background: #98d7db;
-    color: black;
-    transition: 0.4s;
-
-    &:hover {
-      background: #98d7db88;
-      color: white;
-      text-decoration: none;
-    }
-  }
-
-  .moveBtn:nth-child(even) {
-    font-size: 17px;
-    margin: 20px 20px 20px 20px;
-    padding: 10px 20px 10px 20px;
-    border: 2px solid #fff;
-    border-radius: 10px;
-    background: #f9bbc7;
-    transition: 0.4s;
-    color: black;
-
-    &:hover {
-      background: #f9bbc788;
-      text-decoration: none;
-      color: white;
-    }
-  }
-}
 
 .Main {
   font-family: "S-CoreDream-8Heavy";

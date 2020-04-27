@@ -16,8 +16,8 @@ class Header extends React.Component {
                   <img alt="logo" src={logo}></img>
                 </NavLink>
               </div>
-              <div className="col-3 survey1_btn">
-                <NavLink to="/start">테스트</NavLink>
+              <div className="col-3">
+                <NavLink to="/start"><div className="survey1_btn">마식당<br/>테스트</div></NavLink>
               </div>
             </div>
           </div>
