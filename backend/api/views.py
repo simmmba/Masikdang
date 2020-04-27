@@ -338,14 +338,20 @@ def SurveySearch(request):
         print(surveyArr)
         if(surveyArr[0] == "혼자"):
             survey01 = Review.objects.filter(
-                content__contains="혼밥").only('store').all()
+                Q(content__contains="혼밥") | Q(tag_contains="혼밥")
+                ).only('store').all()
+        elif(surveyArr[0] == "2인"):
+            survey01 = Review.objects.only('store').all()
         else:
-            survey01 = Review.objects.filter(Q(content__contains="단체") | Q(
-                content__contains="회식")).only('store').all()
+            survey01 = Review.objects.filter(
+                Q(content__contains="단체") | Q(content__contains="회식") | Q(tag_contains="단체") | Q(tag_contains="회식")
+                ).only('store').all()
 
         if(surveyArr[1] == "여자"):
             survey02 = Review.objects.filter(
-                id__in=survey01, tag__contains="여자").only('store').all()
+                id__in=survey01,
+                Q(tag__contains="여자") | Q(content__contains="여자") | Q(tag__contains="여성") | Q(content__contains="여성")
+                ).only('store').all()
         else:
             survey02 = survey01
 
