@@ -519,6 +519,8 @@ def upload_image_review(request, review_id):
         form = ImageForm(request.POST, request.FILES)
         if form.is_valid():
             newImg_list = request.FILES.getlist('path')
+            print(newImg_list[0])
+            
             for newImg in newImg_list:
                 # img 저장
                 img = Image_upload(path=newImg)
@@ -528,6 +530,13 @@ def upload_image_review(request, review_id):
                 review_img = Review_img(img=img_url, review_id=review_id)
                 review_img.save()
 
+            #음식점 img 추가
+            review = Review.objects.get(id=review_id)
+            store_id = review.store_id
+            store = Store.objects.get(id=store_id)
+            if store.img is None :
+                store.img = img_url
+                store.save()
             return Response("upload ok")
 
         else:
