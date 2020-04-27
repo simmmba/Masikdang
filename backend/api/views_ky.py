@@ -25,6 +25,7 @@ from rest_framework.decorators import action
 import json
 import numbers
 import math
+import time
 
 
 class StoreSearch(APIView):
@@ -113,12 +114,16 @@ def SurveyType(request):
 
 class LodationBased(APIView):
     # 강남역   127.02758, 37.49794
+
     def get(self, request, latitude, longitude, km, format=None):
         print("==========================================")
         print("Location Based Recommendation GET!")
         print("latitude: "+latitude+" longitude: " + longitude + ", km="+km)
+        start = time.time()
         latitude = float(latitude)
         longitude = float(longitude)
+        now = (float(latitude), float(longitude))
+        km = float(km)
         km = float(km)
 
         store = Store.objects.all()
@@ -127,10 +132,10 @@ class LodationBased(APIView):
         store_list = [r for r in review_object]
 
         store = Store.objects.all().filter(id__in=store_list)
-        store = sorted(store, key=lambda s: store_list.index(s.id))
-
+        # store = sorted(store, key=lambda s: store_list.index(s.id))
+        
         ret = []
-        for s in store:
+        for s in store.iterator():
             if s.longitude is None:
                 continue
             if s.longitude == 0:
@@ -138,10 +143,8 @@ class LodationBased(APIView):
             if km >= GeoUtil.get_harversion_distance(
                     longitude, latitude, float(s.longitude), float(s.latitude)):
                 ret.append(s)
-
+        print("time :", time.time() - start)  # 현재시각 - 시작시간 = 실행 시간
         print(len(ret))
-        # serializer = StoreSerializer(ret, many=True)
-        # return Response(serializer.data)
 
         num_store = len(ret)
 
