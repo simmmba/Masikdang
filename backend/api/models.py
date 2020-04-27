@@ -52,7 +52,7 @@ class Review(models.Model):
     service_score = models.FloatField(blank=True, null=True)
     content = models.CharField(max_length=3000, blank=True, null=True)
     tag = models.CharField(max_length=500, blank=True, null=True)
-    reg_itme = models.CharField(max_length=50, blank=True, null=True)
+    reg_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
 # 음식점
 class Store(models.Model):
