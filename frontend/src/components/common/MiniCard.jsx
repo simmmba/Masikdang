@@ -1,6 +1,7 @@
 import React from "react";
 import "./MiniCard.scss";
 import { withRouter } from "react-router-dom";
+import store_img from "../../img/store.png";
 
 class MiniCard extends React.Component {
   constructor(props) {
@@ -15,9 +16,9 @@ class MiniCard extends React.Component {
   }
 
   clickItem = () => {
-    console.log(this.props.store.store_id);
+    console.log(this.props.store.id);
     const { history } = this.props;
-    history.push("/search/" + this.props.store.store_id);
+    history.push("/search/" + this.props.store.id);
     window.location.reload();
     window.scrollTo(0, 0);
   };
@@ -28,18 +29,22 @@ class MiniCard extends React.Component {
         <div id="square" className="bounceIn flipInY animated">
           <div className="thumbnail">
             <div className="centered">
-              <img
-                alt="food"
-                className="img"
-                src={this.props.store.store_img}
-              />
+              {this.props.store.img ? (
+                <img
+                  alt="food"
+                  className="img"
+                  src={this.props.store.img}
+                />
+              ) : (
+                <img alt="food" className="img" src={store_img} />
+              )}
             </div>
           </div>
         </div>
         {/* 가게 설명 */}
         <div className="explain">
           <div className="title">{this.props.store.store_name}</div>
-          <div>{this.props.store.store_area}</div>
+          <div className="area">{this.props.store.area}</div>
         </div>
       </div>
     );

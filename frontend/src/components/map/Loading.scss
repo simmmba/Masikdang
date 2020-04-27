@@ -1,14 +1,14 @@
-.Loading{
+.Loadings{
+    
+    margin-top: 50px;
+    margin-bottom: 100px;
+
     .loader {
         font-size: 20px;
-        height: 20px;
         width: 250px;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        margin: auto;
+        display: block;
+        margin-left: calc(50% - 125px);
+        min-height: 100vh;
     }
 
     // 98d7db
@@ -50,12 +50,10 @@
         animation-delay: 0s;
     }
     .loader--text {
-        position: absolute;
-        top: 200%;
-        left: 0;
-        right: 0;
+        margin-left: 90px;
         width: 7rem;
-        margin: auto;
+        padding-top: 40px;
+        text-align: center;
     }
     .loader--text:after {
         content: "Loading";

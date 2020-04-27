@@ -45,7 +45,28 @@
     }
 
     .explain {
-        display: none;
+        .title {
+            //글자 잘린 부분 ...으로 표시
+            display: inline-block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+            font-weight: bolder;
+            text-align: center;
+        }
+        .area {
+            display: none;
+        }
+    }
+
+    @media screen and (min-width: 768px) {
+        .explain {
+            display: none;
+            .area {
+                display: block;
+            }
+        }
     }
 
     /*base code*/
@@ -151,34 +172,38 @@
         animation-name: bounceIn;
     }
 }
-
-.MiniCard:hover {
-    .img {
-        opacity: 25%;
-    }
-    .explain {
-        padding-top: 25%;
-        display: unset;
-        position: absolute;
-        width: 100%;
-        left: 0;
-        top: 0;
-        text-align: center;
-        font-size: 20px;
-        .title {
-            font-family: "BMHANNAPro";
-            font-size: 2vw;
-            font-size: 30px;
+@media screen and (min-width: 768px) {
+    .MiniCard:hover {
+        .img {
+            opacity: 25%;
         }
-    }
+        .explain {
+            padding-top: 25%;
+            display: unset;
+            position: absolute;
+            width: 100%;
+            left: 0;
+            top: 0;
+            text-align: center;
+            font-size: 20px;
+            .title {
+                font-family: "BMHANNAPro";
+                font-size: 2vw;
+                font-size: 30px;
+            }
+        }
 
-    @media screen and (min-width: 768px) {
         .explain {
             font-size: 1.5vw;
             .title {
                 font-family: "BMHANNAPro";
                 font-size: 2vw;
                 margin-bottom: 0.6vw;
+
+                display: block;
+                white-space: unset;
+                overflow: none;
+                text-overflow: none;
             }
         }
     }

@@ -1,6 +1,7 @@
 import React from "react";
 import "./MapCard.scss";
 import store_img from "../../img/store.png";
+import { withRouter } from "react-router-dom";
 
 class MapCard extends React.Component {
   constructor(props) {
@@ -14,7 +15,6 @@ class MapCard extends React.Component {
     };
   }
   componentDidMount() {
-    console.log(this.props);
     this.setState({
       index: this.props.index,
       store: this.props.store,
@@ -26,9 +26,29 @@ class MapCard extends React.Component {
     }
   }
 
+  // 값 바겼을 때
+  componentDidUpdate(prevProps) {
+    if (prevProps.store.id !== this.props.store.id) {
+      this.setState({
+        index: this.props.index,
+        store: this.props.store,
+      });
+      if (this.props.store.category !== null) {
+        this.setState({
+          category_list: this.props.store.category.split("|"),
+        });
+      }
+    }
+  }
+
+  clickItem = () => {
+    const { history } = this.props;
+    history.push("/search/" + this.state.store.id);
+  };
+
   render() {
     return (
-      <div className="MapCard">
+      <div className="MapCard" id={this.state.store.id} onClick={this.clickItem}>
         <img
           alt="food"
           className="img"
@@ -54,4 +74,4 @@ class MapCard extends React.Component {
   }
 }
 
-export default MapCard;
+export default withRouter(MapCard);

@@ -23,10 +23,10 @@ class CarouselSlider extends React.Component {
     return (
       <div className="CarouselSlider">
         <Carousel
-          slidesPerPage={5}
-          slidesPerScroll={2}
+          slidesPerPage={7}
+          slidesPerScroll={3}
           stopAutoPlayOnHover
-          infinite
+          // infinite
           centered={false}
           breakpoints={{
             1000: {
@@ -35,8 +35,8 @@ class CarouselSlider extends React.Component {
               centered: false,
             },
             500: {
-              slidesPerPage: 2,
-              slidesPerScroll: 2,
+              slidesPerPage: 3,
+              slidesPerScroll: 3,
               // clickToChange: false,
               centered: false,
               animationSpeed: 2000,

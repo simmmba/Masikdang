@@ -92,14 +92,16 @@ class Review extends React.Component {
             <div className="edit_button" onClick={this.edit}>
               수정
             </div>
-            <div className="date">{review.reg_time}</div>
+            {review.reg_time && (
+              <div className="date">{review.reg_time.split("T")[0]}</div>
+            )}
           </>
         ) : (
           <>
             {review.reg_time && (
               <>
-                <div>&nbsp;</div>
-                <div className="date">{review.reg_time}</div>
+                <div className="edit_button nbsp">&nbsp;</div>
+                <div className="date">{review.reg_time.split("T")[0]}</div>
               </>
             )}
           </>

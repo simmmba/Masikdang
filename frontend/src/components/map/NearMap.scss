@@ -1,20 +1,22 @@
 .NearMap {
     padding: 0px;
-    .thumbnail {
+    font-family: "NanumSquareRound";
+    
+    .thumbnailb {
         position: relative;
-        padding-top: 56.25%;
+        padding-top: 56.5%;
         margin-bottom: 10px;
         overflow: hidden;
         display: block;
 
-        .centered {
+        .centeredb {
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
 
-            .kakaoMap {
+            .kakaoMapb {
                 position: absolute;
                 top: 0;
                 left: 0;
@@ -25,4 +27,21 @@
             }
         }
     }
+
+    .address{
+        margin-bottom: 5px;
+    }
+
+    .overlay_info{
+        .store_name{
+            width: 50px;
+        }
+    }
+
+    @media screen and (min-width: 768px) {
+        .thumbnailb {
+            padding-top: 40%;
+        }
+    }
+
 }

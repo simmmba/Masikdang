@@ -1,7 +1,7 @@
 .MainEffect {
   width: 100%;
   height: 180px;
-  background: rgba(255, 255, 255, 0.685);
+  // background: rgba(255, 255, 255, 0.685);
   border-radius: 3px;
   font-family: "BMHANNAPro";
 
@@ -10,7 +10,7 @@
     padding-top: 10px;
     font-size: 25px;
     height: 60px;
-    color: rgba(0, 0, 0, 0.8);
+    color: rgba(255, 255, 255, 0.9);
     // font border
     // text-shadow: -1px 0 rgb(0, 0, 0), 0 1px rgb(0, 0, 0), 1px 0 rgb(0, 0, 0), 0 -1px rgb(0, 0, 0);
     // -moz-text-shadow: -1px 0 rgb(0, 0, 0), 0 1px rgb(0, 0, 0), 1px 0 rgb(0, 0, 0), 0 -1px rgb(0, 0, 0);
@@ -61,5 +61,14 @@
 
   @media screen and (min-width: 768px) {
     width: 500px;
+    background: rgba(255, 255, 255, 0.685);
+    .text {
+      // font-family: "Cafe24Ohsquare";
+      color: rgba(0, 0, 0, 0.8);
+      // font border
+      // text-shadow: -1px 0 rgb(0, 0, 0), 0 1px rgb(0, 0, 0), 1px 0 rgb(0, 0, 0), 0 -1px rgb(0, 0, 0);
+      // -moz-text-shadow: -1px 0 rgb(0, 0, 0), 0 1px rgb(0, 0, 0), 1px 0 rgb(0, 0, 0), 0 -1px rgb(0, 0, 0);
+      // -webkit-text-shadow: -1px 0 rgb(0, 0, 0), 0 1px rgb(0, 0, 0), 1px 0 rgb(0, 0, 0), 0 -1px rgb(0, 0, 0);
+    }
   }
 }

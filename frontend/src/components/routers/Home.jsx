@@ -4,7 +4,8 @@ import "./Home.scss";
 import AppBar from "../common/AppBar";
 import Header from "../common/Header";
 import HeaderSearch from "../common/HeaderSearch";
-
+import About from "../home/About";
+import LikedMap from "../home/LikedMap";
 
 class Home extends React.Component {
   constructor(props) {
@@ -28,11 +29,8 @@ class Home extends React.Component {
         <Header></Header>
         <HeaderSearch></HeaderSearch>
         <div className="Home">
-          <br />
-          <br />
-          여기 추천 리스트
-          <br />
-          마식당 홈페이지 입니댜
+          <About></About>
+          <LikedMap></LikedMap>
         </div>
         <AppBar></AppBar>
       </div>

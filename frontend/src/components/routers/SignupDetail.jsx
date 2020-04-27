@@ -41,6 +41,7 @@ class SignupDetail extends React.Component {
         survey_result: location.state.survey_result,
       });
     }
+    console.log(location.state.survey_result)
   }
 
   handleChange = (event) => {
@@ -124,8 +125,8 @@ class SignupDetail extends React.Component {
           age: this.state.age,
           gender: this.state.gender,
           api_id: this.state.api_id,
-          survey_array: this.state.answer.join(""),
-          survey_result: this.state.survey_result.join(" "),
+          survey_array : this.state.answer.join(''),
+          survey_result : this.state.survey_result
         },
       })
         .then((res) => {
