@@ -7,6 +7,7 @@ import AppBar from "../common/AppBar";
 import Header from "../common/Header";
 import HeaderSearch from "../common/HeaderSearch";
 import Loading from "../common/Loading";
+import TopButton from "../common/TopButton"
 
 import { SearchContext } from "../../contexts/search";
 
@@ -17,6 +18,7 @@ const Emoji = (props) => (
 );
 
 class Search extends React.Component {
+
   static contextType = SearchContext;
 
   constructor(props) {
@@ -140,6 +142,10 @@ class Search extends React.Component {
       })
       .catch((error) => {
         console.log(error);
+        this.setState({
+          store_len:0,
+        });
+        alert("현재 식당정보를 받아오지 못하고 있습니다.\n잠시 뒤 다시 시도해주세요")
       });
   };
 
@@ -148,6 +154,7 @@ class Search extends React.Component {
       <div className="Box">
         <Header></Header>
         <HeaderSearch></HeaderSearch>
+        <TopButton/>
         <div className="Search">
           {this.state.store_len === -1 ? (
             // 로딩 표시

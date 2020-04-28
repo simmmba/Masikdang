@@ -5,6 +5,7 @@ import AppBar from "../common/AppBar";
 import Header from "../common/Header";
 import NearMap from "../map/NearMap";
 import TopButton from "../common/TopButton"
+import ScrollToTop from "../common/ScrollToTop";
 
 const Emoji = (props) => (
   <span
@@ -24,6 +25,7 @@ class Map extends React.Component {
       <div className="Box">
         <Header></Header>
         <TopButton></TopButton>
+        <ScrollToTop/>
         <div className="Map">
           <div className="title"><Emoji label="map" symbol="🗺️" /> 내 주변 맛집 정보</div>
           <div className="map_content"><NearMap></NearMap></div>

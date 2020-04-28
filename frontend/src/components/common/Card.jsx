@@ -25,7 +25,6 @@ class Card extends React.Component {
     else if (res.target.id !== "liked") history.push("/search/" + this.state.store.id);
   };
 
-  //<Link to={{ pathname: `/search/${store.id}` }}>
 
   render() {
     return (

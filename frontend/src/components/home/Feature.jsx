@@ -1,15 +1,27 @@
 import React from "react";
 import "./Feature.scss";
+import { withRouter } from "react-router-dom";
+
 
 class Feature extends React.Component {
 
   render() {
+    const { feature } = this.props;
     return (
       <div className="Feature">
-        <div className="subject"><span>SURVEY.</span> 마식당 테스트</div>
+        <div className="subject">
+          <span>{feature.title}. </span>{feature.subtitle}
+        </div>
+        <div className="centralize" onClick={() => this.props.history.push(feature.path)}>
+          <h1>해보기→</h1>
+        </div>
+        <div className="content">
+          {feature.algorithm !== "" && <span>{feature.algorithm}</span>}
+          <div>{feature.content}</div>
+        </div>
       </div>
     );
   }
 }
 
-export default Feature;
+export default withRouter(Feature);
