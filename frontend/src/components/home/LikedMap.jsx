@@ -1,6 +1,7 @@
 import React from "react";
 import "./LikedMap.scss";
 import axios from "axios";
+import { withRouter } from "react-router-dom";
 
 import Loading from "../map/Loading";
 import CarouselSlider from "../common/CarouselSlider";
@@ -15,21 +16,36 @@ class LikedMap extends React.Component {
   constructor(props) {
     super(props);
 
+    let pos = window.sessionStorage.getItem("pos");
+
+    var latitude = 37.501503;
+    var longitude = 127.039778;
+
+    if (pos) {
+      latitude = pos.split(",")[0];
+      longitude = pos.split(",")[1];
+    }
+
     // 초기 값을 멀티캠퍼스 역삼으로 설정
     this.state = {
-      latitude: 37.501503,
-      longitude: 127.039778,
+      latitude: latitude,
+      longitude: longitude,
       check: false,
       stores: [],
       loading: false,
+      infowindow: new window.kakao.maps.InfoWindow({ zIndex: 1 }),
     };
   }
 
   markers = [];
   map = "";
   user = JSON.parse(window.sessionStorage.getItem("user"));
-
+  pos = window.sessionStorage.getItem("pos");
   componentDidMount() {
+    this.makeMap();
+  }
+
+  onClickPos = () => {
     if (navigator.geolocation) {
       // GPS를 지원하면
       navigator.geolocation.getCurrentPosition(
@@ -39,7 +55,13 @@ class LikedMap extends React.Component {
             longitude: position.coords.longitude,
             check: true,
           });
-          this.makeMap();
+
+          // 세션 스토리지에 저장하기
+          if (window.sessionStorage.getItem("pos")) window.sessionStorage.removeItem("pos");
+          window.sessionStorage.setItem("pos", [position.coords.latitude, position.coords.longitude]);
+
+          // 지도의 시작점 변경
+          this.panTo();
         },
         function (error) {
           console.error(error);
@@ -54,13 +76,24 @@ class LikedMap extends React.Component {
       this.makeMap();
       alert("GPS를 지원하지 않아 현재위치를 가져올 수 없습니다");
     }
+  };
 
-    // this.makeMap();
-  }
+  panTo = () => {
+    // 이동할 위도 경도 위치를 생성합니다
+    var moveLatLon = new window.kakao.maps.LatLng(this.state.latitude, this.state.longitude);
+
+    // 지도 중심을 부드럽게 이동시킵니다
+    // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
+    this.map.panTo(moveLatLon);
+
+    // 로그인했을때만 불러오기
+    if (this.user) {
+      this.axiosStores();
+    }
+  };
 
   // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
   addMarker = (position, idx) => {
-    console.log(idx);
     var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png", // 마커 이미지 url, 스프라이트 이미지를 씁니다
       imageSize = new window.kakao.maps.Size(36, 37), // 마커 이미지의 크기
       imgOptions = {
@@ -90,7 +123,7 @@ class LikedMap extends React.Component {
     // axios 호출
     axios({
       method: "get",
-      url: "http://15.165.19.70:8080/api/location_based/" + this.user.id + "/" + String(this.state.latitude) + "/" + String(this.state.longitude) + "/2",
+      url: `${process.env.REACT_APP_URL}/location_based/${this.user.id}/${String(this.state.latitude)}/${String(this.state.longitude)}/2`,
     })
       .then((res) => {
         console.log(res);
@@ -99,6 +132,31 @@ class LikedMap extends React.Component {
           // 마커를 생성하고 지도에 표시합니다
           var placePosition = new window.kakao.maps.LatLng(res.data.data[i].latitude, res.data.data[i].longitude),
             marker = this.addMarker(placePosition, i);
+
+          // 마커와 검색결과 항목에 mouseover 했을때
+          // 해당 장소에 인포윈도우에 장소명을 표시합니다
+          // mouseout 했을 때는 인포윈도우를 닫습니다
+          (function (marker, store) {
+            window.kakao.maps.event.addListener(marker, "mouseover", () => {
+              displayInfowindow(marker, store);
+            });
+
+            window.kakao.maps.event.addListener(marker, "mouseout", () => {
+              close();
+            });
+          })(marker, res.data.data[i]);
+
+          // 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수입니다
+          // 인포윈도우에 장소명을 표시합니다
+          const displayInfowindow = (marker, store) => {
+            var content = '<div className="info_text">&nbsp;' + store.store_name + "</div>";
+            this.state.infowindow.setContent(content);
+            this.state.infowindow.open(this.map, marker);
+          };
+
+          const close = () => {
+            this.state.infowindow.close();
+          };
         }
         this.setState({
           stores: res.data.data,
@@ -107,6 +165,10 @@ class LikedMap extends React.Component {
       })
       .catch((error) => {
         console.log(error);
+        this.setState({
+          loading: false,
+        });
+        alert("현재 식당정보를 받아오지 못하고 있습니다.\n잠시 뒤 다시 시도해주세요");
       });
   };
 
@@ -130,40 +192,44 @@ class LikedMap extends React.Component {
   render() {
     return (
       <div className="LikedMap">
-        <div className="likedmap_title">
-          <Emoji id="liked" label="luv" symbol="❤️" /> 주변 즐겨찾기한 맛집
-        </div>
         <div className="thumbnail">
           <div id="square" className="centered">
             <div id="map" className="kakaoMap"></div>
           </div>
         </div>
-        {!this.user && (
-          <div className="login">
-            <Emoji label="map" symbol="✔️" /> 로그인을 해야 해당 기능을 사용할 수 있습니다!
-          </div>
-        )}
 
-        <div>
+        <div className="backgroud">
+          {!this.user && (
+            <div className="login">
+              <Emoji label="map" symbol="✔️" /> 로그인 후 즐겨찾기한 맛집을 확인해보세요!
+            </div>
+          )}
           {this.state.loading ? (
             <Loading></Loading>
           ) : (
             <>
-              {/* {this.state.stores.map((store, index) => (
-                <MapCard
-                  key={index}
-                  id={index}
-                  index={index + 1}
-                  store={store}
-                ></MapCard>
-              ))} */}
-              {this.state.stores && <CarouselSlider similar={this.state.stores}></CarouselSlider>}
-              {this.state.stores.length === 0 && this.user && (
-                <span>
-                  <br />
-                  현위치에서 검색된 식당이 없습니다
-                </span>
-              )}
+              <div>
+                {this.user && (
+                  <span className="now_pos" onClick={this.onClickPos}>
+                    현위치 설정
+                  </span>
+                )}
+                {this.state.stores.length === 0 && this.user && (
+                  <span className="no_store">
+                    <Emoji label="map" symbol="⚙" /> 즐겨찾기한 식당이 없습니다
+                  </span>
+                )}
+                {this.state.stores && this.state.stores.length !== 0 && this.user && (
+                  <div>
+                    <CarouselSlider similar={this.state.stores}></CarouselSlider>
+                  </div>
+                )}
+                {this.user && (
+                  <div className="more" onClick={() => this.props.history.push("/mypage/favorite")}>
+                    <Emoji label="map" symbol="➕" /> 즐겨찾기한 식당 더보기
+                  </div>
+                )}
+              </div>
             </>
           )}
         </div>
@@ -172,4 +238,4 @@ class LikedMap extends React.Component {
   }
 }
 
-export default LikedMap;
+export default withRouter(LikedMap);

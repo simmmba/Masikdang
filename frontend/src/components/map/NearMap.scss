@@ -1,7 +1,25 @@
 .NearMap {
     padding: 0px;
     font-family: "NanumSquareRound";
-    
+
+    .now_pos {
+        display: inline-block;
+        padding: 2px;
+        padding-left: 10px;
+        padding-right: 10px;
+        margin-bottom: 5px;
+        margin-right: 5px;
+        background: #98d7db96;
+        font-family: "BMHANNAPro";
+        font-size: 18px;
+        border-radius: 5px;
+        cursor: pointer;
+
+        &:hover {
+            color: white;
+        }
+    }
+
     .thumbnailb {
         position: relative;
         padding-top: 56.5%;
@@ -28,11 +46,11 @@
         }
     }
 
-    .address{
+    .address {
         margin-bottom: 5px;
     }
 
-    .info_text{
+    .info_text {
         text-align: center;
         padding-left: 5px;
     }
@@ -42,5 +60,4 @@
             padding-top: 40%;
         }
     }
-
 }

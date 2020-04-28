@@ -27,7 +27,7 @@ class Signup extends React.Component {
     // 만약 로그인을 했으면
     if (window.sessionStorage.getItem("user")) {
       alert("로그아웃 후 진행해주세요");
-      history.push("/home");
+      history.goBack("");
     } else if (this.context.state.answer.length !== 9) {
       alert("마식당 테스트를 먼저 진행해주세요");
       history.push("/surveyStart");
