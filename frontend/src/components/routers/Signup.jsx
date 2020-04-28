@@ -30,7 +30,7 @@ class Signup extends React.Component {
       history.push("/home");
     } else if (this.context.state.answer.length !== 9) {
       alert("마식당 테스트를 먼저 진행해주세요");
-      history.push("/start");
+      history.push("/surveyStart");
     }
   }
 

@@ -19,13 +19,14 @@ import Search from "./components/routers/Search";
 import Map from "./components/routers/Map";
 import Surveypage from "./components/routers/Surveypage";
 import SurveyStart from "./components/routers/SurveyStart";
-import WhatToEatpage from "./components/routers/WhatToEatpage";
 import SurveyResult from "./components/survey/SurveyResult";
+import WhatToEatpage from "./components/routers/WhatToEatpage";
+import WhatToEatStart from "./components/routers/WhatToEatStart";
 import WhatToEatResult from "./components/whatToEat/WhatToEatResult";
 import Detail from "./components/routers/Detail";
 import Write from "./components/routers/Write";
 import Update from "./components/routers/Update";
-import About from "./components/routers/About"
+import About from "./components/routers/About";
 
 // Context 갯수가 많아져도 Provider 적용 위해 코드 구조가 깊어질 필요 없음
 // context를 props로 전달해주면 됨
@@ -54,7 +55,7 @@ const App = () => {
           {/* 회원정보 추가 입력 페이지 */}
           <Route path="/signup/detail" component={SignupDetail} />
           {/* 회원가입 설문 시작 페이지 */}
-          <Route path="/start" component={SurveyStart} />
+          <Route path="/surveyStart" component={SurveyStart} />
           {/* 회원가입 설문 페이지 */}
           <Route path="/survey" component={Surveypage} />
           {/* 회원가입 설문 결과 페이지 */}
@@ -71,6 +72,8 @@ const App = () => {
           <Route path="/search/:storeNo" component={Detail} />
           {/* 지도 페이지 */}
           <Route path="/map" component={Map} />
+          {/* 오늘 뭐먹지 설문 시작 페이지 */}
+          <Route path="/whatToEatStart" component={WhatToEatStart} />
           {/* 오늘 뭐먹지 설문 페이지 */}
           <Route path="/whatToEat" component={WhatToEatpage} />
           {/* 오늘 뭐먹지 설문 결과 페이지 */}
@@ -80,7 +83,7 @@ const App = () => {
           {/* 리뷰 수정 페이지 */}
           <Route path="/update" component={Update} />
           {/* 홈페이지 설명 페이지 */}
-          <Route path="/about" component={About}/>
+          <Route path="/about" component={About} />
         </Switch>
       </BrowserRouter>
     </AppProvider>

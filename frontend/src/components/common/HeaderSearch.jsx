@@ -4,12 +4,7 @@ import { withRouter } from "react-router-dom";
 import { SearchContext } from "../../contexts/search";
 
 const Emoji = (props) => (
-  <span
-    className="emoji"
-    role="img"
-    aria-label={props.label ? props.label : ""}
-    aria-hidden={props.label ? "false" : "true"}
-  >
+  <span className="emoji" role="img" aria-label={props.label ? props.label : ""} aria-hidden={props.label ? "false" : "true"}>
     {props.symbol}
   </span>
 );
@@ -28,19 +23,11 @@ class HeaderSearch extends React.Component {
   componentDidMount() {
     // home 이나 다른 곳으로 오면 검색 reset
     const url = window.location.href.split("/");
-    if (
-      url[url.length - 1] !== "search" &&
-      url[url.length - 2] !== "search" &&
-      url[url.length - 1] !== "write" &&
-      url[url.length - 1] !== "update"
-    ) {
+    if (url[url.length - 1] !== "search" && url[url.length - 2] !== "search" && url[url.length - 1] !== "write" && url[url.length - 1] !== "update") {
       this.context.actions.reset();
     }
     // 빈거가 아니면 값 매핑
-    else if (
-      this.context.state.word !== "" &&
-      this.context.state.word !== null
-    ) {
+    else if (this.context.state.word !== "" && this.context.state.word !== null) {
       this.setState({
         word: this.context.state.word,
         subject: this.context.state.subject,
@@ -57,11 +44,8 @@ class HeaderSearch extends React.Component {
 
   // input 작성
   changeInput = (res) => {
-    var input = res.target.value.substring(
-      res.target.value.length - 1,
-      res.target.value.length
-    );
-    console.log(input)
+    var input = res.target.value.substring(res.target.value.length - 1, res.target.value.length);
+    console.log(input);
     if (input === "?" || input === "/") {
       alert("?, / 는 입력할 수 없습니다.");
     } else {
@@ -85,7 +69,7 @@ class HeaderSearch extends React.Component {
   whatToEat = () => {
     const { history } = this.props;
     history.push({
-      pathname: "/whatToEat",
+      pathname: "/whatToEatStart",
     });
   };
 
@@ -106,24 +90,13 @@ class HeaderSearch extends React.Component {
                 <Emoji label="search" symbol="❔" />
               </div>
               <div className="input col-10">
-                <select
-                  className="input_subject"
-                  onChange={this.selectSubject}
-                  value={this.state.subject}
-                >
+                <select className="input_subject" onChange={this.selectSubject} value={this.state.subject}>
                   <option value="total">전체</option>
                   <option value="name">식당명</option>
                   <option value="area">지역</option>
                   <option value="category">카테고리</option>
                 </select>
-                <input
-                  type="text"
-                  className="search_input"
-                  placeholder="검색어를 입력해주세요."
-                  onChange={this.changeInput}
-                  value={this.state.word}
-                  onKeyPress={this.handleKeyPress}
-                />
+                <input type="text" className="search_input" placeholder="검색어를 입력해주세요." onChange={this.changeInput} value={this.state.word} onKeyPress={this.handleKeyPress} />
               </div>
               <div className="btn search_btn col-1" onClick={this.clicksearch}>
                 <Emoji label="search" symbol="🔎" />

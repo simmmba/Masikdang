@@ -71,7 +71,7 @@ const SurveyResult = ({ reset, answer, surveyResult, meaning }) => {
         </div>
       </div>
       {type !== "" && <TypeRecommend type={type} />}
-      <NavLink className="retryBtn" to={`/start`} onClick={reset}>
+      <NavLink className="retryBtn" to={`/surveyStart`} onClick={reset}>
         다시 해보기
       </NavLink>
       <div className="memberBox">

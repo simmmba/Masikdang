@@ -37,11 +37,14 @@ class Home extends React.Component {
         <HeaderSearch />
         <div className="Home">
           <AboutGo />
-          <Recommend />
-          <div className="likedmap_title">
-            <Emoji id="liked" label="luv" symbol="❤️" /> 주변 즐겨찾기한 맛집
+          <div className="title">
+            <Emoji id="liked" label="chicken" symbol="🍗" /> 내 타입이 비슷하게 평가한 맛집
           </div>
-          <LikedMap></LikedMap>
+          <Recommend />
+          <div className="title">
+            <Emoji id="liked" label="luv" symbol="❤️" /> 현위치 즐겨찾기 맛집
+          </div>
+          <LikedMap />
         </div>
         <AppBar />
       </div>

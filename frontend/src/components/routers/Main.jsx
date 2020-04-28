@@ -31,10 +31,10 @@ const Main = ({ reset }) => {
             </div>
             <br />
             <div className="moveBox">
-              <NavLink to={`/start`} className="moveBtn" onClick={reset}>
+              <NavLink to={`/surveyStart`} className="moveBtn" onClick={reset}>
                 <Emoji label="food" symbol="🍝" /> 마식는 테스트
               </NavLink>
-              <NavLink to={`/whatToEat`} className="moveBtn">
+              <NavLink to={`/whatToEatStart`} className="moveBtn">
                 <Emoji label="burger" symbol="🍔" /> 오늘 뭐 먹지?
               </NavLink>
             </div>

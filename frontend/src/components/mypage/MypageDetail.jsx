@@ -6,12 +6,6 @@ import AppBar from "../common/AppBar";
 import Header from "../common/Header";
 import { NavLink } from "react-router-dom";
 
-const Emoji = (props) => (
-  <span className="emoji" role="img" aria-label={props.label ? props.label : ""} aria-hidden={props.label ? "false" : "true"}>
-    {props.symbol}
-  </span>
-);
-
 class MypageDetail extends React.Component {
   constructor(props) {
     super(props);

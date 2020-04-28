@@ -17,7 +17,13 @@ class Header extends React.Component {
                 </NavLink>
               </div>
               <div className="col-3">
-                <NavLink to="/start"><div className="survey1_btn">마식당<br/>테스트</div></NavLink>
+                <NavLink to="/surveyStart">
+                  <div className="survey1_btn">
+                    마식당
+                    <br />
+                    테스트
+                  </div>
+                </NavLink>
               </div>
             </div>
           </div>

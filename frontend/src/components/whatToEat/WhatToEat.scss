@@ -305,9 +305,13 @@
 
       .menu {
         color: black;
+        padding: 3px 0 3px 0;
+        cursor: pointer;
+        transition: 0.3s;
 
         &:hover {
           color: #5d5d5d;
+          text-decoration: underline;
         }
       }
     }
@@ -319,6 +323,15 @@
 
       @media screen and (min-width: 768px) {
         font-size: 2rem;
+      }
+
+      .home {
+        color: #4c4c4c;
+        transition: 0.3s;
+
+        &:hover {
+          color: #faa8b9;
+        }
       }
     }
   }

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import { useWhatToEat } from "../../contexts/whatToEat";
 import { NavLink } from "react-router-dom";
 import Location from "./Location";
@@ -32,14 +33,21 @@ const WhatToEat = ({ wreset, windex, wquestion, woptions, wanswer, wincrement, w
     }
   };
 
+  let history = useHistory();
+
   const done = (option) => {
     wadd(option);
-    // console.log(wanswer);
+
+    var select = wanswer.concat(option);
+    history.push({
+      pathname: "/whatToEatResult",
+      state: select,
+    });
   };
 
   const optionList = woptions[windex].map((option, idx) => (
     <div key={idx} className="option">
-      {wanswer.length === wquestion.length ? wreset() : ""}
+      {wanswer.length === wquestion.length && wreset()}
       {
         // 보통 설문
         windex !== wquestion.length - 1 && option !== "" ? (
@@ -76,8 +84,7 @@ const WhatToEat = ({ wreset, windex, wquestion, woptions, wanswer, wincrement, w
           )
         ) : (
           // 마지막 설문
-          <NavLink
-            to={`/whatToEatResult`}
+          <div
             onClick={function () {
               // 마지막 문항 완료
               done(idx);
@@ -86,7 +93,7 @@ const WhatToEat = ({ wreset, windex, wquestion, woptions, wanswer, wincrement, w
           >
             {" "}
             {option}{" "}
-          </NavLink>
+          </div>
         )
       }
     </div>
