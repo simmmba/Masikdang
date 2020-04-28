@@ -1,11 +1,4 @@
-.LikedMap{
-    margin-top: 10px;
-
-    .likedmap_title{
-        font-size: 20px;
-        font-family: "BMHANNAPro";
-        margin-bottom: 5px;
-    }
+.LikedMap {
     .thumbnail {
         position: relative;
         padding-top: 56.25%;
@@ -32,19 +25,37 @@
         }
     }
 
-    .CarouselSlider{
+    .login,
+    .more,
+    .no_store {
+        padding: 5px;
+        background: rgba(175, 175, 175, 0.1);
+    }
+
+    .more,
+    .login {
+        border-radius: 0 0 10px 10px;
+    }
+
+    .more {
+        cursor: pointer;
+        padding-top: 0px;
+
+        &:hover {
+            color: #f9bbc7;
+        }
+    }
+
+    .CarouselSlider {
         padding: 5px;
         padding-bottom: 0px;
         background: rgba(175, 175, 175, 0.1);
-        border-radius: 0 0 10px 10px;
+        // border-radius: 0 0 10px 10px;
     }
 
     @media screen and (min-width: 768px) {
         .thumbnail {
             padding-top: 35%;
-        }
-        .likedmap_title{
-            font-size: 25px;
         }
     }
 }

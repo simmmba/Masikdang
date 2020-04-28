@@ -4,8 +4,20 @@ import "./Home.scss";
 import AppBar from "../common/AppBar";
 import Header from "../common/Header";
 import HeaderSearch from "../common/HeaderSearch";
-import About from "../home/About";
+import AboutGo from "../home/AboutGo";
 import LikedMap from "../home/LikedMap";
+
+const Emoji = (props) => (
+  <span
+    className="emoji"
+    role="img"
+    aria-label={props.label ? props.label : ""}
+    aria-hidden={props.label ? "false" : "true"}
+  >
+    {props.symbol}
+  </span>
+);
+
 
 class Home extends React.Component {
   constructor(props) {
@@ -29,7 +41,10 @@ class Home extends React.Component {
         <Header></Header>
         <HeaderSearch></HeaderSearch>
         <div className="Home">
-          <About></About>
+          <AboutGo></AboutGo>
+          <div className="likedmap_title">
+          <Emoji id="liked" label="luv" symbol="❤️" /> 주변 즐겨찾기한 맛집
+        </div>
           <LikedMap></LikedMap>
         </div>
         <AppBar></AppBar>

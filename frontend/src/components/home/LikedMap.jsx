@@ -1,6 +1,7 @@
 import React from "react";
 import "./LikedMap.scss";
 import axios from "axios";
+import { withRouter } from "react-router-dom";
 
 import Loading from "../map/Loading";
 import CarouselSlider from "../common/CarouselSlider";
@@ -44,7 +45,7 @@ class LikedMap extends React.Component {
             longitude: position.coords.longitude,
             check: true,
           });
-          this.makeMap();
+          // this.makeMap();
         },
         function (error) {
           console.error(error);
@@ -60,7 +61,7 @@ class LikedMap extends React.Component {
       alert("GPS를 지원하지 않아 현재위치를 가져올 수 없습니다");
     }
 
-    // this.makeMap();
+    this.makeMap();
   }
 
   // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
@@ -89,7 +90,6 @@ class LikedMap extends React.Component {
 
     return marker;
   };
-
 
   // 현 정보 기반 새로운 식당 정보 받아오기
   axiosStores = () => {
@@ -154,9 +154,6 @@ class LikedMap extends React.Component {
   render() {
     return (
       <div className="LikedMap">
-        <div className="likedmap_title">
-          <Emoji id="liked" label="luv" symbol="❤️" /> 주변 즐겨찾기한 맛집
-        </div>
         <div className="thumbnail">
           <div id="square" className="centered">
             <div id="map" className="kakaoMap"></div>
@@ -174,22 +171,21 @@ class LikedMap extends React.Component {
             <Loading></Loading>
           ) : (
             <>
-              {/* {this.state.stores.map((store, index) => (
-                <MapCard
-                  key={index}
-                  id={index}
-                  index={index + 1}
-                  store={store}
-                ></MapCard>
-              ))} */}
-              {this.state.stores && (
-                <CarouselSlider similar={this.state.stores}></CarouselSlider>
+              {this.state.stores && this.user && (
+                <div>
+                  <CarouselSlider similar={this.state.stores}></CarouselSlider>
+                </div>
               )}
               {this.state.stores.length === 0 && this.user && (
-                <span>
-                  <br />
-                  현위치에서 검색된 식당이 없습니다
-                </span>
+                <div className="no_store">
+                  <Emoji label="map" symbol="⚙" /> 현위치에서 검색된 식당이
+                  없습니다
+                </div>
+              )}
+              {this.user && (
+                <div className="more" onClick={() => this.props.history.push("/mypage/favorite")}>
+                  <Emoji label="map" symbol="➕" /> 즐겨찾기한 식당 더보기
+                </div>
               )}
             </>
           )}
@@ -199,4 +195,4 @@ class LikedMap extends React.Component {
   }
 }
 
-export default LikedMap;
+export default withRouter(LikedMap);
