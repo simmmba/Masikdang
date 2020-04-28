@@ -30,11 +30,6 @@ class Favorite(models.Model):
     store = models.ForeignKey('Store', on_delete=models.CASCADE)
     user = models.ForeignKey('User', on_delete=models.CASCADE)
 
-# 좋아요 음식점
-class Like(models.Model):
-    store = models.ForeignKey('Store', on_delete=models.CASCADE)
-    user = models.ForeignKey('User', on_delete=models.CASCADE)
-
 # 메뉴
 class Menu(models.Model):
     store = models.ForeignKey('Store', on_delete=models.CASCADE)

@@ -10,7 +10,7 @@ import math
 class Command(BaseCommand):
     help = "initialize database"
     DATA_DIR = Path(settings.BASE_DIR).parent / "data"
-    DATA_FILE = str(DATA_DIR / "data_dump.pkl")
+    DATA_FILE = str(DATA_DIR / "crawling.pkl")
 
     def _load_dataframes(self):
         try:
@@ -26,11 +26,15 @@ class Command(BaseCommand):
         """
         print("[*] Loading data...")
         dataframes = self._load_dataframes()
-
-        print("[*] Initializing stores...")
+        
         # store db 초기화
+        # print("[*] Initializing stores...")
         # models.Store.objects.all().delete()
         # stores = dataframes["store"]
+        # #중복 제거
+        # stores = stores.drop_duplicates(['store_name','address'], keep='first')
+        # store_id = stores['id']
+        # print(stores)
         # stores_bulk = [
         #     models.Store(
         #         id=store.id,
@@ -52,6 +56,7 @@ class Command(BaseCommand):
         # print("[*] Initializing amenity...")
         # models.Amenity.objects.all().delete()
         # amenities = dataframes["amenity"]
+        # amenities = amenities[amenities['store_id'].isin(store_id)]
         # print(amenities)
         # amenitys_bulk = [
         #     models.Amenity(
@@ -76,15 +81,18 @@ class Command(BaseCommand):
         # ]
         # models.Tag.objects.bulk_create(tags_bulk)
 
-        # review db 초기화
+        # # review db 초기화
         # print("[*] Initializing review...")
-        # models.Review.objects.all().delete()
+        # # models.Review.objects.all().delete()
         # reviews = dataframes["review"]
-        # # print(reviews.fillna(0))
-        # # print(reviews.replace({'score':np.nan},{'score':0}))
+        # reviews = reviews[reviews['store_id'].isin(store_id)]
+
+        # reviews = reviews.drop_duplicates(['content'],keep='first')
         # reviews = reviews.replace({'score':np.nan},{'score':None})
         # reviews['user_id'] = 1
-        # # print(reviews.iloc[10])
+        # review_id = reviews['id']
+        # print(review_id)
+        # print(reviews)
         # reviews_bulk = [
         #     models.Review(
         #         id=review.id,
@@ -96,17 +104,18 @@ class Command(BaseCommand):
         #         price_score= review.price ,
         #         service_score=review.service,
         #         content=review.content,
-        #         reg_time=review.date,
+        #         # reg_time=review.date,
         #         tag=review.tag_list,
         #     )
         #     for review in reviews.itertuples()
         # ]
         # models.Review.objects.bulk_create(reviews_bulk)
 
-        # review_img db 초기화
+        # # review_img db 초기화
         # print("[*] Initializing tag...")
         # models.Review_img.objects.all().delete()
         # review_imgs = dataframes["review_img"]
+        # review_imgs = review_imgs[review_imgs['review_id'].isin(review_id)]
         # print(review_imgs)
         # review_imgs_bulk = [
         #     models.Review_img(
@@ -118,31 +127,14 @@ class Command(BaseCommand):
         # models.Review_img.objects.bulk_create(review_imgs_bulk)
 
         # bhours db 초기화
-        # print("[*] Initializing tag...")
+        # print("[*] Initializing bhour...")
         # models.Bhour.objects.all().delete()
         # bhours = dataframes["bhour"]
+        # bhours = bhours[bhours['store_id'].isin(store_id)]
+
         # bhours = bhours.fillna(0)
         # print(bhours)
         # bhours_bulk = []
-        # for bhour in bhours.itertuples():
-        #     if not bhour.store_id None:
-
-        #         bhours_bulk.append(models.Bhour(
-        #             type=bhour.type,
-        #             week_type=bhour.type,
-        #             mon=bhour.mon,
-        #             tue=bhour.tue,
-        #             wed=bhour.wed,
-        #             thu=bhour.thu,
-        #             fri=bhour.fri,
-        #             sat=bhour.sat,
-        #             sun=bhour.sun,
-        #             start_time=bhour.start_time,
-        #             end_time=bhour.end_time,
-        #             etc=bhour.etc,
-        #         )
-        #         )
-
         # bhours_bulk = [
         #     models.Bhour(
         #         store_id = bhour.store_id,
@@ -164,10 +156,11 @@ class Command(BaseCommand):
         # models.Bhour.objects.bulk_create(bhours_bulk)
         
 
-        # bhours db 초기화
+        # menu db 초기화
         # print("[*] Initializing menu...")
         # models.Menu.objects.all().delete()
         # menues = dataframes["menu"]
+        # menues = menues[menues['store_id'].isin(store_id)]
         # menues = menues.fillna(0)
         # print(menues)
         # menues_bulk = [
