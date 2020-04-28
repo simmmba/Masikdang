@@ -42,8 +42,8 @@
         // border: 1px solid red;
 
         @media screen and (min-width: 768px) {
-          width: 160px;
-          height: 160px;
+          width: 140px;
+          height: 140px;
           border-radius: 100px;
           // border: 1px solid red;
         }
@@ -66,7 +66,7 @@
         margin-bottom: 5px;
 
         @media screen and (min-width: 768px) {
-          font-size: 2.5rem;
+          font-size: 2.2rem;
         }
       }
 
@@ -78,7 +78,7 @@
         // border: 1px solid red;
 
         @media screen and (min-width: 768px) {
-          font-size: 2rem;
+          font-size: 1.6rem;
         }
       }
 
@@ -101,7 +101,7 @@
 
           @media screen and (min-width: 768px) {
             width: 45%;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
           }
 
           &:hover {
@@ -120,7 +120,7 @@
 
           @media screen and (min-width: 768px) {
             width: 55%;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
           }
 
           &:hover {
@@ -161,7 +161,7 @@
     border-radius: 4px;
 
     @media screen and (min-width: 768px) {
-      margin: 20px 0 10px 0;
+      margin: 20px 0 5px 0;
     }
   }
 
@@ -183,7 +183,7 @@
     font-size: 1.2rem;
 
     @media screen and (min-width: 768px) {
-      font-size: 1.5rem;
+      font-size: 1.4rem;
     }
   }
 
@@ -194,7 +194,7 @@
     font-size: 1.2rem;
 
     @media screen and (min-width: 768px) {
-      font-size: 1.5rem;
+      font-size: 1.4rem;
     }
   }
 
@@ -215,7 +215,7 @@
       font-size: 1rem;
 
       @media screen and (min-width: 768px) {
-        padding: 8px 0 8px 0;
+        padding: 7px 0 7px 0;
         font-size: 1.2rem;
       }
 
@@ -272,7 +272,7 @@
       font-size: 1rem;
 
       @media screen and (min-width: 768px) {
-        padding: 8px 0 8px 0;
+        padding: 7px 0 7px 0;
         font-size: 1.2rem;
       }
 
@@ -334,7 +334,7 @@
       }
 
       @media screen and (min-width: 768px) {
-        padding: 5px 0 5px 0;
+        padding: 4px 0 4px 0;
         font-size: 1.15rem;
       }
     }
@@ -360,7 +360,7 @@
       }
 
       @media screen and (min-width: 768px) {
-        padding: 5px 0 5px 0;
+        padding: 4px 0 4px 0;
         font-size: 1.15rem;
       }
     }

@@ -6,6 +6,12 @@ import AppBar from "../common/AppBar";
 import Header from "../common/Header";
 import { NavLink } from "react-router-dom";
 
+const Emoji = (props) => (
+  <span className="emoji" role="img" aria-label={props.label ? props.label : ""} aria-hidden={props.label ? "false" : "true"}>
+    {props.symbol}
+  </span>
+);
+
 class MypageDetail extends React.Component {
   constructor(props) {
     super(props);
@@ -71,7 +77,6 @@ class MypageDetail extends React.Component {
 
   // 이미지 변경 함수
   InputChange = (e) => {
-
     //이미지 변경됐을 때 프리뷰
     let reader = new FileReader();
     reader.onloadend = () => {
@@ -101,30 +106,24 @@ class MypageDetail extends React.Component {
       <div className="Box">
         <Header></Header>
         <div className="MypageDetail">
-          <div className="profile_img">
-            {this.state.base64 === null ? (
-              <img
-                alt="프로필"
-                src="https://d2x5ku95bkycr3.cloudfront.net/App_Themes/Common/images/profile/0_200.png"
-              />
-            ) : (
-              <img alt="프로필" src={this.state.base64} />
-            )}
-          </div>
-          <div className="upload_btn">
-            <div className="filebox">
-              <label>
-                프로필 사진 선택
-                <input
-                  type="file"
-                  accept="image/gif, image/jpeg, image/png"
-                  onChange={this.InputChange}
-                />
-              </label>
+          <div className="upper">
+            <div className="profile_img">
+              {this.state.base64 === null ? <img alt="프로필" src="https://d2x5ku95bkycr3.cloudfront.net/App_Themes/Common/images/profile/0_200.png" /> : <img alt="프로필" src={this.state.base64} />}
             </div>
-          </div>
-          <div className="imgBtn" onClick={this.handleClick}>
-            프로필 사진 변경
+            <div className="imgBox">
+              <div className="upload_btn">
+                <div className="filebox">
+                  <label className="imgBtn">
+                    프로필 사진 변경
+                    <input type="file" accept="image/gif, image/jpeg, image/png" onChange={this.InputChange} />
+                  </label>
+                </div>
+              </div>
+              <span className="arrow">&nbsp;→&nbsp;</span>
+              <div className="imgBtn" onClick={this.handleClick}>
+                완료
+              </div>
+            </div>
           </div>
           <div className="profileBox">
             <div className="column">

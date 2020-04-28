@@ -101,13 +101,17 @@ const MypageMore = (props) => {
                   }}
                   key={idx}
                 >
-                  <div className="storeName">{store.store_name}</div>
-                  <div className="totalScore">
-                    <Emoji label="star" symbol="⭐️" /> {store.total_score}
+                  <div className="rtop">
+                    <div className="storeName">{store.store_name}</div>
+                    <div className="totalScore">
+                      <Emoji label="star" symbol="⭐️" />
+                      {store.total_score}
+                    </div>
+                    <div className="detailScore">
+                      맛 {store.taste_score} &nbsp;가격 {store.price_score} &nbsp;서비스 {store.service_score}
+                    </div>
                   </div>
-                  <div className="detailScore">
-                    맛 {store.taste_score} &nbsp;가격 {store.price_score} &nbsp;서비스 {store.service_score}
-                  </div>
+                  <div className="rbottom">{store.content}</div>
                 </div>
               ))}
             </div>
