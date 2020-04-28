@@ -6,12 +6,7 @@ import Loading from "../map/Loading";
 import CarouselSlider from "../common/CarouselSlider";
 
 const Emoji = (props) => (
-  <span
-    className="emoji"
-    role="img"
-    aria-label={props.label ? props.label : ""}
-    aria-hidden={props.label ? "false" : "true"}
-  >
+  <span className="emoji" role="img" aria-label={props.label ? props.label : ""} aria-hidden={props.label ? "false" : "true"}>
     {props.symbol}
   </span>
 );
@@ -66,19 +61,14 @@ class LikedMap extends React.Component {
   // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
   addMarker = (position, idx) => {
     console.log(idx);
-    var imageSrc =
-        "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png", // 마커 이미지 url, 스프라이트 이미지를 씁니다
+    var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png", // 마커 이미지 url, 스프라이트 이미지를 씁니다
       imageSize = new window.kakao.maps.Size(36, 37), // 마커 이미지의 크기
       imgOptions = {
         spriteSize: new window.kakao.maps.Size(36, 691), // 스프라이트 이미지의 크기
         spriteOrigin: new window.kakao.maps.Point(0, idx * 46 + 10), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
         offset: new window.kakao.maps.Point(13, 37), // 마커 좌표에 일치시킬 이미지 내에서의 좌표
       },
-      markerImage = new window.kakao.maps.MarkerImage(
-        imageSrc,
-        imageSize,
-        imgOptions
-      ),
+      markerImage = new window.kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions),
       marker = new window.kakao.maps.Marker({
         position: position, // 마커의 위치
         image: markerImage,
@@ -90,7 +80,6 @@ class LikedMap extends React.Component {
     return marker;
   };
 
-
   // 현 정보 기반 새로운 식당 정보 받아오기
   axiosStores = () => {
     //Loading 표시
@@ -101,24 +90,14 @@ class LikedMap extends React.Component {
     // axios 호출
     axios({
       method: "get",
-      url:
-        "http://15.165.19.70:8080/api/location_based/" +
-        this.user.id +
-        "/" +
-        String(this.state.latitude) +
-        "/" +
-        String(this.state.longitude) +
-        "/2",
+      url: "http://15.165.19.70:8080/api/location_based/" + this.user.id + "/" + String(this.state.latitude) + "/" + String(this.state.longitude) + "/2",
     })
       .then((res) => {
         console.log(res);
 
         for (var i = 0; i < res.data.data.length; i++) {
           // 마커를 생성하고 지도에 표시합니다
-          var placePosition = new window.kakao.maps.LatLng(
-              res.data.data[i].latitude,
-              res.data.data[i].longitude
-            ),
+          var placePosition = new window.kakao.maps.LatLng(res.data.data[i].latitude, res.data.data[i].longitude),
             marker = this.addMarker(placePosition, i);
         }
         this.setState({
@@ -135,10 +114,7 @@ class LikedMap extends React.Component {
     var container = document.getElementById("map");
     var options = {
       //지도를 생성할 때 필요한 기본 옵션
-      center: new window.kakao.maps.LatLng(
-        this.state.latitude,
-        this.state.longitude
-      ), //지도의 중심좌표.
+      center: new window.kakao.maps.LatLng(this.state.latitude, this.state.longitude), //지도의 중심좌표.
       level: 5, //지도의 레벨(확대, 축소 정도)
     };
 
@@ -164,8 +140,7 @@ class LikedMap extends React.Component {
         </div>
         {!this.user && (
           <div className="login">
-            <Emoji label="map" symbol="✔️" /> 로그인을 해야 해당 기능을 사용할
-            수 있습니다!
+            <Emoji label="map" symbol="✔️" /> 로그인 후 즐겨찾기한 맛집을 확인해보세요!
           </div>
         )}
 
@@ -182,9 +157,7 @@ class LikedMap extends React.Component {
                   store={store}
                 ></MapCard>
               ))} */}
-              {this.state.stores && (
-                <CarouselSlider similar={this.state.stores}></CarouselSlider>
-              )}
+              {this.state.stores && <CarouselSlider similar={this.state.stores}></CarouselSlider>}
               {this.state.stores.length === 0 && this.user && (
                 <span>
                   <br />

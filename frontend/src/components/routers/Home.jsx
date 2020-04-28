@@ -6,6 +6,7 @@ import Header from "../common/Header";
 import HeaderSearch from "../common/HeaderSearch";
 import About from "../home/About";
 import LikedMap from "../home/LikedMap";
+import Recommend from "../home/Recommend";
 
 class Home extends React.Component {
   constructor(props) {
@@ -26,13 +27,14 @@ class Home extends React.Component {
   render() {
     return (
       <div className="Box">
-        <Header></Header>
-        <HeaderSearch></HeaderSearch>
+        <Header />
+        <HeaderSearch />
         <div className="Home">
-          <About></About>
-          <LikedMap></LikedMap>
+          <About />
+          <Recommend />
+          <LikedMap />
         </div>
-        <AppBar></AppBar>
+        <AppBar />
       </div>
     );
   }
