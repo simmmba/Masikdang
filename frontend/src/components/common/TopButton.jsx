@@ -36,8 +36,7 @@ class TopButton extends React.Component {
 
   render() {
     const scrolltoTop = () => {
-      //alert(window.scrollY); alert(window.pageYOffset);
-      window.scrollTo(0, 0);
+      window.scrollTo({top:0, behavior:'smooth'});
     };
     const { scrollActive } = this.state;
 
