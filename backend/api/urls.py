@@ -28,7 +28,7 @@ urlpatterns = [
     path("store/<int:store_id>", views.StoreDetail.as_view(), name="store"),
 
     # 설문 URL
-    path("survey/search", views.SurveySearch, name="surevey_search"),
+    path("survey/search", views_ky.SurveySearch, name="surevey_search"),
     path("survey/type", views_ky.SurveyType, name="surevey_type"),
 
     # 알고리즘

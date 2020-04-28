@@ -356,48 +356,6 @@ class NickDuplicateCheck(APIView):
             return Response('YES')
 
 
-# 음식 뭐먹을지 서베이 끝났을 때
-@api_view(['GET', 'POST'])
-def SurveySearch(request):
-    print("searchpoll 시작")
-    if request.method == 'POST':
-        print("get 시작")
-        ret = request.POST
-        print(ret)
-        surveyArr = ret['wanswer']
-        print(surveyArr)
-        if(surveyArr[0] == "혼자"):
-            survey01 = Review.objects.filter(
-                Q(content__contains="혼밥") | Q(tag_contains="혼밥")
-                ).only('store').all()
-        elif(surveyArr[0] == "2인"):
-            survey01 = Review.objects.only('store').all()
-        else:
-            survey01 = Review.objects.filter(
-                Q(content__contains="단체") | Q(content__contains="회식") | Q(tag_contains="단체") | Q(tag_contains="회식")
-                ).only('store').all()
-
-        if(surveyArr[1] == "여자"):
-            survey02 = Review.objects.filter(
-                Q(id__in=survey01), Q(tag__contains="여자") | Q(content__contains="여자") | Q(tag__contains="여성") | Q(content__contains="여성")
-                ).only('store').all()
-        else:
-            survey02 = survey01
-
-        if(surveyArr[3] == "간식"):
-            survey03 = Store.objects.filter(
-                id__in=survey02, category__contains="카페").only('store').all()
-        else:
-            survey03 = survey02
-
-        survey05 = Store.objects.filter(
-            address__contains=surveyArr[5], id__in=survey03).only('store').all()
-
-        queryset = Store.objects.filter(id__in=survey05)
-        serializer = StoreSerializer(queryset, many=True)
-        return Response(serializer.data)
-
-
 # Review
 # Review 생성
 class ReviewPost(APIView):
