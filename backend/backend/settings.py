@@ -178,5 +178,5 @@ CORS_ALLOW_HEADERS = (
 MEDIA_URL = '/image/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'image')
 
-MEDIA_HOST = 'http://15.165.19.70:8080/image/'
+MEDIA_HOST = 'https://i02a201.p.ssafy.io:8080/image/'
 # MEDIA_HOST = 'http://localhost:8000/image/'
