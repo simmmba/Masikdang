@@ -114,7 +114,7 @@ def import_data(data_path=DATA_FILE, crawling_path=CRAWLING_FILE):
                     service = r["service"]
                 except:
                     service = None
-                review.append([review_id,  None,  crawling[cur]["id"], r["write_name"], r["date"], r["content"],
+                review.append([review_id,  None,  d["id"], r["write_name"], r["date"], r["content"],
                                None, taste, price, service, r["tag_list"]])
                 for img in r["img_list"]:
                     review_img.append([review_id, img])
