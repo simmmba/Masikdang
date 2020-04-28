@@ -65,7 +65,7 @@ class ImageList extends React.Component {
                 <img
                   alt="food"
                   className="img"
-                  src={this.state.img_list[this.state.index]}
+                  src={String(this.state.img_list[this.state.index]).replace("300_300_","")}
                   onClick={() => {
                     window.open(this.state.img_list[this.state.index]);
                   }}
@@ -92,7 +92,7 @@ class ImageList extends React.Component {
             </div>
           </>
         ) : (
-          "바보"
+          ""
         )}
       </div>
     );

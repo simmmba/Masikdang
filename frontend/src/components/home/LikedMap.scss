@@ -29,12 +29,31 @@
     .more,
     .no_store {
         padding: 5px;
-        background: rgba(175, 175, 175, 0.1);
     }
 
-    .more,
-    .login {
+    .cursor{
+        cursor: pointer;
+    }
+    .backgroud{
+        background: rgba(175, 175, 175, 0.1);
         border-radius: 0 0 10px 10px;
+    }
+
+    .now_pos {
+        margin: 5px;
+        display: inline-block;
+        padding: 2px;
+        padding-left: 10px;
+        padding-right: 10px;
+        background: #f9bbc781;
+        font-family: "BMHANNAPro";
+        font-size: 18px;
+        border-radius: 5px;
+        cursor: pointer;
+
+        &:hover {
+            color: white;
+        }
     }
 
     .more {
@@ -49,8 +68,6 @@
     .CarouselSlider {
         padding: 5px;
         padding-bottom: 0px;
-        background: rgba(175, 175, 175, 0.1);
-        // border-radius: 0 0 10px 10px;
     }
 
     @media screen and (min-width: 768px) {

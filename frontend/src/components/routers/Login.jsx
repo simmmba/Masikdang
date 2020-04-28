@@ -26,7 +26,7 @@ class Login extends React.Component {
     // 만약 로그인을 했으면
     if (window.sessionStorage.getItem("user")) {
       alert("이미 로그인되어있습니다");
-      this.props.history.push("/home");
+      this.props.history.goBack();;
     }
   }
 

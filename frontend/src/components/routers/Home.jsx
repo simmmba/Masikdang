@@ -7,9 +7,16 @@ import HeaderSearch from "../common/HeaderSearch";
 import AboutGo from "../home/AboutGo";
 import LikedMap from "../home/LikedMap";
 import Recommend from "../home/Recommend";
+import TopButton from "../common/TopButton";
+import ScrollToTop from "../common/ScrollToTop";
 
 const Emoji = (props) => (
-  <span className="emoji" role="img" aria-label={props.label ? props.label : ""} aria-hidden={props.label ? "false" : "true"}>
+  <span
+    className="emoji"
+    role="img"
+    aria-label={props.label ? props.label : ""}
+    aria-hidden={props.label ? "false" : "true"}
+  >
     {props.symbol}
   </span>
 );
@@ -35,6 +42,8 @@ class Home extends React.Component {
       <div className="Box">
         <Header />
         <HeaderSearch />
+        <TopButton />
+        <ScrollToTop />
         <div className="Home">
           <AboutGo />
           <Recommend />

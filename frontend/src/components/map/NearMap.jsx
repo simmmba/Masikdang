@@ -20,10 +20,20 @@ class NearMap extends React.Component {
   constructor(props) {
     super(props);
 
+    let pos = window.sessionStorage.getItem("pos");
+
+    var latitude = 37.501503;
+    var longitude = 127.039778;
+
+    if(pos){
+      latitude = pos.split(",")[0];
+      longitude = pos.split(",")[1];
+    }
+
     // 초기 값을 멀티캠퍼스 역삼으로 설정
     this.state = {
-      latitude: 37.501503,
-      longitude: 127.039778,
+      latitude: latitude,
+      longitude: longitude,
       check: false,
       level: 5,
       address: "",
@@ -31,6 +41,8 @@ class NearMap extends React.Component {
       loading: false,
       infowindow: new window.kakao.maps.InfoWindow({ zIndex: 1 }),
     };
+
+
   }
 
   level_km = [0.01, 0.02, 0.05, 0.1, 0.5, 1, 2, 4, 8, 16, 16, 16, 16, 16, 16];
@@ -38,6 +50,10 @@ class NearMap extends React.Component {
   map = "";
 
   componentDidMount() {
+    this.makeMap();
+  }
+
+  onClickPos = () => {
     if (navigator.geolocation) {
       // GPS를 지원하면
       navigator.geolocation.getCurrentPosition(
@@ -47,6 +63,14 @@ class NearMap extends React.Component {
             longitude: position.coords.longitude,
             check: true,
           });
+
+          // 세션 스토리지에 저장하기
+          if (window.sessionStorage.getItem("pos"))
+            window.sessionStorage.removeItem("pos");
+          window.sessionStorage.setItem("pos", [
+            position.coords.latitude,
+            position.coords.longitude,
+          ]);
 
           // 좌표 기반으로 현위치 찍기
           var callback = (result, status) => {
@@ -74,9 +98,19 @@ class NearMap extends React.Component {
     } else {
       alert("GPS를 지원하지 않아 현재위치를 가져올 수 없습니다");
     }
+  };
 
-    this.makeMap();
-  }
+  panTo = () => {
+    // 이동할 위도 경도 위치를 생성합니다
+    var moveLatLon = new window.kakao.maps.LatLng(
+      this.state.latitude,
+      this.state.longitude
+    );
+
+    // 지도 중심을 부드럽게 이동시킵니다
+    // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
+    this.map.panTo(moveLatLon);
+  };
 
   // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
   addMarker = (position, idx) => {
@@ -124,13 +158,10 @@ class NearMap extends React.Component {
     // axios 호출
     axios({
       method: "get",
-      url:
-        "http://15.165.19.70:8080/api/location_based/" +
-        String(this.state.latitude) +
-        "/" +
-        String(this.state.longitude) +
-        "/" +
-        String(this.level_km[this.state.level]),
+      url: `${process.env.REACT_APP_URL}/location_based/
+        ${String(this.state.latitude)}/
+        ${String(this.state.longitude)}/
+        ${String(this.level_km[this.state.level])}`,
     })
       .then((res) => {
         // console.log(res);
@@ -176,7 +207,7 @@ class NearMap extends React.Component {
           const markerclick = (store) => {
             // 가끔 오류 날때가 있어서 이렇게 표시
             // 이건 배포 후 수정 예정
-            console.log(document.getElementById(store.id))
+            console.log(document.getElementById(store.id));
             if (document.getElementById(store.id) !== null) {
               var location = document.getElementById(store.id).offsetTop;
               window.scrollTo({ top: location - 10, behavior: "smooth" });
@@ -189,18 +220,21 @@ class NearMap extends React.Component {
         });
       })
       .catch((error) => {
-        console.log(error);
+        this.setState({
+          loading: false,
+        });
+        alert(
+          "현재 식당정보를 받아오지 못하고 있습니다.\n잠시 뒤 다시 시도해주세요"
+        );
       });
   };
+
 
   makeMap = () => {
     var container = document.getElementById("map");
     var options = {
       //지도를 생성할 때 필요한 기본 옵션
-      center: new window.kakao.maps.LatLng(
-        this.state.latitude,
-        this.state.longitude
-      ), //지도의 중심좌표.
+      center: new window.kakao.maps.LatLng(this.state.latitude, this.state.longitude), //지도의 중심좌표.
       level: this.state.level, //지도의 레벨(확대, 축소 정도)
     };
 
@@ -252,16 +286,14 @@ class NearMap extends React.Component {
     return (
       <div className="NearMap">
         {/* 제일 처음에만 현위치 못받아올때 */}
-        {!this.state.check && this.state.address === "" ? (
-          <div className="address">
-            <Emoji label="map" symbol="⚙" /> 현재 위치를 알 수 없습니다.
-          </div>
-        ) : (
-          <div className="address">
+        <span className="now_pos" onClick={this.onClickPos}>
+          현위치 설정
+        </span>
+        {this.state.address !== "" && (
+          <span className="address">
             <Emoji label="map" symbol="⚙" /> {this.state.address}
-          </div>
+          </span>
         )}
-
         <div className="thumbnailb">
           <div id="square" className="centeredb">
             <div id="map" className="kakaoMapb"></div>
