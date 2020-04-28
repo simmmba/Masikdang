@@ -133,7 +133,7 @@ class NearMap extends React.Component {
         String(this.level_km[this.state.level]),
     })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
 
         for (var i = 0; i < res.data.data.length; i++) {
           // 마커를 생성하고 지도에 표시합니다
@@ -152,7 +152,7 @@ class NearMap extends React.Component {
             });
 
             window.kakao.maps.event.addListener(marker, "click", () => {
-              markerclick(store)
+              markerclick(store);
             });
 
             window.kakao.maps.event.addListener(marker, "mouseout", () => {
@@ -163,7 +163,8 @@ class NearMap extends React.Component {
           // 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수입니다
           // 인포윈도우에 장소명을 표시합니다
           const displayInfowindow = (marker, store) => {
-            var content = '<div className="store_name">'+store.store_name+"</div>";
+            var content =
+              '<div className="info_text">&nbsp;' + store.store_name + "</div>";
             this.state.infowindow.setContent(content);
             this.state.infowindow.open(this.map, marker);
           };
@@ -173,11 +174,14 @@ class NearMap extends React.Component {
           };
 
           const markerclick = (store) => {
-            console.log(store)
-            var location = document.getElementById(store.id).offsetTop;
-            console.log(location)
-            window.scrollTo({top:location, behavior:'smooth'});
-          }
+            // 가끔 오류 날때가 있어서 이렇게 표시
+            // 이건 배포 후 수정 예정
+            console.log(document.getElementById(store.id))
+            if (document.getElementById(store.id) !== null) {
+              var location = document.getElementById(store.id).offsetTop;
+              window.scrollTo({ top: location - 10, behavior: "smooth" });
+            }
+          };
         }
         this.setState({
           stores: res.data.data,

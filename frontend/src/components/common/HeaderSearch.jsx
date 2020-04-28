@@ -103,7 +103,7 @@ class HeaderSearch extends React.Component {
           <div className="container-fluid">
             <div className="row">
               <div className="btn test2 col-1" onClick={this.whatToEat}>
-                <Emoji label="search" symbol="🍔" />
+                <Emoji label="search" symbol="❔" />
               </div>
               <div className="input col-10">
                 <select

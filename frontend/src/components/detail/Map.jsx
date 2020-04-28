@@ -42,9 +42,9 @@ class Map extends React.Component {
   render() {
     return (
       <div className="Map">
-        <div className="thumbnail">
-          <div id="square" className="centered">
-            <div id="map" className="kakaoMap"></div>
+        <div className="thumbnailm">
+          <div id="square" className="centeredm">
+            <div id="map" className="kakaoMapm"></div>
           </div>
         </div>
       </div>
