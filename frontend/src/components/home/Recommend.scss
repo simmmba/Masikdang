@@ -1,0 +1,16 @@
+.Recommend {
+  margin-top: 10px;
+  border: 1px solid black;
+
+  .title {
+    font-size: 20px;
+    font-family: "BMHANNAPro";
+    margin-bottom: 5px;
+  }
+
+  @media screen and (min-width: 768px) {
+    .title {
+      font-size: 25px;
+    }
+  }
+}

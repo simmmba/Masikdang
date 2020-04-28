@@ -9,12 +9,7 @@ import MainEffect from "../common/MainEffect";
 
 const Main = ({ reset }) => {
   const Emoji = (props) => (
-    <span
-      className="emoji"
-      role="img"
-      aria-label={props.label ? props.label : ""}
-      aria-hidden={props.label ? "false" : "true"}
-    >
+    <span className="emoji" role="img" aria-label={props.label ? props.label : ""} aria-hidden={props.label ? "false" : "true"}>
       {props.symbol}
     </span>
   );
@@ -31,13 +26,6 @@ const Main = ({ reset }) => {
             </NavLink>
             <br />
             <br />
-            {/* <div className="pBox">
-              <div className="pColor">
-                <p>내 마식는 스타일이 궁금한가요?</p>
-                <p>오늘 뭘 먹을지 고민되나요?</p>
-                <p>그렇다면, 마식당 서비스를 이용해보세요!</p>
-              </div>
-            </div> */}
             <div className="pBox">
               <MainEffect></MainEffect>
             </div>

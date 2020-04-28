@@ -6,18 +6,13 @@ import Header from "../common/Header";
 import HeaderSearch from "../common/HeaderSearch";
 import AboutGo from "../home/AboutGo";
 import LikedMap from "../home/LikedMap";
+import Recommend from "../home/Recommend";
 
 const Emoji = (props) => (
-  <span
-    className="emoji"
-    role="img"
-    aria-label={props.label ? props.label : ""}
-    aria-hidden={props.label ? "false" : "true"}
-  >
+  <span className="emoji" role="img" aria-label={props.label ? props.label : ""} aria-hidden={props.label ? "false" : "true"}>
     {props.symbol}
   </span>
 );
-
 
 class Home extends React.Component {
   constructor(props) {
@@ -38,16 +33,17 @@ class Home extends React.Component {
   render() {
     return (
       <div className="Box">
-        <Header></Header>
-        <HeaderSearch></HeaderSearch>
+        <Header />
+        <HeaderSearch />
         <div className="Home">
-          <AboutGo></AboutGo>
+          <AboutGo />
+          <Recommend />
           <div className="likedmap_title">
-          <Emoji id="liked" label="luv" symbol="❤️" /> 주변 즐겨찾기한 맛집
-        </div>
+            <Emoji id="liked" label="luv" symbol="❤️" /> 주변 즐겨찾기한 맛집
+          </div>
           <LikedMap></LikedMap>
         </div>
-        <AppBar></AppBar>
+        <AppBar />
       </div>
     );
   }
