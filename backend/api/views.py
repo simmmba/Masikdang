@@ -219,6 +219,17 @@ class StoreSearch(APIView):
         serializer = StoreSerializer(pagestore, many=True)
 
         result = serializer.data
+
+        # 평균
+        for r in result :
+            store_id = r['id']
+            average = Review.objects.filter(store_id=store_id).aggregate(
+            Avg('total_score'))['total_score__avg']
+            if average is None :
+                average = 0
+            r['avg_score'] = average
+
+        # 좋아요 여부
         user_id = request.GET.get('user_id')
         like = 0
         if user_id is not "":
