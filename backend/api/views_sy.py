@@ -14,8 +14,9 @@ import numpy as np
 import warnings
 
 def filter_by_user(dataframes, surveyRes, userIID):
-     # 원본 데이터
+    # 원본 데이터
     origin_store = dataframes["stores"]
+    origin_store = origin_store[~origin_store["category_list"].str.contains("카페")]
     origin_review = dataframes["reviews"]
     origin_user = dataframes["users"]
     
@@ -49,7 +50,7 @@ def filter_by_user(dataframes, surveyRes, userIID):
         filter_reviews = origin_review['user_id'].value_counts() >= 100
         print("user가 너무 많을 경우 제한 건다")
     else:
-        filter_reviews = origin_review['user_id'].value_counts() >= 100
+        filter_reviews = origin_review['user_id'].value_counts() >= 10
         print("적절한 user 수가 있습니다.")
     
     filter_reviews = filter_reviews[filter_reviews].index.tolist()
@@ -128,6 +129,7 @@ def filter_by_user(dataframes, surveyRes, userIID):
 def filter_by_type(dataframes, surveyRes):
     # 원본 데이터
     origin_store = dataframes["stores"]
+    origin_store = origin_store[~origin_store["category_list"].str.contains("카페")]
     origin_review = dataframes["reviews"]
     origin_user = dataframes["users"]
     
@@ -161,7 +163,7 @@ def filter_by_type(dataframes, surveyRes):
         filter_reviews = origin_review['user_id'].value_counts() >= 100
         print("user가 너무 많을 경우 제한 건다")
     else:
-        filter_reviews = origin_review['user_id'].value_counts() >= 50
+        filter_reviews = origin_review['user_id'].value_counts() >= 10
         print("적절한 user 수가 있습니다.")
     
     filter_reviews = filter_reviews[filter_reviews].index.tolist()
