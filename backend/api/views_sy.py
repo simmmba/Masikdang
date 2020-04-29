@@ -49,7 +49,7 @@ def filter_by_user(dataframes, surveyRes, userIID):
         filter_reviews = origin_review['user_id'].value_counts() >= 20
         print("user가 너무 많을 경우 제한 건다")
     else:
-        filter_reviews = origin_review['user_id'].value_counts() >= 1
+        filter_reviews = origin_review['user_id'].value_counts() >= 10
         print("적절한 user 수가 있습니다.")
     
     filter_reviews = filter_reviews[filter_reviews].index.tolist()
@@ -61,9 +61,13 @@ def filter_by_user(dataframes, surveyRes, userIID):
     stores_reviews = pd.merge(origin_store, new_reviews, on='store_id')
     # 리뷰 아이디는 필요 없으니 버리기
     stores_reviews.drop('review_id', axis=1, inplace=True)
+    stores_reviews.drop('store_img', axis=1, inplace=True)
+    stores_reviews.drop('store_area', axis=1, inplace=True)
+    stores_reviews.drop('category_list', axis=1, inplace=True)
+    stores_reviews.drop('survey_result', axis=1, inplace=True)
     print("스토어 리뷰 하나의 데이터로 생성 stores_reviews")
     print(stores_reviews)
-    userID = stores_reviews.iloc[0,4]
+    userID = stores_reviews.iloc[0,2]
     print(userID)
     # 피봇 테이블 생성 (values, index, column) 순서
     user_sotre_score = stores_reviews.pivot_table(
@@ -157,7 +161,7 @@ def filter_by_type(dataframes, surveyRes):
         filter_reviews = origin_review['user_id'].value_counts() >= 20
         print("user가 너무 많을 경우 제한 건다")
     else:
-        filter_reviews = origin_review['user_id'].value_counts() >= 1
+        filter_reviews = origin_review['user_id'].value_counts() >= 10
         print("적절한 user 수가 있습니다.")
     
     filter_reviews = filter_reviews[filter_reviews].index.tolist()
@@ -169,9 +173,13 @@ def filter_by_type(dataframes, surveyRes):
     stores_reviews = pd.merge(origin_store, new_reviews, on='store_id')
     # 리뷰 아이디는 필요 없으니 버리기
     stores_reviews.drop('review_id', axis=1, inplace=True)
+    stores_reviews.drop('store_img', axis=1, inplace=True)
+    stores_reviews.drop('store_area', axis=1, inplace=True)
+    stores_reviews.drop('category_list', axis=1, inplace=True)
+    stores_reviews.drop('survey_result', axis=1, inplace=True)
     print("스토어 리뷰 하나의 데이터로 생성 stores_reviews")
     print(stores_reviews)
-    userID = stores_reviews.iloc[1,4]
+    userID = stores_reviews.iloc[1,2]
     print(userID)
     # 피봇 테이블 생성 (values, index, column) 순서
     user_sotre_score = stores_reviews.pivot_table(
@@ -232,7 +240,7 @@ def similar_store(dataframes, storeID):
     print(origin_review)
     # 리뷰 1개 이상 달린 상점만 가져오기
     st_rv = pd.merge(origin_store, origin_review, on="store_id").groupby(["store_id"]).size()
-    st_rv = st_rv.index[st_rv>=2]
+    st_rv = st_rv.index[st_rv>=5]
     new_store = origin_store[origin_store['store_id'].isin(st_rv)]
     print(new_store)
 
@@ -240,7 +248,7 @@ def similar_store(dataframes, storeID):
     reviews = origin_review[origin_review['score'] >= 1]
     print(reviews)
     # 100개 이상의 리뷰를 남긴 유저의 데이터만 가져오기
-    filter_reviews = origin_review['user_id'].value_counts() >= 8
+    filter_reviews = origin_review['user_id'].value_counts() >= 100
     filter_reviews = filter_reviews[filter_reviews].index.tolist()
     new_reviews = reviews[reviews['user_id'].isin(filter_reviews)]
     print("가공 된 리뷰 데이터")
@@ -268,7 +276,10 @@ def similar_store(dataframes, storeID):
 def content_store(dataframes, storeID):
     stores = dataframes["stores"]
     reviews = dataframes["reviews"]
-    # reviews = reviews[reviews["score"]>=1]
+    stores = stores[stores["category_list"]!=""]
+    print(stores)
+    reviews = reviews[reviews["score"]>=5]
+    print(reviews)
     stores_reviews = pd.merge(stores, reviews, on="store_id")
     stores_reviews = stores_reviews.groupby(["store_id"]).mean()
     stores_reviews.drop('review_id', axis=1, inplace=True)
@@ -301,7 +312,7 @@ def contentStore(request):
     if request.method == 'GET':
         store = request.query_params.get("store", "")
         print(store)
-        data = load_store_dataframes()
+        data = load_dataframes()
         print("데이터 전 처리/ 분석 시작")
         result = content_store(data, store)
         print("데이터 분석 완료")

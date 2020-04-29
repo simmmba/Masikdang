@@ -5,8 +5,7 @@ import shutil
 from datetime import datetime
 
 DATA_DIR = "../data"
-DATA_FILE = os.path.join(DATA_DIR, "data.json")
-STORE_FILE = os.path.join(DATA_DIR, "data_save.json")
+STORE_FILE = os.path.join(DATA_DIR, "store.json")
 REVIEW_FILE = os.path.join(DATA_DIR, "review.json")
 USER_FILE = os.path.join(DATA_DIR, "user.json")
 DUMP_FILE = os.path.join(DATA_DIR, "dump.pkl")
@@ -16,7 +15,8 @@ store_columns = (
     "store_id",  # 음식점 고유번호
     "store_name",  # 음식점 이름
     "store_img",
-    "store_area"
+    "store_area",
+    "category_list"
 )
 
 review_columns = (
@@ -45,13 +45,20 @@ def import_data():
     stores = []
 
     for d in data:
-
+        if(d["category"] != None):
+            # print(d["category_list"])
+            categories = d["category"].split("|")
+            # print(categories)
+        else:
+            categories = ""
+        
         stores.append(
             [
                 d["id"],
                 d["store_name"],
-                d["store_img"],
-                d["area"]
+                d["img"],
+                d["area"],
+                " ".join(categories)
             ]
         )
 
@@ -124,17 +131,17 @@ def main():
 
     print("[음식점]")
     print(f"{separater}\n")
-    print(data["stores"].head())
+    print(data["stores"])
     print(f"\n{separater}\n\n")
 
     print("[리뷰]")
     print(f"{separater}\n")
-    print(data["reviews"].head())
+    print(data["reviews"])
     print(f"\n{separater}\n\n")
 
     print("[유저]")
     print(f"{separater}\n")
-    print(data["users"].head())
+    print(data["users"])
     print(f"\n{separater}\n\n")
 
 if __name__ == "__main__":
