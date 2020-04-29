@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import { NavLink } from "react-router-dom";
 import store_img from "../../img/store.png";
+import Loading from "../map/Loading";
 import "./Recommend.scss";
 import CarouselSlider from "../common/CarouselSlider";
 
@@ -11,6 +12,7 @@ class Recommend extends React.Component {
     this.state = {
       info: [],
       login: false,
+      loading: false,
     };
   }
 
@@ -19,7 +21,7 @@ class Recommend extends React.Component {
     let type = "";
 
     if (window.sessionStorage.getItem("user")) {
-      this.setState({ login: true });
+      this.setState({ login: true, loading: true });
       user = JSON.parse(window.sessionStorage.getItem("user"));
       let typeArr = user.survey_result.split(" ");
       if (typeArr[typeArr.length - 1] === "터키") {
@@ -48,7 +50,7 @@ class Recommend extends React.Component {
             storeInfo[i] = store;
           }
 
-          this.setState({ info: storeInfo });
+          this.setState({ info: storeInfo, loading: false });
         })
         .catch((error) => {
           console.log(error);
@@ -59,8 +61,12 @@ class Recommend extends React.Component {
   render() {
     return (
       <div className="Recommend">
-        {this.state.login && this.state.info.length > 0 ? (
-          <CarouselSlider similar={this.state.info}></CarouselSlider>
+        {this.state.login ? (
+          this.state.loading ? (
+            <Loading></Loading>
+          ) : (
+            <CarouselSlider similar={this.state.info}></CarouselSlider>
+          )
         ) : (
           !this.state.login && (
             <div className="needLogin">

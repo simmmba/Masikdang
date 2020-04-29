@@ -14,8 +14,8 @@
   }
 
   @media screen and (min-width: 768px) {
-    margin-left: 35%;
-    margin-right: 35%;
+    margin-left: 30%;
+    margin-right: 30%;
   }
 
   .top {
@@ -161,8 +161,8 @@
   }
 
   @media screen and (min-width: 768px) {
-    margin-left: 35%;
-    margin-right: 35%;
+    margin-left: 30%;
+    margin-right: 30%;
   }
 
   .top {
@@ -349,6 +349,10 @@
     flex-wrap: wrap;
 
     @media screen and (min-width: 768px) {
+      width: 100%;
+    }
+
+    .Loadings {
       width: 100%;
     }
 

@@ -11,12 +11,7 @@ import TopButton from "../common/TopButton";
 import ScrollToTop from "../common/ScrollToTop";
 
 const Emoji = (props) => (
-  <span
-    className="emoji"
-    role="img"
-    aria-label={props.label ? props.label : ""}
-    aria-hidden={props.label ? "false" : "true"}
-  >
+  <span className="emoji" role="img" aria-label={props.label ? props.label : ""} aria-hidden={props.label ? "false" : "true"}>
     {props.symbol}
   </span>
 );
@@ -47,7 +42,7 @@ class Home extends React.Component {
         <div className="Home">
           <AboutGo />
           <div className="title">
-            <Emoji id="liked" label="chicken" symbol="🍗" /> 내 타입이 비슷하게 평가한 맛집
+            <Emoji id="liked" label="chicken" symbol="🍗" /> 추천 맛집
           </div>
           <Recommend />
           <div className="title">

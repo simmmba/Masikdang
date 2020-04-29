@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import { NavLink } from "react-router-dom";
 import { SearchContext } from "../../contexts/search";
+import Loading from "../map/Loading";
 import "./WhatToEat.scss";
 
 const Emoji = (props) => (
@@ -15,11 +16,13 @@ class WhatToEatResult extends React.Component {
 
   constructor(props) {
     super(props);
+
     this.state = {
       login: false,
       select: this.props.location.state,
       menu: [],
       location: "",
+      loading: false,
     };
   }
 
@@ -27,7 +30,7 @@ class WhatToEatResult extends React.Component {
     console.log(this.state.select);
     let result = this.state.select.join("");
     let word = result.slice(-4);
-    this.setState({ location: this.state.select[1] });
+    this.setState({ location: this.state.select[1], loading: true });
 
     axios({
       method: "get",
@@ -37,7 +40,7 @@ class WhatToEatResult extends React.Component {
       },
     })
       .then((res) => {
-        this.setState({ menu: res.data });
+        this.setState({ menu: res.data, loading: false });
         // console.log(this.state.menu);
       })
       .catch((error) => {
@@ -67,11 +70,17 @@ class WhatToEatResult extends React.Component {
         <div className="mentionBox">
           <div className="mentionTop">오늘의 추천 메뉴는 </div>
           <div className="select">
-            {this.state.menu.map((m, idx) => (
-              <div className="menu" key={idx} id={m} onClick={this.search}>
-                {m}
-              </div>
-            ))}
+            {this.state.loading ? (
+              <Loading></Loading>
+            ) : (
+              <>
+                {this.state.menu.map((m, idx) => (
+                  <div className="menu" key={idx} id={m} onClick={this.search}>
+                    {m}
+                  </div>
+                ))}
+              </>
+            )}
           </div>
           <div className="mentionBottom">입니다.</div>
         </div>

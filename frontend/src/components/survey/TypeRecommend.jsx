@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import store_img from "../../img/store.png";
+import Loading from "../map/Loading";
 import "./Survey.scss";
 
 const TypeRecommend = (props) => {
@@ -12,8 +13,11 @@ const TypeRecommend = (props) => {
   );
 
   const [info, setInfo] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
+
     axios({
       method: "get",
       url: `${process.env.REACT_APP_URL}/filter/type`,
@@ -36,6 +40,7 @@ const TypeRecommend = (props) => {
         }
 
         setInfo(storeInfo);
+        setLoading(false);
       })
       .catch((error) => {
         console.log(error);
@@ -49,28 +54,32 @@ const TypeRecommend = (props) => {
 
   return (
     <>
-      {info.length > 0 && (
-        <div className="typeTitle">
-          <Emoji label="food" symbol="🍛" /> 내 타입이 좋아하는 마식당
-        </div>
-      )}
+      <div className="typeTitle">
+        <Emoji label="food" symbol="🍛" /> 내 타입이 좋아하는 마식당
+      </div>
       <div className="typeBox">
-        {info.length > 0 &&
-          info.map((store, idx) => (
-            <div
-              className="type col-6 col-md-4"
-              onClick={function () {
-                go(store.store_id);
-              }}
-              key={idx}
-            >
-              <div className="typeImgBox">
-                <img className="typeImg" src={store.store_img} alt="store" />
-              </div>
-              <div className="storeName">{store.store_name}</div>
-              {console.log(store.store_id)}
-            </div>
-          ))}
+        {loading ? (
+          <Loading></Loading>
+        ) : (
+          <>
+            {info.length > 0 &&
+              info.map((store, idx) => (
+                <div
+                  className="type col-6 col-md-4"
+                  onClick={function () {
+                    go(store.store_id);
+                  }}
+                  key={idx}
+                >
+                  <div className="typeImgBox">
+                    <img className="typeImg" src={store.store_img} alt="store" />
+                  </div>
+                  <div className="storeName">{store.store_name}</div>
+                  {console.log(store.store_id)}
+                </div>
+              ))}
+          </>
+        )}
       </div>
     </>
   );
