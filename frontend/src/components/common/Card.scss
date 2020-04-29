@@ -95,6 +95,10 @@
             text-overflow: ellipsis;
         }
 
+        .category_bottom{
+            margin-bottom: 0px;
+        }
+
         .evaluation {
             z-index: 100;
             width: 100%;
@@ -111,6 +115,7 @@
         .category {
             margin-top: 3px;
             margin-bottom: 10px;
+            font-size: 17.2px;
         }
     }
 

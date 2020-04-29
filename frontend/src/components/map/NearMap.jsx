@@ -25,7 +25,7 @@ class NearMap extends React.Component {
     var latitude = 37.501503;
     var longitude = 127.039778;
 
-    if(pos){
+    if (pos) {
       latitude = pos.split(",")[0];
       longitude = pos.split(",")[1];
     }
@@ -41,8 +41,6 @@ class NearMap extends React.Component {
       loading: false,
       infowindow: new window.kakao.maps.InfoWindow({ zIndex: 1 }),
     };
-
-
   }
 
   level_km = [0.01, 0.02, 0.05, 0.1, 0.5, 1, 2, 4, 8, 16, 16, 16, 16, 16, 16];
@@ -150,6 +148,30 @@ class NearMap extends React.Component {
   axiosStores = () => {
     // 기존마커 지우기
     this.removeMarker();
+
+    // 현위치 표시
+    var imageSrc = "https://image.flaticon.com/icons/svg/854/854866.svg", // 마커이미지의 주소입니다
+      imageSize = new window.daum.maps.Size(44, 49), // 마커이미지의 크기입니다
+      imageOption = { offset: new window.daum.maps.Point(27, 45) }; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+
+    // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+    var markerImage = new window.daum.maps.MarkerImage(
+        imageSrc,
+        imageSize,
+        imageOption
+      ),
+      markerPosition = new window.daum.maps.LatLng(
+        this.state.latitude,
+        this.state.longitude
+      ); // 마커가 표시될 위치입니다
+
+    var marker = new window.daum.maps.Marker({
+      position: markerPosition,
+      image: markerImage,
+    });
+    marker.setMap(this.map);
+    this.markers.push(marker);
+
     //Loading 표시
     this.setState({
       loading: true,
@@ -205,8 +227,7 @@ class NearMap extends React.Component {
           };
 
           const markerclick = (store) => {
-            // 가끔 오류 날때가 있어서 이렇게 표시
-            // 이건 배포 후 수정 예정
+            // 현위치 버튼을 누를 수 있어서 해둠
             console.log(document.getElementById(store.id));
             if (document.getElementById(store.id) !== null) {
               var location = document.getElementById(store.id).offsetTop;
@@ -229,12 +250,14 @@ class NearMap extends React.Component {
       });
   };
 
-
   makeMap = () => {
     var container = document.getElementById("map");
     var options = {
       //지도를 생성할 때 필요한 기본 옵션
-      center: new window.kakao.maps.LatLng(this.state.latitude, this.state.longitude), //지도의 중심좌표.
+      center: new window.kakao.maps.LatLng(
+        this.state.latitude,
+        this.state.longitude
+      ), //지도의 중심좌표.
       level: this.state.level, //지도의 레벨(확대, 축소 정도)
     };
 
