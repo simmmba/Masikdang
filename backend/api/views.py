@@ -225,6 +225,8 @@ class StoreSearch(APIView):
             store_id = r['id']
             average = Review.objects.filter(store_id=store_id).aggregate(
             Avg('total_score'))['total_score__avg']
+            if average is None :
+                average = 0
             r['avg_score'] = average
 
         # 좋아요 여부
