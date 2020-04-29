@@ -49,8 +49,7 @@ def import_data(data_path=DATA_FILE):
     """
 
     try:
-        with open(data_path, encoding="utf-8") as f:
-            data = json.loads(f.read())
+        
     except FileNotFoundError as e:
         print(f"`{data_path}` 가 존재하지 않습니다.")
         exit(1)
