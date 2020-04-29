@@ -53,7 +53,7 @@ class MypageDetail extends React.Component {
         data: path,
       })
         .then((res) => {
-          console.log(res.data);
+          //console.log(res.data);
           this.user.img = res.data.img;
           window.sessionStorage.removeItem("user");
           window.sessionStorage.setItem("user", JSON.stringify(this.user));

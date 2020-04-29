@@ -26,7 +26,7 @@ class Login extends React.Component {
     // 만약 로그인을 했으면
     if (window.sessionStorage.getItem("user")) {
       alert("이미 로그인되어있습니다");
-      this.props.history.goBack();;
+      this.props.history.goBack();
     }
   }
 
@@ -49,13 +49,13 @@ class Login extends React.Component {
           })
             // 로그인 성공하면 메인으로 보내기
             .then((res) => {
-              console.log(res.data);
+              //console.log(res.data);
               this.context.actions.reset();
               window.sessionStorage.setItem("user", JSON.stringify(res.data));
               history.push("/home");
             })
             .catch((error) => {
-              console.log(error);
+              //console.log(error);
             });
         }
         // 회원가입이 안되있으면
@@ -65,13 +65,13 @@ class Login extends React.Component {
         }
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
       });
   };
 
   // Google Login
   responseGoogle = (res) => {
-    // console.log(res);
+    // //console.log(res);
     this.setState({
       id: res.googleId,
       provider: "google",
@@ -87,7 +87,7 @@ class Login extends React.Component {
 
   // Kakao Login
   responseKakao = (res) => {
-    console.log(res);
+    //console.log(res);
     this.setState({
       id: res.profile.id,
       provider: "kakao",

@@ -14,7 +14,7 @@ const WhatToEat = ({ wreset, windex, wquestion, woptions, wanswer, wincrement, w
 
   const answering = (option) => {
     wanswer.length === windex ? wadd(option) : wedit(option); // 첫 응답 : 응답 수정
-    // console.log(wanswer);
+    // //console.log(wanswer);
     wincrement();
   };
 
@@ -27,8 +27,8 @@ const WhatToEat = ({ wreset, windex, wquestion, woptions, wanswer, wincrement, w
       document.getElementById("loc").value = "";
     } else {
       wanswer.length === windex ? wadd(loc) : wedit(loc); // 첫 응답 : 응답 수정
-      // console.log(wanswer);
-      // console.log(loc);
+      // //console.log(wanswer);
+      // //console.log(loc);
       wincrement();
     }
   };

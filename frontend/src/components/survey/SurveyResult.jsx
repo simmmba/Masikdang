@@ -32,7 +32,7 @@ const SurveyResult = ({ reset, answer, surveyResult, meaning }) => {
         setType(res.data[2]);
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
       });
 
     if (window.sessionStorage.getItem("user")) {

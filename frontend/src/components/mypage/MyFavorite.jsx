@@ -15,14 +15,14 @@ const MyFavorite = ({ favorite, favoriteCnt }) => {
 
   useEffect(() => {
     let user = JSON.parse(window.sessionStorage.getItem("user"));
-    // console.log(user.id);
+    // //console.log(user.id);
 
     axios({
       method: "get",
       url: `${process.env.REACT_APP_URL}/user/like_list/${user.id}`,
     })
       .then((res) => {
-        console.log(res.data);
+        //console.log(res.data);
         favoriteCnt(res.data.length);
 
         var size = res.data.length > 5 ? 5 : res.data.length;
@@ -41,7 +41,7 @@ const MyFavorite = ({ favorite, favoriteCnt }) => {
         setFavorites(arr);
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
       });
   }, [favoriteCnt]);
 

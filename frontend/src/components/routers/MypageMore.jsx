@@ -30,11 +30,11 @@ const MypageMore = (props) => {
           url: `${process.env.REACT_APP_URL}/user/like_list/${user.id}`,
         })
           .then((res) => {
-            console.log(res.data);
+            //console.log(res.data);
             setList(res.data);
           })
           .catch((error) => {
-            console.log(error);
+            //console.log(error);
           });
       }
 
@@ -45,11 +45,11 @@ const MypageMore = (props) => {
           url: `${process.env.REACT_APP_URL}/review/user/${user.id}`,
         })
           .then((res) => {
-            console.log(res.data);
+            //console.log(res.data);
             setList(res.data);
           })
           .catch((error) => {
-            console.log(error);
+            //console.log(error);
           });
       }
     } else {

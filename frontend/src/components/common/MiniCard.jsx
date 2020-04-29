@@ -16,7 +16,7 @@ class MiniCard extends React.Component {
   }
 
   clickItem = () => {
-    console.log(this.props.store.id);
+    //console.log(this.props.store.id);
     const { history } = this.props;
     history.push("/search/" + this.props.store.id);
     window.location.reload();
@@ -28,17 +28,7 @@ class MiniCard extends React.Component {
       <div className="MiniCard" onClick={this.clickItem}>
         <div id="square" className="bounceIn flipInY animated">
           <div className="thumbnail">
-            <div className="centered">
-              {this.props.store.img ? (
-                <img
-                  alt="food"
-                  className="img"
-                  src={this.props.store.img}
-                />
-              ) : (
-                <img alt="food" className="img" src={store_img} />
-              )}
-            </div>
+            <div className="centered">{this.props.store.img ? <img alt="food" className="img" src={this.props.store.img} /> : <img alt="food" className="img" src={store_img} />}</div>
           </div>
         </div>
         {/* 가게 설명 */}

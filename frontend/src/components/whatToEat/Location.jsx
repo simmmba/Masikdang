@@ -10,7 +10,7 @@ const Location = ({ wreset, windex, wquestion, woptions, wanswer, wincrement, wa
   const answering = (locate) => {
     wanswer.length === windex ? wadd(locate) : wedit(locate); // 첫 응답 : 응답 수정
     wincrement();
-    // console.log(wanswer);
+    // //console.log(wanswer);
   };
 
   function getLocation() {
@@ -27,7 +27,7 @@ const Location = ({ wreset, windex, wquestion, woptions, wanswer, wincrement, wa
           var callback = function (result, status) {
             if (status === window.daum.maps.services.Status.OK) {
               setLocate(result[0].region_2depth_name + " " + result[0].region_3depth_name); // 좌표를 지역이름으로 변경
-              console.log(result);
+              //console.log(result);
             }
           };
           geocoder.coord2RegionCode(position.coords.longitude, position.coords.latitude, callback); // 현재위치 좌표 가져오기
@@ -65,7 +65,7 @@ const Location = ({ wreset, windex, wquestion, woptions, wanswer, wincrement, wa
           </button>
         </>
       )}
-      {/* {console.log(lon + " / " + lat)} */}
+      {/* {//console.log(lon + " / " + lat)} */}
     </div>
   );
 };

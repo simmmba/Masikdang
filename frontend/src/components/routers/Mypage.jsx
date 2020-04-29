@@ -30,7 +30,7 @@ class Mypage extends React.Component {
   componentDidMount() {
     if (window.sessionStorage.getItem("user")) {
       let user = JSON.parse(window.sessionStorage.getItem("user"));
-      console.log(user);
+      //console.log(user);
 
       this.setState({
         login: true,

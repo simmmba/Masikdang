@@ -41,7 +41,7 @@ class SignupDetail extends React.Component {
         survey_result: location.state.survey_result,
       });
     }
-    console.log(location.state.survey_result)
+    //console.log(location.state.survey_result)
   }
 
   handleChange = (event) => {
@@ -97,7 +97,7 @@ class SignupDetail extends React.Component {
         }
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
       });
   };
 
@@ -125,17 +125,17 @@ class SignupDetail extends React.Component {
           age: this.state.age,
           gender: this.state.gender,
           api_id: this.state.api_id,
-          survey_array : this.state.answer.join(''),
-          survey_result : this.state.survey_result
+          survey_array: this.state.answer.join(""),
+          survey_result: this.state.survey_result,
         },
       })
         .then((res) => {
-          console.log(res);
+          //console.log(res);
           alert("회원가입이 완료되었습니다");
           history.push("/login");
         })
         .catch((error) => {
-          console.log(error);
+          //console.log(error);
         });
     }
   };

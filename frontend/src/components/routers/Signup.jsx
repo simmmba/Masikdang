@@ -45,7 +45,7 @@ class Signup extends React.Component {
     })
       // 회원 가입 안되있는 거면
       .then((res) => {
-        console.log(res);
+        //console.log(res);
         // 회원가입이 되어 있으면
         if (res.data === "YES") alert("이미 가입된 유저입니다");
         // 회원가입이 안되있으면
@@ -85,7 +85,7 @@ class Signup extends React.Component {
 
   // Kakao Login
   responseKakao = (res) => {
-    console.log(res);
+    //console.log(res);
     this.setState({
       id: res.profile.id,
       name: res.profile.properties.nickname,

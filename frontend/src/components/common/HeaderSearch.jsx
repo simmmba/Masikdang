@@ -45,7 +45,7 @@ class HeaderSearch extends React.Component {
   // input 작성
   changeInput = (res) => {
     var input = res.target.value.substring(res.target.value.length - 1, res.target.value.length);
-    console.log(input);
+    //console.log(input);
     if (input === "?" || input === "/") {
       alert("?, / 는 입력할 수 없습니다.");
     } else {

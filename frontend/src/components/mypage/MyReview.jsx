@@ -15,7 +15,7 @@ const MyReview = ({ review, reviewCnt }) => {
 
   useEffect(() => {
     let user = JSON.parse(window.sessionStorage.getItem("user"));
-    // console.log(user.id);
+    // //console.log(user.id);
     // 297에 리뷰 많음
 
     axios({
@@ -23,12 +23,12 @@ const MyReview = ({ review, reviewCnt }) => {
       url: `${process.env.REACT_APP_URL}/review/user/${user.id}`,
     })
       .then((res) => {
-        // console.log(res.data);
+        // //console.log(res.data);
         reviewCnt(res.data.length);
         res.data.length > 5 ? setReviews(res.data.slice(0, 5)) : setReviews(res.data);
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
       });
   }, [reviewCnt]);
 
@@ -37,7 +37,7 @@ const MyReview = ({ review, reviewCnt }) => {
       <div className="reviewTitle">
         <Emoji label="star" symbol="📝" /> 최근 작성 리뷰
       </div>
-      {/* {console.log(reviews)} */}
+      {/* {//console.log(reviews)} */}
       {review > 0 ? (
         <div className="contentBox">
           {reviews.map((r) => (

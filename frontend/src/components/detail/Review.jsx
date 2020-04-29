@@ -22,7 +22,7 @@ class Review extends React.Component {
           }
         })
         .catch((error) => {
-          console.log(error);
+          //console.log(error);
         });
     }
   };
@@ -92,9 +92,7 @@ class Review extends React.Component {
             <div className="edit_button" onClick={this.edit}>
               수정
             </div>
-            {review.reg_time && (
-              <div className="date">{review.reg_time.split("T")[0]}</div>
-            )}
+            {review.reg_time && <div className="date">{review.reg_time.split("T")[0]}</div>}
           </>
         ) : (
           <>

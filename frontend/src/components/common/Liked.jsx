@@ -63,7 +63,7 @@ class Liked extends React.Component {
             });
           })
           .catch((error) => {
-            console.log(error);
+            //console.log(error);
             if (check === 1) alert("즐겨찾기 등록에 실패했습니다.");
             else alert("즐겨찾기 취소에 실패했습니다.");
           });

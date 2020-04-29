@@ -27,7 +27,7 @@ class WhatToEatResult extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.state.select);
+    //console.log(this.state.select);
     let result = this.state.select.join("");
     let word = result.slice(-4);
     this.setState({ location: this.state.select[1], loading: true });
@@ -41,10 +41,10 @@ class WhatToEatResult extends React.Component {
     })
       .then((res) => {
         this.setState({ menu: res.data, loading: false });
-        // console.log(this.state.menu);
+        // //console.log(this.state.menu);
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
       });
 
     if (window.sessionStorage.getItem("user")) {
@@ -53,10 +53,10 @@ class WhatToEatResult extends React.Component {
   }
 
   search = (val) => {
-    // console.log(val.target.id);
+    // //console.log(val.target.id);
     const { history } = this.props;
     let search = this.state.location + " " + val.target.id;
-    // console.log(search);
+    // //console.log(search);
     this.context.actions.resetstore();
     this.context.actions.changesubject("total");
     this.context.actions.changeword(search);

@@ -11,12 +11,7 @@ import Rating from "@material-ui/lab/Rating";
 import Box from "@material-ui/core/Box";
 
 const Emoji = (props) => (
-  <span
-    className="emoji"
-    role="img"
-    aria-label={props.label ? props.label : ""}
-    aria-hidden={props.label ? "false" : "true"}
-  >
+  <span className="emoji" role="img" aria-label={props.label ? props.label : ""} aria-hidden={props.label ? "false" : "true"}>
     {props.symbol}
   </span>
 );
@@ -115,8 +110,7 @@ class Write extends React.Component {
         });
 
         //이미지 변경 함수 호출
-        for (var j = this.state.images.length; j < image.length; j++)
-          this.ChangeImage(image[j]);
+        for (var j = this.state.images.length; j < image.length; j++) this.ChangeImage(image[j]);
       }
     }
   };
@@ -141,16 +135,10 @@ class Write extends React.Component {
   //이미지 삭제하기
   RemoveImg = (e) => {
     let forward = this.state.images.slice(0, e.target.id);
-    let back = this.state.images.slice(
-      Number(e.target.id) + 1,
-      this.state.base64.length
-    );
+    let back = this.state.images.slice(Number(e.target.id) + 1, this.state.base64.length);
 
     let forward64 = this.state.base64.slice(0, e.target.id);
-    let back64 = this.state.base64.slice(
-      Number(e.target.id) + 1,
-      this.state.base64.length
-    );
+    let back64 = this.state.base64.slice(Number(e.target.id) + 1, this.state.base64.length);
 
     this.setState({
       images: forward.concat(back),
@@ -160,11 +148,7 @@ class Write extends React.Component {
 
   // 리뷰 취소 버튼
   confirm = () => {
-    if (
-      window.confirm(
-        "리뷰 작성을 취소하시겠습니까?\n입력한 내용은 모두 사라집니다."
-      )
-    ) {
+    if (window.confirm("리뷰 작성을 취소하시겠습니까?\n입력한 내용은 모두 사라집니다.")) {
       this.props.history.goBack();
     }
   };
@@ -192,7 +176,7 @@ class Write extends React.Component {
         },
       })
         .then((res) => {
-          if ((this.state.images.length !== 0)) {
+          if (this.state.images.length !== 0) {
             let path = new FormData();
             for (let i = 0; i < this.state.images.length; i++) {
               path.append("path", this.state.images[i]);
@@ -208,16 +192,16 @@ class Write extends React.Component {
                 alert("리뷰 작성에 성공했습니다");
               })
               .catch((error) => {
-                console.log(error);
+                //console.log(error);
                 alert("리뷰 작성에 실패했습니다");
                 this.props.history.push("/search/" + this.state.store);
               });
-          }else{
+          } else {
             this.props.history.push("/search/" + this.state.store);
           }
         })
         .catch((error) => {
-          console.log(error);
+          //console.log(error);
           alert("리뷰 작성에 실패했습니다");
         });
     }
@@ -245,12 +229,7 @@ class Write extends React.Component {
               <div className="topic">전체 평점</div>
               <div className="total_score_select">
                 <Box mb={3} borderColor="transparent">
-                  <Rating
-                    precision={1}
-                    value={this.state.total_score}
-                    name="total_score"
-                    onChange={this.chageValues}
-                  />
+                  <Rating precision={1} value={this.state.total_score} name="total_score" onChange={this.chageValues} />
                 </Box>
               </div>
             </div>
@@ -265,19 +244,12 @@ class Write extends React.Component {
                   <div className="col-4">
                     <div className="detail_score_select">
                       <Box mb={3} borderColor="transparent">
-                        <Rating
-                          name={score[0]}
-                          precision={1}
-                          value={this.state[score[0]]}
-                          onChange={this.chageValues}
-                        />
+                        <Rating name={score[0]} precision={1} value={this.state[score[0]]} onChange={this.chageValues} />
                       </Box>
                     </div>
                   </div>
                   <div className="col-1"></div>
-                  <div className="col-3 right">
-                    {this.select_text[index][this.state[score[0]]]}
-                  </div>
+                  <div className="col-3 right">{this.select_text[index][this.state[score[0]]]}</div>
                 </div>
               ))}
             </div>
@@ -285,13 +257,7 @@ class Write extends React.Component {
             {/* 방문 후기 작성 */}
             <div className="content">
               <div className="topic">방문후기</div>
-              <textarea
-                name="content"
-                className="content_box"
-                value={this.state.content}
-                placeholder="최소 10자 이상 작성해 주세요"
-                onChange={this.chageValues}
-              ></textarea>
+              <textarea name="content" className="content_box" value={this.state.content} placeholder="최소 10자 이상 작성해 주세요" onChange={this.chageValues}></textarea>
             </div>
             <hr />
             {/* 사진 업로드 */}
@@ -302,18 +268,10 @@ class Write extends React.Component {
                 <div className="filebox">
                   <label>
                     식당 사진 업로드
-                    <input
-                      key={this.state.filekey}
-                      multiple
-                      type="file"
-                      name="images"
-                      accept="image/gif, image/jpeg, image/png"
-                      onChange={this.InputChange}
-                    />
+                    <input key={this.state.filekey} multiple type="file" name="images" accept="image/gif, image/jpeg, image/png" onChange={this.InputChange} />
                   </label>
                   <div className="write_filenum">
-                    <span className="file_num">{this.state.images.length}</span>
-                    개 사진 업로드
+                    <span className="file_num">{this.state.images.length}</span>개 사진 업로드
                   </div>
                 </div>
               </div>
@@ -323,19 +281,9 @@ class Write extends React.Component {
                   <div key={index} className="review_img">
                     <div className="thumbnail">
                       <div className="centered">
-                        <img
-                          className="store_img"
-                          alt="store_img"
-                          src={img}
-                        ></img>
+                        <img className="store_img" alt="store_img" src={img}></img>
                         {/* 이미지 등록 취소 버튼 */}
-                        <img
-                          alt="삭제"
-                          src="https://image.flaticon.com/icons/svg/458/458595.svg"
-                          className="X"
-                          id={index}
-                          onClick={this.RemoveImg}
-                        ></img>
+                        <img alt="삭제" src="https://image.flaticon.com/icons/svg/458/458595.svg" className="X" id={index} onClick={this.RemoveImg}></img>
                       </div>
                     </div>
                   </div>

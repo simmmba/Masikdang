@@ -37,7 +37,7 @@ class Update extends React.Component {
 
   // componentDidMount, componentDidUpdate
   componentDidMount() {
-    console.log(this.props);
+    //console.log(this.props);
     // 로그인 안했으면
     if (!this.user) {
       alert("로그인 후 이용해 주세요");
@@ -57,7 +57,7 @@ class Update extends React.Component {
     // 조건 충족하면 state 적용
     else {
       let review = this.props.location.params.review;
-      console.log(review);
+      //console.log(review);
       // null 값인거 default 값으로 수정해서 넣기
       if (review.total_score == null) review.total_score = 3;
       if (review.taste_score == null) review.taste_score = 3;
@@ -131,11 +131,11 @@ class Update extends React.Component {
         },
       })
         .then((res) => {
-          console.log(res);
+          //console.log(res);
           this.props.history.push("/search/" + this.state.store);
         })
         .catch((error) => {
-          console.log(error);
+          //console.log(error);
           alert("리뷰 수정에 실패했습니다");
         });
     }

@@ -26,7 +26,7 @@ const TypeRecommend = (props) => {
       },
     })
       .then((res) => {
-        console.log(res.data);
+        //console.log(res.data);
 
         let storeInfo = [];
         for (var i = 0; i < res.data.store_id.length; i++) {
@@ -43,7 +43,7 @@ const TypeRecommend = (props) => {
         setLoading(false);
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
       });
   }, [props.type]);
 
@@ -75,7 +75,6 @@ const TypeRecommend = (props) => {
                     <img className="typeImg" src={store.store_img} alt="store" />
                   </div>
                   <div className="storeName">{store.store_name}</div>
-                  {console.log(store.store_id)}
                 </div>
               ))}
           </>
