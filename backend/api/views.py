@@ -133,7 +133,6 @@ class StoreDetail(APIView):
                 store_id=store_id, user_id=user_id).count()
 
         result['like'] = like
-
         return Response(result)
 
     # Store 삭제
@@ -227,7 +226,7 @@ class StoreSearch(APIView):
             Avg('total_score'))['total_score__avg']
             if average is None :
                 average = 0
-            r['avg_score'] = average
+            r['avg_score'] = round(average,1)
 
         # 좋아요 여부
         user_id = request.GET.get('user_id')
