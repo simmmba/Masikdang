@@ -11,7 +11,7 @@ class Header extends React.Component {
           <div className="container-fluid">
             <div className="row">
               <div className="col-3">
-                <NavLink to="/surveyStart">
+                <NavLink to="/whatToEatStart">
                   <div className="survey2_btn">
                     오늘
                     <br />
