@@ -50,7 +50,7 @@ def filter_by_user(dataframes, surveyRes, userIID):
         filter_reviews = origin_review['user_id'].value_counts() >= 100
         print("user가 너무 많을 경우 제한 건다")
     else:
-        filter_reviews = origin_review['user_id'].value_counts() >= 10
+        filter_reviews = origin_review['user_id'].value_counts() >= 50
         print("적절한 user 수가 있습니다.")
     
     filter_reviews = filter_reviews[filter_reviews].index.tolist()
@@ -163,7 +163,7 @@ def filter_by_type(dataframes, surveyRes):
         filter_reviews = origin_review['user_id'].value_counts() >= 100
         print("user가 너무 많을 경우 제한 건다")
     else:
-        filter_reviews = origin_review['user_id'].value_counts() >= 10
+        filter_reviews = origin_review['user_id'].value_counts() >= 50
         print("적절한 user 수가 있습니다.")
     
     filter_reviews = filter_reviews[filter_reviews].index.tolist()
@@ -262,18 +262,22 @@ def similar_store(dataframes, storeID):
         'score', 'store_id', 'user_id', fill_value="0"
     )
     print(store_user_socre)
-    store_id = int(storeID)
-    item_based_collabor = cosine_similarity(store_user_socre)
-    item_based_collabor = pd.DataFrame(data = item_based_collabor, index = store_user_socre.index, columns =store_user_socre.index )
-    result = item_based_collabor[store_id].sort_values(ascending=False)[:10]
-    print(result)
-    df1 = pd.DataFrame(data=result.index, columns=['store_id'])
-    df2 = pd.DataFrame(data=result.values, columns=['cosine_similarity'])
-    df = pd.merge(df1, df2, left_index=True, right_index=True)
-    df4 = pd.merge(df, origin_store, on="store_id")
+    try:
+        store_id = int(storeID)
+        item_based_collabor = cosine_similarity(store_user_socre)
+        item_based_collabor = pd.DataFrame(data = item_based_collabor, index = store_user_socre.index, columns =store_user_socre.index )
+        result = item_based_collabor[store_id].sort_values(ascending=False)[:10]
+        print(result)
+        df1 = pd.DataFrame(data=result.index, columns=['store_id'])
+        df2 = pd.DataFrame(data=result.values, columns=['cosine_similarity'])
+        df = pd.merge(df1, df2, left_index=True, right_index=True)
+        df4 = pd.merge(df, origin_store, on="store_id")
     
-    print(df4)
-    return df4
+        print(df4)
+        return df4
+    except:
+        return "이 상점은 충분한 데이터가 없습니다."
+    
 
 def content_store(dataframes, storeID):
     stores = dataframes["stores"]
