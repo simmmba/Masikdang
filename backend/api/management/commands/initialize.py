@@ -30,7 +30,7 @@ class Command(BaseCommand):
         # store db 초기화
         # print("[*] Initializing stores...")
         # models.Store.objects.all().delete()
-        # stores = dataframes["storxe"]
+        # stores = dataframes["store"]
         # print(stores)
         #중복 제거
         # stores = stores.drop_duplicates(['store_name','latitude','longitude','tel'], keep='first')
