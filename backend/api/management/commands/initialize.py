@@ -10,7 +10,7 @@ import math
 class Command(BaseCommand):
     help = "initialize database"
     DATA_DIR = Path(settings.BASE_DIR).parent / "data"
-    DATA_FILE = str(DATA_DIR / "crawling.pkl")
+    DATA_FILE = str(DATA_DIR / "crawling2.pkl")
 
     def _load_dataframes(self):
         try:
@@ -30,9 +30,10 @@ class Command(BaseCommand):
         # store db 초기화
         # print("[*] Initializing stores...")
         # models.Store.objects.all().delete()
-        # stores = dataframes["store"]
-        # #중복 제거
-        # stores = stores.drop_duplicates(['store_name','address'], keep='first')
+        # stores = dataframes["storxe"]
+        # print(stores)
+        #중복 제거
+        # stores = stores.drop_duplicates(['store_name','latitude','longitude','tel'], keep='first')
         # store_id = stores['id']
         # print(stores)
         # stores_bulk = [
@@ -81,18 +82,16 @@ class Command(BaseCommand):
         # ]
         # models.Tag.objects.bulk_create(tags_bulk)
 
-        # # review db 초기화
+        # review db 초기화
         # print("[*] Initializing review...")
-        # # models.Review.objects.all().delete()
+        # models.Review.objects.all().delete()
         # reviews = dataframes["review"]
         # reviews = reviews[reviews['store_id'].isin(store_id)]
-
         # reviews = reviews.drop_duplicates(['content'],keep='first')
+
         # reviews = reviews.replace({'score':np.nan},{'score':None})
         # reviews['user_id'] = 1
         # review_id = reviews['id']
-        # print(review_id)
-        # print(reviews)
         # reviews_bulk = [
         #     models.Review(
         #         id=review.id,
@@ -111,8 +110,8 @@ class Command(BaseCommand):
         # ]
         # models.Review.objects.bulk_create(reviews_bulk)
 
-        # # review_img db 초기화
-        # print("[*] Initializing tag...")
+        # review_img db 초기화
+        # print("[*] Initializing review_img...")
         # models.Review_img.objects.all().delete()
         # review_imgs = dataframes["review_img"]
         # review_imgs = review_imgs[review_imgs['review_id'].isin(review_id)]
@@ -173,7 +172,7 @@ class Command(BaseCommand):
         # ]
         # models.Menu.objects.bulk_create(menues_bulk)
 
-        print("[+] Done")
+        # print("[+] Done")
 
     def handle(self, *args, **kwargs):
         self._initialize()
