@@ -74,11 +74,7 @@
     border: 1px solid #98d7db;
     border-radius: 3px 0 0 3px;
     transition: 0.4s;
-
-    &:hover {
-      background: #98d7db9c;
-      border: 1px solid #98d7db9c;
-    }
+    cursor: default;
   }
 
   @media screen and (min-width: 692px) {

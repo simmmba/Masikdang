@@ -70,6 +70,12 @@ const SurveyResult = ({ reset, answer, surveyResult, meaning }) => {
           </div>
         </div>
       </div>
+      <div className="zulzul">
+        * 해당 음식만 추천하는 것이 아닌
+        <br />
+        타입을 대표하는 키워드입니다.
+        <br />이 자료는 빅데이터 알고리즘에 활용됩니다.
+      </div>
       {type !== "" && <TypeRecommend type={type} />}
       <NavLink className="retryBtn" to={`/surveyStart`} onClick={reset}>
         다시 해보기

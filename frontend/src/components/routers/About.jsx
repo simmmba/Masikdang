@@ -25,7 +25,7 @@ class About extends React.Component {
   features = [
     {
       title: "Survey",
-      subtitle: "마식당 테스트",
+      subtitle: "마식는 테스트",
       id: "bigdata",
       algorithm: "Item based filtering, Collaborative Filtering",
       content: "특이값 분해를 통해 이 타입의 유저들이 좋게 평가한 식당들을 추천합니다.\n여행 컨셉의 Test로 흥미을 유발해 사용자의 참여를 독려합니다.",

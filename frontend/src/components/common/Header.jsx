@@ -10,7 +10,15 @@ class Header extends React.Component {
         <div className="Header">
           <div className="container-fluid">
             <div className="row">
-              <div className="col-3"></div>
+              <div className="col-3">
+                <NavLink to="/surveyStart">
+                  <div className="survey2_btn">
+                    오늘
+                    <br />
+                    뭐먹지?
+                  </div>
+                </NavLink>
+              </div>
               <div className="logo col-6">
                 <NavLink to="/home">
                   <img alt="logo" src={logo}></img>
@@ -19,7 +27,7 @@ class Header extends React.Component {
               <div className="col-3">
                 <NavLink to="/surveyStart">
                   <div className="survey1_btn">
-                    마식당
+                    마식는
                     <br />
                     테스트
                   </div>

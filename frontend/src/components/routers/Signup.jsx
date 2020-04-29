@@ -29,7 +29,7 @@ class Signup extends React.Component {
       alert("로그아웃 후 진행해주세요");
       history.goBack("");
     } else if (this.context.state.answer.length !== 9) {
-      alert("마식당 테스트를 먼저 진행해주세요");
+      alert("마식는 테스트를 먼저 진행해주세요");
       history.push("/surveyStart");
     }
   }

@@ -5,9 +5,10 @@
   font-family: "NanumSquareRound";
   text-align: center;
 
-  .col-3{
+  .col-3 {
     padding: 0;
     padding-right: 10px;
+    padding-left: 10px;
   }
 
   a {
@@ -15,6 +16,20 @@
     color: #5d5d5d;
     transition: 0.3s;
 
+    .survey2_btn {
+      font-family: "S-CoreDream-8Heavy";
+      float: left;
+      margin-top: 17px;
+      font-size: 12px;
+      width: 60px;
+      border: 1.5px solid #98d7db;
+      border-radius: 7px;
+      padding-top: 4px;
+      padding-bottom: 5px;
+      &:hover {
+        color: #98d7db;
+      }
+    }
     .survey1_btn {
       font-family: "S-CoreDream-8Heavy";
       float: right;
@@ -27,7 +42,6 @@
       padding-bottom: 5px;
       &:hover {
         color: #f9bbc7;
-        border: 1.5px solid #f9bbc7;
       }
     }
   }
@@ -52,7 +66,7 @@
         height: 60px;
       }
     }
-    .col-3{
+    .col-3 {
       padding: 0;
     }
   }

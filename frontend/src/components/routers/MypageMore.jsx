@@ -71,19 +71,23 @@ const MypageMore = (props) => {
               <Emoji label="like" symbol="❤️" /> 즐겨찾기 목록
             </div>
             <div className="fcontent">
-              {list.map((store, idx) => (
-                <div
-                  className="fbox"
-                  onClick={function () {
-                    go(store.id);
-                  }}
-                  key={idx}
-                >
-                  <div className="imgBox">{store.img !== null ? <img src={store.img} alt="store" /> : <img src={store_img} alt="store" />}</div>
-                  <div className="storeName">{store.store_name}</div>
-                  <div className="storeArea">{store.area !== null ? store.area : "-"}</div>
-                </div>
-              ))}
+              {list.length === 0 ? (
+                <div className="empty">즐겨찾기한 식당이 없습니다.</div>
+              ) : (
+                list.map((store, idx) => (
+                  <div
+                    className="fbox"
+                    onClick={function () {
+                      go(store.id);
+                    }}
+                    key={idx}
+                  >
+                    <div className="imgBox">{store.img !== null ? <img src={store.img} alt="store" /> : <img src={store_img} alt="store" />}</div>
+                    <div className="storeName">{store.store_name}</div>
+                    <div className="storeArea">{store.area !== null ? store.area : "-"}</div>
+                  </div>
+                ))
+              )}
             </div>
           </>
         )}
@@ -93,27 +97,31 @@ const MypageMore = (props) => {
               <Emoji label="star" symbol="📝" /> 리뷰 목록
             </div>
             <div className="rcontent">
-              {list.map((store, idx) => (
-                <div
-                  className="rbox"
-                  onClick={function () {
-                    go(store.store);
-                  }}
-                  key={idx}
-                >
-                  <div className="rtop">
-                    <div className="storeName">{store.store_name}</div>
-                    <div className="totalScore">
-                      <Emoji label="star" symbol="⭐️" />
-                      {store.total_score}
+              {list.length === 0 ? (
+                <div className="empty">리뷰를 작성한 식당이 없습니다.</div>
+              ) : (
+                list.map((store, idx) => (
+                  <div
+                    className="rbox"
+                    onClick={function () {
+                      go(store.store);
+                    }}
+                    key={idx}
+                  >
+                    <div className="rtop">
+                      <div className="storeName">{store.store_name}</div>
+                      <div className="totalScore">
+                        <Emoji label="star" symbol="⭐️" />
+                        {store.total_score}
+                      </div>
+                      <div className="detailScore">
+                        맛 {store.taste_score} &nbsp;가격 {store.price_score} &nbsp;서비스 {store.service_score}
+                      </div>
                     </div>
-                    <div className="detailScore">
-                      맛 {store.taste_score} &nbsp;가격 {store.price_score} &nbsp;서비스 {store.service_score}
-                    </div>
+                    <div className="rbottom">{store.content}</div>
                   </div>
-                  <div className="rbottom">{store.content}</div>
-                </div>
-              ))}
+                ))
+              )}
             </div>
           </>
         )}

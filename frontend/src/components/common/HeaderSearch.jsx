@@ -86,8 +86,8 @@ class HeaderSearch extends React.Component {
         <div className="HeaderSearch">
           <div className="container-fluid">
             <div className="row">
-              <div className="btn test2 col-1" onClick={this.whatToEat}>
-                <Emoji label="search" symbol="❔" />
+              <div className="btn test2 col-1">
+                <Emoji label="search" symbol="🌭" />
               </div>
               <div className="input col-10">
                 <select className="input_subject" onChange={this.selectSubject} value={this.state.subject}>

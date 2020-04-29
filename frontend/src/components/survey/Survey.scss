@@ -181,7 +181,7 @@
 
   .explain {
     font-size: 1.2rem;
-    border-radius: 5px;
+    border-radius: 4px 4px 0 0;
     padding: 10px;
     background-color: #b5ecf02f;
     width: 90%;
@@ -310,6 +310,16 @@
     @media screen and (min-width: 768px) {
       font-size: 2rem;
     }
+  }
+
+  .zulzul {
+    // border: 1px solid black;
+    padding: 5px 0;
+    border-radius: 0 0 4px 4px;
+    text-align: center;
+    width: 90%;
+    color: #353535;
+    background-color: rgba(0, 0, 0, 0.048);
   }
 
   .select {

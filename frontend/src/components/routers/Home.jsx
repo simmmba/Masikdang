@@ -41,11 +41,11 @@ class Home extends React.Component {
         <ScrollToTop />
         <div className="Home">
           <AboutGo />
-          <div className="title">
+          <div className="htitle">
             <Emoji id="liked" label="chicken" symbol="🍗" /> 추천 맛집
           </div>
           <Recommend />
-          <div className="title">
+          <div className="htitle">
             <Emoji id="liked" label="luv" symbol="❤️" /> 현위치 즐겨찾기 맛집
           </div>
           <LikedMap />
