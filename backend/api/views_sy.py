@@ -46,10 +46,10 @@ def filter_by_user(dataframes, surveyRes, userIID):
     reviews = origin_review[origin_review['score'] >= 1]
     # 300명 이상에게 평점 매겨진 데이터만 가져오기
     if(len(origin_user)>3000):
-        filter_reviews = origin_review['user_id'].value_counts() >= 20
+        filter_reviews = origin_review['user_id'].value_counts() >= 100
         print("user가 너무 많을 경우 제한 건다")
     else:
-        filter_reviews = origin_review['user_id'].value_counts() >= 10
+        filter_reviews = origin_review['user_id'].value_counts() >= 100
         print("적절한 user 수가 있습니다.")
     
     filter_reviews = filter_reviews[filter_reviews].index.tolist()
@@ -158,10 +158,10 @@ def filter_by_type(dataframes, surveyRes):
     reviews = origin_review[origin_review['score'] >= 1]
     # 300명 이상에게 평점 매겨진 데이터만 가져오기
     if(len(origin_user)>3000):
-        filter_reviews = origin_review['user_id'].value_counts() >= 20
+        filter_reviews = origin_review['user_id'].value_counts() >= 100
         print("user가 너무 많을 경우 제한 건다")
     else:
-        filter_reviews = origin_review['user_id'].value_counts() >= 10
+        filter_reviews = origin_review['user_id'].value_counts() >= 50
         print("적절한 user 수가 있습니다.")
     
     filter_reviews = filter_reviews[filter_reviews].index.tolist()
@@ -277,6 +277,7 @@ def content_store(dataframes, storeID):
     stores = dataframes["stores"]
     reviews = dataframes["reviews"]
     stores = stores[stores["category_list"]!=""]
+    stores = stores[stores["store_img"].notnull()]
     print(stores)
     reviews = reviews[reviews["score"]>=5]
     print(reviews)
