@@ -19,10 +19,14 @@ from django.urls import path, include
 from rest_framework import routers
 from rest_framework_swagger.views import get_swagger_view
 
+from django.conf import settings
+from django.conf.urls.static import static
+
 # fmt: off
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/doc", get_swagger_view(title="Rest API Document")),
-    path("api/", include("api.urls"))
+    path("api/", include("api.urls")),
 ]
-# fmt: on
+# static 파일 접근
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
