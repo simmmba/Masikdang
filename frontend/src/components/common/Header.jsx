@@ -11,11 +11,11 @@ class Header extends React.Component {
           <div className="container-fluid">
             <div className="row">
               <div className="col-3">
-                <NavLink to="/whatToEatStart">
+                <NavLink to="/surveyStart">
                   <div className="survey2_btn">
-                    오늘
+                    마식는
                     <br />
-                    뭐먹지?
+                    테스트
                   </div>
                 </NavLink>
               </div>
@@ -25,11 +25,11 @@ class Header extends React.Component {
                 </NavLink>
               </div>
               <div className="col-3">
-                <NavLink to="/surveyStart">
+                <NavLink to="/whatToEatStart">
                   <div className="survey1_btn">
-                    마식는
+                    오늘
                     <br />
-                    테스트
+                    뭐먹지?
                   </div>
                 </NavLink>
               </div>
