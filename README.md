@@ -1,4 +1,4 @@
-# SSAFY Bigdata project
+# 마식당(Web+Bigdata project)
 
 <p align="center"><img src="./frontend/public/logo.png" alt="스터디의발견" style="zoom:20%;" /></p>
 
@@ -13,7 +13,21 @@
 
 <p align="center">반응형 웹(Responsive Web) &nbsp;&nbsp;&nbsp;by. 송다은, 신상엽, 조서원, 한기연, 황정호</p>
 
+<p align="center"><b>http://i02a306.p.ssafy.io</b></p>
+
 <br />
+
+## [목차]
+
+1. [How to run 마식당](#How-to-run-마식당)
+2. [서비스 소개](#서비스-소개)
+3. [서비스 설명](#서비스-설명)
+4. [개발 과정](#개발-과정)
+5. [팀원 소개](#팀원-소개)
+
+<br /><br /><br />
+
+## How to run 마식당
 
 ### 접속 URL, 테스트 계정
 
@@ -25,14 +39,24 @@ Back : http://i02a201.p.ssafy.io:8080
 
 <br />
 
-### How to Run
-
-#### 개발환경 구성
+### 개발환경
 
 1. Python 설치
 2. Node.js, NPM 설치
 
-#### Back-end
+<br />
+
+#### Frontend
+
+```sh
+cd frontend
+npm install
+npm run serve
+```
+
+<br />
+
+#### Backend
 
 ```sh
 cd backend
@@ -43,23 +67,13 @@ python manage.py initialize
 python manage.py runserver
 ```
 
-#### Front-end
-
-```sh
-cd frontend
-npm install
-npm run serve
-```
-
 <br />
 
-### 개발 환경
+### 기술 스택
 
-Front :  React.js
-
-Backend : Django
-
-DB : MySQL
+- Frontend :  React.js
+- Backend : Django
+- DB : MySQL
 
 <br /><br />
 
@@ -78,7 +92,7 @@ DB : MySQL
 
 <br /><br />
 
-## 제공 서비스
+## 서비스 설명
 
 ### 1. 마식는 테스트(Bigdata Algorithm 적용)
 
@@ -193,7 +207,7 @@ DB : MySQL
 
 <br /><br />
 
-## 개발 진행
+## 개발 과정
 
 ### Git Branch 구조
 
