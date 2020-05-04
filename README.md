@@ -88,9 +88,11 @@ python manage.py runserver
 
 #### 서비스 소개 영상
 
-[![Video Label](http://img.youtube.com/vi/QbIObeK6SmI/0.jpg)](https://youtu.be/QbIObeK6SmI?t=0s)
+[![Video Label](http://img.youtube.com/vi/5Zve17dYgQM/0.jpg)](https://youtu.be/5Zve17dYgQM?t=0s)
 
-<br /><br />
+<br />
+
+<br />
 
 ## 서비스 설명
 
