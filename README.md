@@ -13,7 +13,7 @@
 
 <p align="center">반응형 웹(Responsive Web) &nbsp;&nbsp;&nbsp;by. 송다은, 신상엽, 조서원, 한기연, 황정호</p>
 
-<p align="center"><b>http://i02a306.p.ssafy.io</b></p>
+<p align="center"><b>http://i02a201.p.ssafy.io</b></p>
 
 <br />
 
